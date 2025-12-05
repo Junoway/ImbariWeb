@@ -1,65 +1,224 @@
+import Link from "next/link";
 import Image from "next/image";
+import Hero from "../components/Hero";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
+      {/* HERO SECTION */}
+      <section className="snap-start min-h-screen w-full flex items-center justify-center relative">
+        <Hero />
+      </section>
+
+      {/* OUR PROMISE – CARD + FARM IMAGE */}
+      <section className="snap-start min-h-screen w-full flex items-center justify-center bg-[#010a07] relative">
+        <div className="main-container w-full flex flex-col justify-center items-center space-y-8 animate-fade-in">
+          <header className="text-center">
+            <p className="badge mb-3">Our Promise</p>
+            <h2 className="section-heading">
+              Exceptional Coffee. Ethical Sourcing. African Excellence.
+            </h2>
+            <p className="section-subtitle">
+              Imbari Coffee is a vertically integrated coffee company committed to
+              elevating Uganda’s most prized origins — Bugisu Arabica, Rwenzori
+              Robusta, and Victoria-region microlots — to global specialty
+              standards.
+            </p>
+          </header>
+          <div className="grid gap-6 lg:grid-cols-[2fr,2.2fr] items-center w-full max-w-5xl mx-auto">
+            <div className="card p-6 sm:p-7 text-sm text-neutral-200 space-y-3 text-center animate-slide-in-left">
+              <p className="text-xs text-neutral-300">
+                We partner directly with smallholder farmers, women-led
+                cooperatives, and micro-lot communities to ensure traceability,
+                transparency, and fair pricing at every step of the chain.
+              </p>
+              <div className="flex flex-col gap-2 items-center">
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Direct farmer and cooperative partnerships
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Traceable microlots and specialty profiles
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Instant coffee manufacturing for export markets
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Distribution capabilities across all 54 African states
+                </div>
+              </div>
+            </div>
+            <div className="relative w-full h-56 sm:h-72 animate-slide-in-right">
+              <Image
+                src="/images/farm.jpg"
+                alt="Coffee harvest at Imbari Coffee farms"
+                fill
+                className="rounded-3xl border border-white/10 object-cover shadow-xl"
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* WHAT WE PRODUCE */}
+      <section className="snap-start min-h-screen w-full flex items-center justify-center bg-neutral-950 relative">
+        <div className="main-container w-full flex flex-col justify-center items-center space-y-8 animate-fade-in">
+          <header className="text-center">
+            <p className="badge mb-3">What We Produce</p>
+            <h2 className="section-heading">
+              Instant Coffee, Specialty Arabica &amp; Fine Robusta
+            </h2>
+            <p className="section-subtitle">
+              A consolidated platform for brands and buyers seeking reliable,
+              high-quality{" "}
+              <strong>Uganda specialty coffee</strong> and{" "}
+              <strong>African instant coffee manufacturing</strong>.
+            </p>
+          </header>
+          <div className="grid-cards w-full animate-slide-in-up">
+            {/* Instant Coffee */}
+            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
+              <div
+                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
+                style={{
+                  height: "120px",
+                  minHeight: "120px",
+                  maxHeight: "120px",
+                }}
+              >
+                <Image
+                  src="/images/imbari-6b.jpg"
+                  alt="Imbari Coffee packaged instant and roasted products"
+                  width={160}
+                  height={120}
+                  className="object-contain w-auto h-full mx-auto"
+                />
+              </div>
+              <h3 className="font-semibold text-emerald-200 mb-1">
+                Instant Coffee
+              </h3>
+              <p className="text-xs text-neutral-300">
+                Premium freeze-dried and spray-dried instant coffee produced to
+                export standards, designed for FMCG brands, supermarkets, hotels,
+                and café chains.
+              </p>
+              <div className="flex flex-col gap-2 items-center mt-2">
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Freeze-dried &amp; spray-dried options
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  3-in-1 and 2-in-1 blends
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Jars, sachets, and pouch formats
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  OEM / private-label production
+                </div>
+              </div>
+            </article>
+
+            {/* Specialty Arabica */}
+            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
+              <div
+                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
+                style={{
+                  height: "120px",
+                  minHeight: "120px",
+                  maxHeight: "120px",
+                }}
+              >
+                <Image
+                  src="/images/sort.jpg"
+                  alt="Specialty Arabica coffee drying on raised beds"
+                  width={160}
+                  height={120}
+                  className="object-contain w-auto h-full mx-auto"
+                />
+              </div>
+              <h3 className="font-semibold text-emerald-200 mb-1">
+                Specialty Arabica — Mt. Elgon
+              </h3>
+              <p className="text-xs text-neutral-300">
+                High-altitude Arabica from 1,800–2,300m in Bugisu, grown on
+                volcanic soils and carefully processed for clean, expressive cups.
+              </p>
+              <div className="flex flex-col gap-2 items-center mt-2">
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Green beans (washed, natural, honey)
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Roasted whole bean &amp; grind
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Notes: floral, citrus, chocolate, winey acidity
+                </div>
+              </div>
+            </article>
+
+            {/* Fine Robusta */}
+            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
+              <div
+                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
+                style={{
+                  height: "120px",
+                  minHeight: "120px",
+                  maxHeight: "120px",
+                }}
+              >
+                <Image
+                  src="/images/farm.jpg"
+                  alt="Fine Robusta coffee grown in Uganda"
+                  width={160}
+                  height={120}
+                  className="object-contain w-auto h-full mx-auto"
+                />
+              </div>
+              <h3 className="font-semibold text-emerald-200 mb-1">
+                Fine Robusta — Rwenzori &amp; Victoria Basin
+              </h3>
+              <p className="text-xs text-neutral-300">
+                Strong, bold, and clean Robusta ideal for espressos, blends, and
+                instant formulations, sourced from Rwenzori and Victoria-region
+                smallholders.
+              </p>
+              <div className="flex flex-col gap-2 items-center mt-2">
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Green beans, whole bean, and roast &amp; grind
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Excellent crema, body, and strength
+                </div>
+              </div>
+            </article>
+          </div>
+          {/* Private Label */}
+          <div className="w-full max-w-2xl mt-10">
+            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
+              <h3 className="font-semibold text-emerald-200 mb-1">
+                Private Label Manufacturing
+              </h3>
+              <p className="text-xs text-neutral-300">
+                We develop and manufacture coffee lines for brands worldwide:
+                instant, roasted, and blended coffees under your own label.
+              </p>
+              <div className="flex flex-col gap-2 items-center mt-2">
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Custom blends &amp; formats
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Packaging design and brand support
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Bulk and retail-ready options
+                </div>
+                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
+                  Export logistics to Africa, USA, EU, China, India &amp; more
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
