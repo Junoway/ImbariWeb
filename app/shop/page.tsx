@@ -306,11 +306,7 @@ export default function ShopPage() {
                 <div className="w-full flex justify-center">
                   <div className="w-40 h-40 border border-emerald-200 rounded-md bg-white overflow-hidden flex items-center justify-center">
                     <Image
-                      src={
-                        product.image.startsWith("/")
-                          ? `/images${product.image}`
-                          : product.image
-                      }
+                      src={product.image}
                       alt={product.name}
                       width={200}
                       height={200}
