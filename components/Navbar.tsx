@@ -88,9 +88,9 @@ export default function Navbar() {
               className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
             >
               {!open ? (
-                <Bars3Icon className="w-8 h-8 text-white drop-shadow" />
+                <Bars3Icon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
               ) : (
-                <XMarkIcon className="w-8 h-8 text-white drop-shadow" />
+                <XMarkIcon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
               )}
             </button>
 
