@@ -219,6 +219,31 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* EXPERTISE & TRAINING SECTION */}
+      <section className="snap-start w-full flex items-center justify-center bg-gradient-to-br from-[#07110c] via-[#020403] to-[#1a2a1f] py-20">
+        <div className="main-container w-full max-w-6xl mx-auto grid gap-10 md:grid-cols-3">
+          {/* Farmer Training */}
+          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
+            <h3 className="text-xl font-bold text-emerald-300">Ugandan Coffee Expertise</h3>
+            <p className="text-base text-neutral-300">Farmer Training Programs</p>
+            <p className="text-sm text-neutral-400">We empower Ugandan coffee farmers with modern agricultural techniques, quality control methods, and sustainable practices to improve yields and bean quality for export markets.</p>
+            <Link href="/our-impact" className="button-primary mt-2">Learn More</Link>
+          </article>
+          {/* Export Quality Standards */}
+          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
+            <h3 className="text-xl font-bold text-emerald-300">Export Quality Standards</h3>
+            <p className="text-base text-neutral-300">Our technical programs focus on post-harvest processing, grading, and preparation methods that meet international export requirements and premium market expectations.</p>
+            <Link href="/certifications" className="button-primary mt-2">Quality Standards</Link>
+          </article>
+          {/* Sustainability Workshops */}
+          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
+            <h3 className="text-xl font-bold text-emerald-300">Sustainability Workshops</h3>
+            <p className="text-base text-neutral-300">Educational initiatives promoting environmentally responsible farming practices that protect Uganda's ecosystems while producing exceptional coffee for global markets.</p>
+            <Link href="/about" className="button-primary mt-2">Our Approach</Link>
+          </article>
+        </div>
+      </section>
     </main>
   );
 }

@@ -10,7 +10,7 @@ import {
 } from "react";
 
 export type CartItem = {
-  id: string;
+  id: string | number;
   name: string;
   price: number;
   image: string;
@@ -37,10 +37,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     quantity: number = 1
   ) => {
     setItems((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
+      const existing = prev.find((p) => p.id == item.id);
       if (existing) {
         return prev.map((p) =>
-          p.id === item.id
+          p.id == item.id
             ? { ...p, quantity: p.quantity + quantity }
             : p
         );
@@ -49,18 +49,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (id: string | number, quantity: number) => {
     if (quantity <= 0) {
-      setItems((prev) => prev.filter((p) => p.id !== id));
+      setItems((prev) => prev.filter((p) => p.id != id));
       return;
     }
     setItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, quantity } : p))
+      prev.map((p) => (p.id == id ? { ...p, quantity } : p))
     );
   };
 
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((p) => p.id !== id));
+  const removeItem = (id: string | number) => {
+    setItems((prev) => prev.filter((p) => p.id != id));
   };
 
   const clearCart = () => setItems([]);

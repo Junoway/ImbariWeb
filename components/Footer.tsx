@@ -282,6 +282,9 @@ export default function Footer() {
           <p className="text-center text-xs text-neutral-500">
             © {new Date().getFullYear()} Imbari Coffee. All Rights Reserved.
           </p>
+          <div className="mt-2 text-xs text-neutral-400 flex gap-4">
+            <Link href="/legal" className="hover:text-emerald-300 underline transition">Legal</Link>
+          </div>
         </div>
       </footer>
 

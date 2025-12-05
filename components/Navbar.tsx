@@ -3,9 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useCart } from "@/components/CartContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { totalQuantity } = useCart() || { totalQuantity: 0 };
 
   return (
     <header className="border-b border-white/10 bg-[#050403]/95 backdrop-blur-md">
@@ -48,11 +50,11 @@ export default function Navbar() {
 
         {/* RIGHT SIDE ICONS (cart, menu) */}
         <div className="flex items-center gap-2 ml-auto">
-          {/* CART ICON */}
+          {/* CART ICON WITH COUNT */}
           <Link
             href="/checkout"
             aria-label="Go to checkout"
-            className="flex items-center justify-center w-10 h-10 rounded-full border border-emerald-400/60 bg-black/40 hover:bg-emerald-500/10 transition shadow"
+            className="flex items-center justify-center w-10 h-10 rounded-full border border-emerald-400/60 bg-black/40 hover:bg-emerald-500/10 transition shadow relative"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,6 +72,11 @@ export default function Navbar() {
               <circle cx="17" cy="18.5" r="1" />
               <path d="M6 6L5 3H3" />
             </svg>
+            {totalQuantity > 0 && (
+              <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow-lg">
+                {totalQuantity}
+              </span>
+            )}
           </Link>
 
           {/* MENU BUTTON */}

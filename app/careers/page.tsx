@@ -4,73 +4,89 @@ import Link from "next/link";
 
 export default function CareersPage() {
   return (
-    <main className="bg-[#020403] text-white">
+    <main className="bg-gradient-to-br from-[#020403] via-[#07110c] to-[#1a2a1f] text-white min-h-screen">
       <div className="main-container py-16 space-y-16">
         {/* HERO SECTION */}
-        <section className="grid gap-10 lg:grid-cols-[3fr,2.2fr] items-center">
-          <div className="space-y-5 text-center lg:text-left">
-            <p className="badge inline-block">Careers at Imbari</p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">
-              Join the Imbari{" "}
-              <span className="text-emerald-300">Distribution Riders</span>
-            </h1>
-            <p className="text-sm sm:text-base text-neutral-300 max-w-xl mx-auto lg:mx-0">
-              Imbari Coffee is building a pan-African distribution hub to move
-              specialty and instant coffee quickly and safely from farms,
-              roasteries and micro-brands to customers. Our branded delivery
-              bikes are the front line of that mission — and we are hiring
-              responsible, disciplined riders to lead the way.
-            </p>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
-              <a
-                href="#open-roles"
-                className="button-primary"
-              >
-                View Rider Role
-              </a>
-              <a
-                href="#apply"
-                className="button-outline"
-              >
-                Apply Now
-              </a>
+        <section className="relative rounded-3xl shadow-2xl p-0 flex items-stretch min-h-screen overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 w-full h-full z-0">
+            <Image
+              src="/images/career.jpg"
+              alt="Imbari Coffee delivery bike background"
+              fill
+              sizes="100vw"
+              className="object-cover object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </div>
+          {/* Content */}
+          <div className="relative z-10 w-full flex items-center">
+            <div className="grid gap-10 lg:grid-cols-2 w-full items-center px-8 py-12">
+              <div className="space-y-5 text-center lg:text-left">
+                <p className="badge inline-block mb-2">Careers at Imbari</p>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-lg text-emerald-300">
+                  Join the Imbari{" "}
+                  <span className="text-emerald-300">Distribution Riders</span>
+                </h1>
+                <p className="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 text-emerald-300 font-medium">
+                  Imbari Coffee is building a pan-African distribution hub to
+                  move specialty and instant coffee quickly and safely from
+                  farms, roasteries and micro-brands to customers. Our branded
+                  delivery bikes are the front line of that mission — and we are
+                  hiring responsible, disciplined riders to lead the way.
+                </p>
+                <div className="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                  <a
+                    href="#open-roles"
+                    className="button-primary shadow-lg hover:scale-105 transition-transform"
+                  >
+                    View Rider Role
+                  </a>
+                  <a
+                    href="#apply"
+                    className="button-outline hover:border-emerald-400 hover:text-emerald-300 transition"
+                  >
+                    Apply Now
+                  </a>
+                </div>
+              </div>
+              <div className="hidden lg:block" />
             </div>
           </div>
+        </section>
 
-          {/* THREE IMAGES IN ONE ROW */}
-          <div className="grid grid-cols-3 gap-3">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="relative h-32 sm:h-40 md:h-44 rounded-2xl overflow-hidden border border-white/10 bg-black/40"
-              >
-                <Image
-                  src="/images/career.jpg"
-                  alt="Imbari Coffee delivery bike"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+        {/* FEATURED CAREER IMAGE SECTION */}
+        <section className="flex justify-center">
+          <div className="relative w-full max-w-xl h-72 sm:h-96 bg-gradient-to-br from-emerald-400/30 via-white/10 to-emerald-900/20 rounded-3xl shadow-2xl border-4 border-emerald-300/40 overflow-hidden flex items-center justify-center">
+            <Image
+              src="/images/career.jpg"
+              alt="Imbari Coffee delivery bike"
+              fill
+              sizes="(max-width: 600px) 100vw, 600px"
+              className="object-cover object-center scale-105 transition-transform duration-700 hover:scale-110"
+              priority
+            />
+            <div className="absolute inset-0 rounded-3xl ring-4 ring-emerald-300/30 pointer-events-none" />
           </div>
         </section>
 
         {/* ABOUT THE DISTRIBUTION HUB */}
-        <section className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-5">
+        <section className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-5 shadow-lg">
           <div className="text-center space-y-3 max-w-3xl mx-auto">
-            <h2 className="section-heading text-2xl sm:text-3xl">
+            <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Imbari Distribution Hub – Built for Africa’s Coffee Startups
             </h2>
-            <p className="text-sm sm:text-base text-neutral-300">
+            <p className="text-base sm:text-lg text-neutral-300">
               Our distribution hub operates a fleet of branded Imbari delivery
               motorcycles. These bikes are used to move green coffee, roasted
               beans, instant coffee and sampling kits for Imbari Coffee and for
               other coffee startups and roasteries across Africa.
             </p>
-            <p className="text-sm text-neutral-300">
+            <p className="text-base text-neutral-300">
               By joining our rider team, you are not only delivering parcels —
               you are powering a shared supply chain that small coffee brands
-              can plug into, helping Africa&apos;s coffee entrepreneurs reach
+              can plug into, helping Africa's coffee entrepreneurs reach
               local and international markets.
             </p>
           </div>
@@ -79,14 +95,14 @@ export default function CareersPage() {
         {/* OPEN ROLE */}
         <section
           id="open-roles"
-          className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6"
+          className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-lg"
         >
           <header className="text-center space-y-2">
             <p className="badge inline-block mb-1">Open Role</p>
-            <h2 className="section-heading text-2xl sm:text-3xl">
+            <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Motorcycle Delivery Rider – Imbari Distribution Hub
             </h2>
-            <p className="text-sm text-neutral-300 max-w-2xl mx-auto">
+            <p className="text-base text-neutral-300 max-w-2xl mx-auto">
               Location: Kampala (with planned rollout to other major African
               cities)
             </p>
@@ -94,11 +110,11 @@ export default function CareersPage() {
 
           <div className="grid gap-8 lg:grid-cols-2">
             {/* Responsibilities */}
-            <div className="space-y-3 text-sm text-neutral-200">
-              <h3 className="font-semibold text-base text-white">
+            <div className="space-y-3 text-base text-neutral-200">
+              <h3 className="font-semibold text-lg text-white">
                 Key Responsibilities
               </h3>
-              <ul className="list-disc pl-5 space-y-1.5">
+              <ul className="list-disc pl-5 space-y-2">
                 <li>
                   Safely collect and deliver coffee products (green, roasted,
                   instant and merchandise) to customers, warehouses and partner
@@ -123,11 +139,11 @@ export default function CareersPage() {
             </div>
 
             {/* Requirements */}
-            <div className="space-y-3 text-sm text-neutral-200">
-              <h3 className="font-semibold text-base text-white">
+            <div className="space-y-3 text-base text-neutral-200">
+              <h3 className="font-semibold text-lg text-white">
                 Minimum Requirements
               </h3>
-              <ul className="list-disc pl-5 space-y-1.5">
+              <ul className="list-disc pl-5 space-y-2">
                 <li>Valid motorcycle riding license in your country.</li>
                 <li>
                   Proven riding experience in urban and peri-urban environments.
@@ -153,9 +169,9 @@ export default function CareersPage() {
           </div>
 
           {/* Safety & Culture */}
-          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-sm text-neutral-200">
+          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-base text-neutral-200">
             <div className="space-y-2">
-              <h3 className="font-semibold text-base text-white">
+              <h3 className="font-semibold text-lg text-white">
                 Safety First – Always
               </h3>
               <p>
@@ -172,7 +188,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-semibold text-base text-white">
+              <h3 className="font-semibold text-lg text-white">
                 A Platform for Growth
               </h3>
               <p>
@@ -193,20 +209,20 @@ export default function CareersPage() {
         {/* APPLICATION FORM */}
         <section
           id="apply"
-          className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6"
+          className="card bg-gradient-to-br from-[#07110c] via-[#050708] to-[#1a2a1f] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-lg"
         >
           <header className="text-center space-y-2">
-            <h2 className="section-heading text-2xl sm:text-3xl">
+            <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Apply to Ride with Imbari
             </h2>
-            <p className="text-sm text-neutral-300 max-w-2xl mx-auto">
+            <p className="text-base text-neutral-300 max-w-2xl mx-auto">
               Submit your details below and our team will contact shortlisted
               candidates for interviews and background verification.
             </p>
           </header>
 
           {/* Note: form is frontend-only for now; connect to backend or email later */}
-          <form className="grid gap-5 md:grid-cols-2 text-sm">
+          <form className="grid gap-5 md:grid-cols-2 text-base">
             <div className="space-y-2 md:col-span-1">
               <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
                 Full Name
@@ -313,19 +329,19 @@ export default function CareersPage() {
         </section>
 
         {/* REPORT A BAD DRIVER */}
-        <section className="card bg-[#2a0909] border border-red-700/60 rounded-3xl p-6 sm:p-8 space-y-6">
+        <section className="card bg-gradient-to-br from-[#2a0909] via-[#3a1a1a] to-[#1a0a0a] border border-red-700/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-lg">
           <header className="text-center space-y-2">
-            <h2 className="section-heading text-xl sm:text-2xl text-red-100">
+            <h2 className="section-heading text-xl sm:text-2xl text-red-100 font-bold">
               Report a Bad Driver or Safety Concern
             </h2>
-            <p className="text-sm text-red-100/80 max-w-2xl mx-auto">
+            <p className="text-base text-red-100/80 max-w-2xl mx-auto">
               Imbari is serious about safety and respect on the road. If you
               experience or witness dangerous riding, harassment or misconduct
               involving an Imbari-branded bike, please report it here.
             </p>
           </header>
 
-          <form className="grid gap-5 md:grid-cols-2 text-sm">
+          <form className="grid gap-5 md:grid-cols-2 text-base">
             <div className="space-y-2 md:col-span-1">
               <label className="block text-xs uppercase tracking-[0.18em] text-red-100/80">
                 Your Name (optional)
@@ -388,7 +404,7 @@ export default function CareersPage() {
               </p>
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-full bg-red-500 text-black text-sm font-semibold hover:bg-red-400 transition"
+                className="px-6 py-2.5 rounded-full bg-red-500 text-black text-base font-semibold hover:bg-red-400 transition"
               >
                 Submit Report
               </button>
@@ -397,7 +413,7 @@ export default function CareersPage() {
         </section>
 
         {/* BACK TO OTHER PAGES */}
-        <div className="flex justify-center gap-4 text-xs text-neutral-400">
+        <div className="flex justify-center gap-4 text-xs text-neutral-400 pt-8">
           <Link href="/products" className="hover:text-emerald-300">
             Explore Imbari Products
           </Link>

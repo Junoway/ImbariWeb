@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCart } from "@/components/CartContext";
 
 type ProductType = "Beans" | "Ground" | "Instant" | "Green";
 
@@ -17,11 +18,6 @@ type Product = {
   description: string;
 };
 
-type CartItem = {
-  productId: number;
-  quantity: number;
-};
-
 const PRODUCTS: Product[] = [
   // BEANS
   {
@@ -30,7 +26,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "250g",
     price: 9,
-    image: "/arabica.jpg",
+    image: "/images/arabica.jpg",
     description:
       "Single-origin Mt. Elgon Arabica beans, freshly roasted for home grinding."
   },
@@ -40,7 +36,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "500g",
     price: 16,
-    image: "/arabica.jpg",
+    image: "/images/arabica.jpg",
     description: "Family-size whole beans pack with excellent balance."
   },
   {
@@ -49,7 +45,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "1kg",
     price: 28,
-    image: "/arabica.jpg",
+    image: "/images/arabica.jpg",
     description: "Café and office pack for serious coffee drinkers."
   },
   {
@@ -58,8 +54,8 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "500g",
     price: 17,
-    image: "/robusta.jpg",
-    description: "Richer, darker roast with strong aroma."
+    image: "/images/arabica.jpg",
+    description: "Dark roast for bold flavor and rich crema."
   },
   {
     id: 5,
@@ -67,7 +63,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "1kg",
     price: 30,
-    image: "/robusta.jpg",
+    image: "/images/robusta.jpg",
     description: "Crafted for espresso machines with thick crema."
   },
 
@@ -78,7 +74,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "250g",
     price: 8,
-    image: "/shop.jpg",
+    image: "/images/shop.jpg",
     description: "Smooth grind for pour-over and French press."
   },
   {
@@ -87,7 +83,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "500g",
     price: 14,
-    image: "/shop2.jpg",
+    image: "/images/shop2.jpg",
     description: "Ideal for homes and offices."
   },
   {
@@ -96,7 +92,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "250g",
     price: 9,
-    image: "/shop2.jpg",
+    image: "/images/shop2.jpg",
     description: "Full-bodied cup for strong coffee lovers."
   },
   {
@@ -105,7 +101,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "500g",
     price: 18,
-    image: "/shop3.jpg",
+    image: "/images/shop3.jpg",
     description: "Fine grind ideal for espresso machines."
   },
   {
@@ -114,7 +110,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "1kg",
     price: 26,
-    image: "/shop.jpg",
+    image: "/images/shop.jpg",
     description: "Foodservice grind for hotels and restaurants."
   },
 
@@ -125,7 +121,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "100g",
     price: 10,
-    image: "/shop2.jpg",
+    image: "/images/shop2.jpg",
     description: "Smooth premium instant coffee."
   },
   {
@@ -134,7 +130,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "200g",
     price: 16,
-    image: "/shop3.jpg",
+    image: "/images/shop3.jpg",
     description: "Everyday instant coffee for home and office."
   },
   {
@@ -143,7 +139,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "20 x 2g",
     price: 12,
-    image: "/shop2.jpg",
+    image: "/images/shop2.jpg",
     description: "Single-serve sticks for travel."
   },
   {
@@ -152,7 +148,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "500g",
     price: 32,
-    image: "/shop3.jpg",
+    image: "/images/shop3.jpg",
     description: "Bulk instant for FMCG distributors."
   },
   {
@@ -161,7 +157,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "1kg",
     price: 45,
-    image: "/shop2.jpg",
+    image: "/images/shop2.jpg",
     description: "Designed for vending machines."
   },
 
@@ -172,7 +168,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "1kg",
     price: 15,
-    image: "/shop4.jpg",
+    image: "/images/shop4.jpg",
     description: "Raw Arabica beans for sampling."
   },
   {
@@ -181,7 +177,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "30kg",
     price: 140,
-    image: "/shop4.jpg",
+    image: "/images/shop4.jpg",
     description: "Washed lot for importers."
   },
   {
@@ -190,7 +186,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "30kg",
     price: 150,
-    image: "/shop4.jpg",
+    image: "/images/shop4.jpg",
     description: "Fruit-forward natural process beans."
   },
   {
@@ -199,7 +195,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "60kg",
     price: 210,
-    image: "/shop4.jpg",
+    image: "/images/shop4.jpg",
     description: "Fine Robusta for espresso blends."
   },
   {
@@ -208,43 +204,19 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "60kg x 5 bags",
     price: 980,
-    image: "/shop4.jpg",
+    image: "/images/shop4.jpg",
     description: "Full-scale export sample contract."
   }
 ];
 
 export default function ShopPage() {
-  const router = useRouter();
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [activeFilter, setActiveFilter] =
-    useState<ProductType | "All">("All");
+  const { items, addItem } = useCart();
+  const [activeFilter, setActiveFilter] = useState<ProductType | "All">("All");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const addToCart = (productId: number) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.productId === productId);
-      if (existing) {
-        return prev.map((item) =>
-          item.productId === productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { productId, quantity: 1 }];
-    });
-  };
+  const router = useRouter();
 
-  const goToCheckout = () => {
-    if (cart.length === 0) return;
-    router.push(
-      `/checkout?cart=${encodeURIComponent(JSON.stringify(cart))}`
-    );
-  };
-
-  const totalItems = cart.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const filteredProducts =
     activeFilter === "All"
@@ -277,7 +249,7 @@ export default function ShopPage() {
               Cart: <strong>{totalItems}</strong>
             </span>
             <button
-              onClick={goToCheckout}
+              onClick={() => router.push('/checkout')}
               className="px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold hover:bg-emerald-400 transition shadow"
             >
               Go to Checkout
@@ -303,9 +275,7 @@ export default function ShopPage() {
             (filter) => (
               <button
                 key={filter}
-                onClick={() =>
-                  setActiveFilter(filter as ProductType | "All")
-                }
+                onClick={() => setActiveFilter(filter as ProductType | "All")}
                 className={`px-3 py-1.5 rounded-full border text-xs font-semibold transition ${
                   activeFilter === filter
                     ? "bg-emerald-100 border-emerald-500 text-emerald-900"
@@ -323,8 +293,8 @@ export default function ShopPage() {
       <section className="w-full pt-1 pb-16">
         <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4">
           {searchedProducts.map((product) => {
-            const isInCart = cart.some(
-              (item) => item.productId === product.id
+            const isInCart = items.some(
+              (item) => item.id === product.id
             );
 
             return (
@@ -370,7 +340,12 @@ export default function ShopPage() {
 
                   {/* ADD BUTTON WITH SELECTED STATE */}
                   <button
-                    onClick={() => addToCart(product.id)}
+                    onClick={() => addItem({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image: product.image,
+                    }, 1)}
                     className={`px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[11px] flex items-center gap-1 hover:bg-emerald-400 transition ${
                       isInCart ? "opacity-95" : ""
                     }`}

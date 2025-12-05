@@ -13,9 +13,9 @@ export default function OurImpactPage() {
         <header className="max-w-4xl mx-auto text-center space-y-4">
           <p className="badge mb-2">Our Impact</p>
           <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-            Coffee as Covenant,
+            "Coffee as Unifying Force"
             <br />
-            <span className="text-emerald-300"> Impact as a Way of Life.</span>
+            <span className="text-emerald-300"> </span>
           </h1>
           <p className="text-base sm:text-lg text-neutral-300 max-w-2xl mx-auto">
             Imbari Coffee is building more than a supply chain. We are building a

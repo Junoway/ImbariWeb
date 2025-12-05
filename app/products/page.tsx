@@ -1,4 +1,5 @@
 import Script from "next/script";
+import Image from "next/image";
 
 const productsJsonLd = {
   "@context": "https://schema.org",
@@ -105,11 +106,12 @@ export default function ProductsPage() {
           {/* Instant Coffee */}
           <article id="instant-coffee" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
-              <img
+              <Image
                 src="/images/imbari-6b.jpg"
-                alt="Imbari Instant Coffee"
-                className="object-contain w-32 h-32 rounded-xl shadow border border-white/10 bg-black/30"
-                style={{ minWidth: '8rem', minHeight: '8rem', maxWidth: '8rem', maxHeight: '8rem' }}
+                alt="Imbari Coffee packaged instant and roasted products"
+                width={160}
+                height={120}
+                className="object-contain w-auto h-full mx-auto"
               />
             </div>
             <h2 className="font-semibold text-amber-200 mb-2 text-xl">
@@ -144,11 +146,12 @@ export default function ProductsPage() {
           {/* Arabica */}
           <article id="arabica" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
-              <img
+              <Image
                 src="/images/sort.jpg"
-                alt="Imbari Arabica Coffee"
-                className="object-contain w-32 h-32 rounded-xl shadow border border-white/10 bg-black/30"
-                style={{ minWidth: '8rem', minHeight: '8rem', maxWidth: '8rem', maxHeight: '8rem' }}
+                alt="Specialty Arabica coffee drying on raised beds"
+                width={160}
+                height={120}
+                className="object-contain w-auto h-full mx-auto"
               />
             </div>
             <h2 className="font-semibold text-amber-200 mb-2 text-xl">
@@ -186,11 +189,12 @@ export default function ProductsPage() {
           {/* Robusta */}
           <article id="robusta" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
-              <img
+              <Image
                 src="/images/farm.jpg"
-                alt="Imbari Robusta Coffee"
-                className="object-contain w-32 h-32 rounded-xl shadow border border-white/10 bg-black/30"
-                style={{ minWidth: '8rem', minHeight: '8rem', maxWidth: '8rem', maxHeight: '8rem' }}
+                alt="Fine Robusta coffee grown in Uganda"
+                width={160}
+                height={120}
+                className="object-contain w-auto h-full mx-auto"
               />
             </div>
             <h2 className="font-semibold text-amber-200 mb-2 text-xl">
