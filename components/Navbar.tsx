@@ -37,7 +37,7 @@ export default function Navbar() {
         </nav>
 
         {/* RIGHT SIDE (CART + MENU) */}
-        <div className="flex items-center gap-8 ml-auto">
+        <div className="flex items-center gap-8 ml-auto relative">
 
           {/* CART ICON */}
           <Link
@@ -86,43 +86,43 @@ export default function Navbar() {
               </span>
             )}
           </button>
-        </div>
 
-        {/* MOBILE MENU DROPDOWN */}
-        {open && (
-          <div className="absolute right-4 top-[72px] z-40 w-72 rounded-2xl border border-emerald-300 bg-gradient-to-br from-[#050403] via-emerald-900 to-emerald-700 shadow-2xl backdrop-blur-xl py-4 text-base text-neutral-100 animate-fade-in">
-            <div className="px-6 py-3 border-b border-emerald-400 flex items-center gap-3 animate-slide-down">
-              <Image
-                src="/images/logo-main.jpg"
-                alt="Imbari Coffee logo"
-                width={36}
-                height={36}
-                className="rounded-full border border-emerald-300 shadow-md"
-              />
-              <span className="font-extrabold text-emerald-200 text-xl tracking-wide">
-                Imbari Coffee
-              </span>
-            </div>
-
-            <div className="py-2 px-4 flex flex-col gap-1">
-              <MobileItem href="/about" onClick={() => setOpen(false)}>About</MobileItem>
-              <MobileItem href="/our-impact" onClick={() => setOpen(false)}>Our Impact</MobileItem>
-              <MobileItem href="/imbari-story" onClick={() => setOpen(false)}>Our Story</MobileItem>
-              <MobileItem href="/products" onClick={() => setOpen(false)}>Products</MobileItem>
-              <MobileItem href="/shop" onClick={() => setOpen(false)}>Shop</MobileItem>
-              <MobileItem href="/distribution" onClick={() => setOpen(false)}>Distribution</MobileItem>
-              <MobileItem href="/contact" onClick={() => setOpen(false)}>Contact</MobileItem>
-            </div>
-
-            <div className="border-t border-emerald-400 mt-2 pt-2 px-4">
-              <MobileItem href="/checkout" onClick={() => setOpen(false)}>
-                <span className="inline-flex items-center gap-2 font-semibold text-emerald-300">
-                  Checkout
+          {/* MOBILE MENU DROPDOWN */}
+          {open && (
+            <div className="absolute right-0 top-[60px] z-40 w-72 rounded-2xl border border-emerald-300 bg-gradient-to-br from-[#050403] via-emerald-900 to-emerald-700 shadow-2xl backdrop-blur-xl py-4 text-base text-neutral-100 animate-fade-in">
+              <div className="px-6 py-3 border-b border-emerald-400 flex items-center gap-3 animate-slide-down">
+                <Image
+                  src="/images/logo-main.jpg"
+                  alt="Imbari Coffee logo"
+                  width={36}
+                  height={36}
+                  className="rounded-full border border-emerald-300 shadow-md"
+                />
+                <span className="font-extrabold text-emerald-200 text-xl tracking-wide">
+                  Imbari Coffee
                 </span>
-              </MobileItem>
+              </div>
+
+              <div className="py-2 px-4 flex flex-col gap-1">
+                <MobileItem href="/about" onClick={() => setOpen(false)}>About</MobileItem>
+                <MobileItem href="/our-impact" onClick={() => setOpen(false)}>Our Impact</MobileItem>
+                <MobileItem href="/imbari-story" onClick={() => setOpen(false)}>Our Story</MobileItem>
+                <MobileItem href="/products" onClick={() => setOpen(false)}>Products</MobileItem>
+                <MobileItem href="/shop" onClick={() => setOpen(false)}>Shop</MobileItem>
+                <MobileItem href="/distribution" onClick={() => setOpen(false)}>Distribution</MobileItem>
+                <MobileItem href="/contact" onClick={() => setOpen(false)}>Contact</MobileItem>
+              </div>
+
+              <div className="border-t border-emerald-400 mt-2 pt-2 px-4">
+                <MobileItem href="/checkout" onClick={() => setOpen(false)}>
+                  <span className="inline-flex items-center gap-2 font-semibold text-emerald-300">
+                    Checkout
+                  </span>
+                </MobileItem>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );
