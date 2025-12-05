@@ -38,22 +38,16 @@ export default function Navbar() {
 
         {/* RIGHT SIDE (CART + MENU) */}
         <div className="flex items-center gap-8 ml-auto relative">
-          {/* MENU BUTTON – now more visible + spaced */}
+          {/* MENU BUTTON – now with 'MORE' text and animation */}
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle navigation"
-            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
+            className="flex items-center justify-center w-20 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg group"
             type="button"
           >
-            {!open ? (
-              <span className="flex items-center justify-center w-8 h-8">
-                <Bars3Icon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
-              </span>
-            ) : (
-              <span className="flex items-center justify-center w-8 h-8">
-                <XMarkIcon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
-              </span>
-            )}
+            <span className="text-white font-bold text-lg tracking-wide transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse">
+              MORE
+            </span>
           </button>
 
           {/* CART ICON */}
