@@ -50,7 +50,7 @@ export default function Navbar() {
         </nav>
 
         {/* RIGHT SIDE ICONS (cart, menu) */}
-        <div className="flex items-center gap-4 ml-auto">
+        <div className="flex items-center gap-6 ml-auto">
           {/* CART ICON WITH COUNT */}
           <Link
             href="/checkout"
@@ -85,12 +85,12 @@ export default function Navbar() {
             <button
               onClick={() => setOpen((v) => !v)}
               aria-label="Toggle navigation"
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
+              className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
             >
               {!open ? (
-                <Bars3Icon className="w-7 h-7 text-white drop-shadow" />
+                <Bars3Icon className="w-8 h-8 text-white drop-shadow" />
               ) : (
-                <XMarkIcon className="w-7 h-7 text-white drop-shadow" />
+                <XMarkIcon className="w-8 h-8 text-white drop-shadow" />
               )}
             </button>
 
