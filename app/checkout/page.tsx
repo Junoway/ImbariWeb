@@ -129,12 +129,13 @@ export default function CheckoutPage() {
                   key={item.id}
                   className="card p-4 sm:p-5 flex gap-4 sm:gap-5 animate-fade-in"
                 >
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-2xl border border-white/10 bg-black/40">
+                  <div className="relative w-40 h-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 flex items-center justify-center">
                     <Image
                       src={item.image}
                       alt={item.name}
-                      fill
-                      className="object-cover"
+                      width={200}
+                      height={200}
+                      className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-125"
                     />
                   </div>
 
@@ -151,7 +152,7 @@ export default function CheckoutPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => {
-                            updateQuantity(item.id, item.quantity - 1);
+                            updateQuantity(String(item.id), item.quantity - 1);
                             setToast({ message: "Quantity updated", type: "success" });
                           }}
                           className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
@@ -163,7 +164,7 @@ export default function CheckoutPage() {
                         </span>
                         <button
                           onClick={() => {
-                            updateQuantity(item.id, item.quantity + 1);
+                            updateQuantity(String(item.id), item.quantity + 1);
                             setToast({ message: "Quantity updated", type: "success" });
                           }}
                           className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
