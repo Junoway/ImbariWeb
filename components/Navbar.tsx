@@ -38,6 +38,23 @@ export default function Navbar() {
 
         {/* RIGHT SIDE (CART + MENU) */}
         <div className="flex items-center gap-8 ml-auto relative">
+          {/* MENU BUTTON – now more visible + spaced */}
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle navigation"
+            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
+            type="button"
+          >
+            {!open ? (
+              <span className="flex items-center justify-center w-8 h-8">
+                <Bars3Icon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
+              </span>
+            ) : (
+              <span className="flex items-center justify-center w-8 h-8">
+                <XMarkIcon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
+              </span>
+            )}
+          </button>
 
           {/* CART ICON */}
           <Link
@@ -68,24 +85,6 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-
-          {/* MENU BUTTON – now more visible + spaced */}
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle navigation"
-            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg"
-            type="button"
-          >
-            {!open ? (
-              <span className="flex items-center justify-center w-8 h-8">
-                <Bars3Icon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
-              </span>
-            ) : (
-              <span className="flex items-center justify-center w-8 h-8">
-                <XMarkIcon className="w-8 h-8 text-white drop-shadow" aria-hidden="true" />
-              </span>
-            )}
-          </button>
 
           {/* MOBILE MENU DROPDOWN */}
           {open && (
