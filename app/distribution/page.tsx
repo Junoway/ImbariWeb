@@ -1,27 +1,46 @@
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
+
 export default function DistributionPage() {
   return (
-    <main className="main-container py-16 space-y-10 text-center">
+    <main className="bg-white min-h-screen">
       {/* HEADER */}
       <header className="space-y-4">
-        <p className="badge mx-auto mb-2">Distribution</p>
-        <h1 className="section-heading max-w-3xl mx-auto">
-          A Coffee Distribution Network Across All 54 African Countries
-        </h1>
-        <p className="section-subtitle max-w-2xl mx-auto">
-          Imbari Coffee is building Africa’s first integrated coffee distribution
-          ecosystem — enabling brands, supermarkets, cafés, and wholesalers to
-          access premium African coffee with unmatched speed and reliability.
-        </p>
+        <div className="flex flex-col items-center justify-center text-center pt-10 pb-6 gap-4">
+          <p className="badge mb-2">Distribution</p>
+          <h1 className="text-4xl font-bold max-w-3xl">
+            A Coffee Distribution Network Across All 54 African Countries
+          </h1>
+          <p className="mb-2 text-lg max-w-2xl">
+            Imbari Coffee is building Africa’s first integrated coffee distribution
+            ecosystem — enabling brands, supermarkets, cafés, and wholesalers to
+            access premium African coffee with unmatched speed and reliability.
+          </p>
+        </div>
       </header>
 
+      <div className="text-center mb-8">
+        <h2 className="text-4xl font-extrabold text-[#C8B06A] mb-4">
+          Distribution
+        </h2>
+        <p className="text-lg text-neutral-100">
+          Connecting coffee to the world.
+        </p>
+        <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
+          Learn More
+        </button>
+        <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
+          Contact Us
+        </button>
+      </div>
+
       {/* TOP 3 PILLARS */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center items-center justify-center">
         <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-neutral-200">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
-          <h2 className="font-semibold text-amber-200 mb-2">
+          <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Wholesale Distribution
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto">
+          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
             Tailored programs for supermarkets, cafés, hotels, retail chains, and
             food-service distributors across Africa.
           </p>
@@ -29,10 +48,10 @@ export default function DistributionPage() {
 
         <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-neutral-200">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
-          <h2 className="font-semibold text-amber-200 mb-2">
+          <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Private Label Partnerships
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto">
+          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
             Contract manufacturing and brand development for partners expanding
             into African markets or exporting African coffee globally.
           </p>
@@ -40,10 +59,10 @@ export default function DistributionPage() {
 
         <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-neutral-200">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
-          <h2 className="font-semibold text-amber-200 mb-2">
+          <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Cross-Border B2B Shipping
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto">
+          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
             Fast delivery across East, West, Central, North, and Southern Africa,
             leveraging strategic logistics partners and regional hubs.
           </p>
@@ -51,11 +70,11 @@ export default function DistributionPage() {
       </section>
 
       {/* GLOBAL ROUTES */}
-      <section className="card p-6 sm:p-8 text-sm text-neutral-200 space-y-4">
-        <h2 className="font-semibold text-amber-200 text-lg">
+      <section className="card p-6 sm:p-8 text-sm text-neutral-200 space-y-4 text-center">
+        <h2 className="font-semibold text-amber-200 text-lg text-center">
           Global Routes
         </h2>
-        <p className="text-xs text-neutral-300 max-w-md mx-auto">
+        <p className="text-xs text-neutral-300 max-w-md mx-auto text-center">
           In addition to African markets, Imbari Coffee supports export routes to
           major global hubs — connecting African-origin coffee to the world.
         </p>
@@ -80,11 +99,11 @@ export default function DistributionPage() {
       </section>
 
       {/* BECOME A DISTRIBUTOR */}
-      <section className="card p-6 sm:p-8 text-sm text-neutral-200 space-y-4">
-        <h2 className="font-semibold text-amber-200 text-lg">
+      <section className="card p-6 sm:p-8 text-sm text-neutral-200 space-y-4 text-center">
+        <h2 className="font-semibold text-amber-200 text-lg text-center">
           Become a Distributor
         </h2>
-        <p className="text-xs text-neutral-300 max-w-md mx-auto">
+        <p className="text-xs text-neutral-300 max-w-md mx-auto text-center">
           We partner with committed distributors who want to build long-term,
           premium African coffee portfolios in their markets.
         </p>

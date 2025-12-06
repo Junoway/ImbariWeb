@@ -230,7 +230,7 @@ export default function ShopPage() {
     : filteredProducts;
 
   return (
-    <div className="bg-white text-emerald-950 min-h-screen pb-16">
+    <div className="bg-yellow-100 text-[#10b981] min-h-screen pb-16">
       {/* HEADER */}
       <section className="main-container pt-10 pb-6 text-center">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-emerald-500">

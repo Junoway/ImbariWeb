@@ -1,6 +1,9 @@
+import ParallaxSection from "@/components/ParallaxSection";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
+
 export default function CertificationsPage() {
   return (
-    <main className="main-container py-16 space-y-16 bg-gradient-to-br from-[#0a1813] via-[#07110c] to-[#1a2a1f] text-white min-h-screen">
+    <main className="bg-white min-h-screen">
       <header className="text-center space-y-4 animate-fade-in">
         <p className="badge mb-3 bg-emerald-400/20 text-emerald-300 border border-emerald-300">
           Certifications & Standards

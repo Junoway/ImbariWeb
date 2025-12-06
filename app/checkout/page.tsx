@@ -6,15 +6,23 @@ import Link from "next/link";
 import { useCart } from "@/components/CartContext";
 import { useState, useMemo, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
 
 const STRIPE_PUBLIC_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "pk_test_123"; // Replace with your real key
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 const TAX_RATE = 0.10;
 
 export default function CheckoutPage() {
-  const { items, updateQuantity, removeItem, clearCart, subtotal } = useCart();
+  const { items, updateQuantity, removeItem, clearCart, subtotal: cartSubtotal } = useCart();
   const [location, setLocation] = useState<"kampala" | "outside">("kampala");
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [showTip, setShowTip] = useState(false);
+  const [tip, setTip] = useState(0);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [discountApplied, setDiscountApplied] = useState(false);
+  const [cartOpen, setCartOpen] = useState(true);
+  const router = useRouter();
 
   // Toast notification state
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -29,13 +37,22 @@ export default function CheckoutPage() {
     }
   }, [toast]);
 
+  useEffect(() => {
+    if (items.length === 0) {
+      router.replace("/shop");
+    }
+  }, [items.length, router]);
+
   const shipping = useMemo(() => {
     if (items.length === 0) return 0;
     return location === "kampala" ? 0 : 2;
   }, [location, items.length]);
 
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + shipping + tax;
+  const tax = cartSubtotal * TAX_RATE;
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const originalPrice = subtotal > 0 ? subtotal.toFixed(2) : "0.00";
+  const discountedSubtotal = subtotal - discount;
+  const total = (discountedSubtotal + tip + shipping).toFixed(2);
 
   const handlePlaceOrder = () => {
     if (items.length === 0) return;
@@ -86,7 +103,7 @@ export default function CheckoutPage() {
   }
   function confirmRemove() {
     if (removeModal.itemId != null) {
-      removeItem(removeModal.itemId);
+      removeItem(Number(removeModal.itemId)); // Ensure ID is a number
       setToast({ message: "Item removed from cart", type: "success" });
     }
     setRemoveModal({ open: false, itemId: null });
@@ -96,182 +113,268 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="bg-[#050304] text-neutral-50 min-h-screen">
-      <section className="main-container py-16 space-y-10">
-        <header className="space-y-3 max-w-3xl">
-          <p className="badge mb-1">Checkout</p>
-          <h1 className="text-3xl sm:text-4xl font-semibold">
-            Your Imbari Cart
-          </h1>
+    <div className="bg-white min-h-screen">
+      {/* Cart Controls */}
+      <div className="main-container pt-8 pb-4 flex flex-col gap-2">
+        {cartOpen && (
+          <button
+            onClick={() => {
+              setCartOpen(false);
+              router.replace("/shop");
+            }}
+            className="self-end px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-bold shadow hover:bg-emerald-200 transition"
+          >
+            Close Cart
+          </button>
+        )}
+        {cartOpen && (
+          <>
+            {/* Discount Code */}
+            <div className="flex flex-col sm:flex-row items-center gap-2 mt-2">
+              <label htmlFor="discount" className="font-semibold text-emerald-700">Discount Code</label>
+              <input
+                id="discount"
+                value={discountCode}
+                onChange={e => setDiscountCode(e.target.value)}
+                placeholder="Enter code"
+                className="px-4 py-2 rounded-full border border-emerald-300 bg-emerald-50 text-sm shadow-sm focus:border-emerald-500"
+              />
+              <button
+                onClick={() => {
+                  // Apply a 25% discount for code 'UBUNTU88', otherwise no discount
+                  if (discountCode.trim().toUpperCase() === "UBUNTU88") {
+                    setDiscount(Number((subtotal * 0.25).toFixed(2)));
+                    setDiscountApplied(true);
+                  } else {
+                    setDiscount(0);
+                    setDiscountApplied(false);
+                  }
+                }}
+                className="px-4 py-2 rounded-full bg-emerald-500 text-white font-bold hover:bg-emerald-400 transition shadow"
+              >
+                Apply
+              </button>
+              {discountApplied && <span className="ml-2 text-green-600 font-semibold">25% Discount Applied!</span>}
+            </div>
+            {/* Support our Farmers / Add a Tip */}
+            <div className="flex flex-col sm:flex-row items-center gap-2 mt-4">
+              <span className="font-semibold text-emerald-700">Support our Farmers</span>
+              <button
+                onClick={() => setShowTip((v) => !v)}
+                className="px-4 py-2 rounded-full bg-yellow-200 text-yellow-900 font-bold hover:bg-yellow-300 transition shadow"
+              >
+                {showTip ? "Remove Tip" : "Add a Tip"}
+              </button>
+              {showTip && (
+                <input
+                  type="number"
+                  min={0}
+                  step={0.5}
+                  value={tip}
+                  onChange={e => setTip(Number(e.target.value))}
+                  className="ml-2 px-4 py-2 rounded-full border border-yellow-400 bg-yellow-50 text-sm shadow-sm focus:border-yellow-600 w-24"
+                  placeholder="$2.00"
+                />
+              )}
+            </div>
+            {/* Shipping & taxes */}
+            <div className="mt-4 text-sm text-emerald-700">Shipping & taxes collected at checkout</div>
+            {/* Subtotal and Final Price */}
+            <div className="mt-4 flex flex-col gap-1 text-right">
+              <div className="text-xs text-emerald-700">Subtotal ({items.length} item{items.length !== 1 ? "s" : ""})</div>
+              <div className="text-lg font-bold text-emerald-900">
+                Cart subtotal: ${subtotal.toFixed(2)}
+              </div>
+              {discount > 0 && (
+                <div className="text-sm text-green-600">Discount: -${discount.toFixed(2)}</div>
+              )}
+              {tip > 0 && (
+                <div className="text-sm text-yellow-700">Tip: +${tip.toFixed(2)}</div>
+              )}
+              <div className="text-lg font-bold text-emerald-900">
+                Final price: {discount > 0 && (<span className="line-through text-red-400 mr-2">${originalPrice}</span>)} ${total}
+              </div>
+              <div className="text-xs text-emerald-700 mt-1">(Includes all discounts and tips)</div>
+            </div>
+            {/* Checkout Button */}
+            <button
+              onClick={() => {/* Stripe checkout logic here */}}
+              className="mt-6 px-8 py-3 rounded-full bg-emerald-500 text-white font-bold text-lg shadow-lg hover:bg-emerald-600 transition"
+            >
+              Checkout &rarr;
+            </button>
+          </>
+        )}
+      </div>
+
+      <h1 className="text-4xl font-bold mb-6">Checkout</h1>
+      <p className="mb-8 text-lg">Complete your purchase below.</p>
+
+      {/* If cart is empty */}
+      {items.length === 0 ? (
+        <div className="card p-6 sm:p-8 text-center space-y-4">
           <p className="text-sm sm:text-base text-neutral-300">
-            Review your items, choose your location, and confirm your order. A
-            flat <span className="font-semibold">$2 shipping</span> is applied
-            if you are outside Kampala.
+            Your cart is empty.
           </p>
-        </header>
+          <Link href="/shop" className="button-primary inline-block">
+            Browse Products
+          </Link>
+        </div>
+      ) : (
+        <section className="grid gap-8 lg:grid-cols-[2fr,1.4fr] items-start">
+          {/* CART ITEMS */}
+          <div className="space-y-4">
+            {items.map((item) => (
+              <article
+                key={item.id}
+                className="card p-4 sm:p-5 flex gap-4 sm:gap-5 animate-fade-in"
+              >
+                <div className="relative w-40 h-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 flex items-center justify-center">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={200}
+                    height={200}
+                    className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-125"
+                  />
+                </div>
 
-        {/* If cart is empty */}
-        {items.length === 0 ? (
-          <div className="card p-6 sm:p-8 text-center space-y-4">
-            <p className="text-sm sm:text-base text-neutral-300">
-              Your cart is empty.
-            </p>
-            <Link href="/shop" className="button-primary inline-block">
-              Browse Products
-            </Link>
-          </div>
-        ) : (
-          <section className="grid gap-8 lg:grid-cols-[2fr,1.4fr] items-start">
-            {/* CART ITEMS */}
-            <div className="space-y-4">
-              {items.map((item) => (
-                <article
-                  key={item.id}
-                  className="card p-4 sm:p-5 flex gap-4 sm:gap-5 animate-fade-in"
-                >
-                  <div className="relative w-40 h-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40 flex items-center justify-center">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={200}
-                      height={200}
-                      className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-125"
-                    />
-                  </div>
+                <div className="flex-1 space-y-1">
+                  <h2 className="text-sm sm:text-base font-semibold">
+                    {item.name}
+                  </h2>
+                  <p className="text-[11px] sm:text-xs text-neutral-400">
+                    ${item.price.toFixed(2)} per unit
+                  </p>
 
-                  <div className="flex-1 space-y-1">
-                    <h2 className="text-sm sm:text-base font-semibold">
-                      {item.name}
-                    </h2>
-                    <p className="text-[11px] sm:text-xs text-neutral-400">
-                      ${item.price.toFixed(2)} per unit
-                    </p>
-
-                    {/* Quantity & remove */}
-                    <div className="mt-2 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => {
-                            updateQuantity(String(item.id), item.quantity - 1);
-                            setToast({ message: "Quantity updated", type: "success" });
-                          }}
-                          className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
-                        >
-                          −
-                        </button>
-                        <span className="text-sm font-medium w-6 text-center animate-bounce-in">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => {
-                            updateQuantity(String(item.id), item.quantity + 1);
-                            setToast({ message: "Quantity updated", type: "success" });
-                          }}
-                          className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
-                        >
-                          +
-                        </button>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-semibold">
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </p>
-                        <button
-                          onClick={() => handleRemove(item.id)}
-                          className="text-[11px] text-neutral-400 hover:text-red-400"
-                        >
-                          Remove
-                        </button>
-                      </div>
+                  {/* Quantity & remove */}
+                  <div className="mt-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          updateQuantity(String(item.id), item.quantity - 1);
+                          setToast({ message: "Quantity updated", type: "success" });
+                        }}
+                        className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
+                      >
+                        −
+                      </button>
+                      <span className="text-sm font-medium w-6 text-center animate-bounce-in">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => {
+                          updateQuantity(String(item.id), item.quantity + 1);
+                          setToast({ message: "Quantity updated", type: "success" });
+                        }}
+                        className="w-7 h-7 rounded-full border border-white/15 text-xs flex items-center justify-center hover:bg-white/10 transition-transform duration-200"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </p>
+                      <button
+                        onClick={() => handleRemove(item.id)}
+                        className="text-[11px] text-neutral-400 hover:text-red-400"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
-                </article>
-              ))}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* SUMMARY & LOCATION */}
+          <aside className="card p-6 sm:p-7 space-y-6 lg:sticky lg:top-24">
+            <div className="space-y-2">
+              <h2 className="text-base sm:text-lg font-semibold">
+                Order Summary
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-400">
+                Confirm your location so we can apply the correct shipping.
+                Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
+                <strong>$2 flat</strong>.
+              </p>
             </div>
 
-            {/* SUMMARY & LOCATION */}
-            <aside className="card p-6 sm:p-7 space-y-6 lg:sticky lg:top-24">
-              <div className="space-y-2">
-                <h2 className="text-base sm:text-lg font-semibold">
-                  Order Summary
-                </h2>
-                <p className="text-xs sm:text-sm text-neutral-400">
-                  Confirm your location so we can apply the correct shipping.
-                  Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
-                  <strong>$2 flat</strong>.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <p className="text-xs sm:text-sm font-semibold text-neutral-200">
-                  Delivery Location
-                </p>
-                <div className="flex flex-col gap-2 text-xs sm:text-sm">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="location"
-                      value="kampala"
-                      checked={location === "kampala"}
-                      onChange={() => setLocation("kampala")}
-                      className="accent-emerald-400"
-                    />
-                    <span>Inside Kampala</span>
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="location"
-                      value="outside"
-                      checked={location === "outside"}
-                      onChange={() => setLocation("outside")}
-                      className="accent-emerald-400"
-                    />
-                    <span>Outside Kampala (flat $2 shipping)</span>
-                  </label>
-                </div>
-              </div>
-
-              <div className="border-t border-white/10 pt-4 space-y-2 text-sm">
-                <div className="flex justify-between text-neutral-300">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-neutral-300">
-                  <span>Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-neutral-300">
-                  <span>Tax (10%)</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-neutral-50 font-bold text-lg mt-2 border-t border-white/10 pt-2">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-              </div>
-
-              <button
-                onClick={handleStripeCheckout}
-                disabled={placingOrder || items.length === 0}
-                className="button-primary w-full text-base font-bold py-3 mt-2 disabled:opacity-60 shadow-lg shadow-emerald-400/20 hover:scale-105 transition-transform flex items-center justify-center"
-              >
-                {placingOrder ? (
-                  <span className="flex items-center gap-2"><span className="loader border-t-emerald-400 border-4 w-5 h-5 rounded-full animate-spin"></span> Placing Order...</span>
-                ) : (
-                  `Place Order & Pay $${total.toFixed(2)}`
-                )}
-              </button>
-
-              <p className="text-[11px] text-neutral-500">
-                After you place your order, our team will contact you to confirm
-                delivery address, payment method (mobile money, card, or bank),
-                and any wholesale or export details.
+            <div className="space-y-3">
+              <p className="text-xs sm:text-sm font-semibold text-neutral-200">
+                Delivery Location
               </p>
-            </aside>
-          </section>
-        )}
-      </section>
+              <div className="flex flex-col gap-2 text-xs sm:text-sm">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="location"
+                    value="kampala"
+                    checked={location === "kampala"}
+                    onChange={() => setLocation("kampala")}
+                    className="accent-emerald-400"
+                  />
+                  <span>Inside Kampala</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="location"
+                    value="outside"
+                    checked={location === "outside"}
+                    onChange={() => setLocation("outside")}
+                    className="accent-emerald-400"
+                  />
+                  <span>Outside Kampala (flat $2 shipping)</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4 space-y-2 text-sm">
+              <div className="flex justify-between text-neutral-300">
+                <span>Subtotal</span>
+                <span>${cartSubtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-neutral-300">
+                <span>Shipping</span>
+                <span>${shipping.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-neutral-300">
+                <span>Tax (10%)</span>
+                <span>${tax.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-neutral-50 font-bold text-lg mt-2 border-t border-white/10 pt-2">
+                <span>Total</span>
+                <span>${total}</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleStripeCheckout}
+              disabled={placingOrder || items.length === 0}
+              className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4 w-full flex items-center justify-center"
+            >
+              {placingOrder ? (
+                <span className="flex items-center gap-2"><span className="loader border-t-emerald-400 border-4 w-5 h-5 rounded-full animate-spin"></span> Placing Order...</span>
+              ) : (
+                `Place Order & Pay $${total}`
+              )}
+            </button>
+
+            <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 w-full flex items-center justify-center">
+              View Cart
+            </button>
+
+            <p className="text-[11px] text-neutral-500">
+              After you place your order, our team will contact you to confirm
+              delivery address, payment method (mobile money, card, or bank),
+              and any wholesale or export details.
+            </p>
+          </aside>
+        </section>
+      )}
 
       {/* Toast notification */}
       {toast && (
@@ -293,7 +396,7 @@ export default function CheckoutPage() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }
 

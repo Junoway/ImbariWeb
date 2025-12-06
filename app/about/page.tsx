@@ -1,6 +1,21 @@
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
+
 export default function AboutPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 py-0 px-2">
+    <main className="bg-white min-h-screen">
+      <div className="flex flex-col items-center justify-center text-center pt-10 pb-6 gap-4">
+        <h1 className="text-4xl font-bold">About Imbari Coffee</h1>
+        <p className="mb-2 text-lg">Our story, values, and mission.</p>
+        <div className="flex gap-4">
+          <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+            Meet the Team
+          </button>
+          <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
+            Our Values
+          </button>
+        </div>
+      </div>
+
       <section className="w-full min-h-screen max-w-7xl mx-auto flex flex-col gap-16 animate-fade-in justify-center py-20 pb-32">
         <header className="text-center space-y-4 min-h-[40vh] flex flex-col justify-center items-center">
           <p className="badge mb-3">About Imbari Coffee</p>

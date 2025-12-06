@@ -1,5 +1,6 @@
 import Script from "next/script";
 import Image from "next/image";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 const productsJsonLd = {
   "@context": "https://schema.org",
@@ -80,7 +81,7 @@ const productsJsonLd = {
 
 export default function ProductsPage() {
   return (
-    <main className="bg-[#050304] min-h-screen text-neutral-50">
+    <main className="bg-white min-h-screen">
       {/* JSON-LD for Google */}
       <Script
         id="imbari-products-schema"
@@ -88,6 +89,19 @@ export default function ProductsPage() {
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productsJsonLd) }}
       />
+
+      <div className="flex flex-col items-center justify-center text-center pt-10 pb-6 gap-4">
+        <h1 className="text-4xl font-bold">Our Products</h1>
+        <p className="mb-2 text-lg">Explore our premium coffee selection.</p>
+        <div className="flex gap-4">
+          <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+            View Products
+          </button>
+          <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
+            Shop Accessories
+          </button>
+        </div>
+      </div>
 
       <section className="w-full max-w-6xl mx-auto py-20 px-4 sm:px-8 space-y-16 animate-fade-in">
         <header className="text-center space-y-4">

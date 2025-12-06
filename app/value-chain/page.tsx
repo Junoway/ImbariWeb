@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FaSeedling, FaIndustry, FaCoffee, FaShippingFast, FaFlask } from "react-icons/fa";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 const stages = [
 	{
@@ -66,24 +67,76 @@ const stages = [
 
 export default function ValueChainPage() {
 	return (
-		<main className="relative min-h-screen py-16 px-4 flex flex-col items-center justify-center bg-gradient-to-br from-green-900 via-black to-green-700 overflow-hidden">
-			{/* Background accents */}
-			<div className="absolute top-0 left-0 w-96 h-96 bg-green-800 opacity-30 rounded-full blur-3xl -z-10" />
-			<div className="absolute bottom-0 right-0 w-80 h-80 bg-emerald-400 opacity-20 rounded-full blur-2xl -z-10" />
-			<div className="absolute top-1/2 left-1/2 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl -z-10" />
+		<main className="bg-white min-h-screen">
+			<div className="flex flex-col items-center justify-center text-center pt-10 pb-6 gap-4">
+				<h1 className="text-4xl font-bold">Value Chain</h1>
+				<p className="mb-2 text-lg">From farm to cup.</p>
+				<div className="flex gap-4">
+					<button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+						Explore Value Chain
+					</button>
+					<button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
+						Learn More
+					</button>
+				</div>
+			</div>
 
 			<header className="text-center animate-fade-in-up">
-				<p className="inline-block badge mb-3 bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg">
+				<p className="inline-block badge mb-3 bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg text-center">
 					Our Value Chain
 				</p>
-				<h1 className="section-heading text-4xl font-extrabold text-white drop-shadow-lg mb-2">
+				<h1 className="section-heading text-4xl font-extrabold text-white drop-shadow-lg mb-2 text-center">
 					Farmer → Mill → Roast → Export
 				</h1>
-				<p className="section-subtitle text-lg text-neutral-200 max-w-xl mx-auto">
+				<p className="section-subtitle text-lg text-neutral-200 max-w-xl mx-auto text-center">
 					Imbari Coffee operates a vertically integrated value chain that keeps
 					quality, traceability, and trust at the center of every process.
 				</p>
 			</header>
+
+			{/* Value Chain Sections */}
+			<section className="w-full max-w-6xl mt-12 mb-8 flex flex-col gap-12 items-center">
+				<div className="text-center group">
+					<h2 className="text-5xl font-extrabold text-[#C8B06A] mb-4 transition-colors duration-200 group-hover:text-yellow-400 cursor-pointer text-center">
+						Value Chain
+					</h2>
+					<p className="text-2xl text-neutral-800 transition-colors duration-200 group-hover:text-emerald-600 cursor-pointer text-center">
+						From farm to cup.
+					</p>
+				</div>
+				<div className="text-center group">
+					<h3 className="text-4xl font-bold text-[#7C5A2A] mb-2 transition-colors duration-200 group-hover:text-yellow-600 cursor-pointer text-center">
+						Farming
+					</h3>
+					<p className="text-xl text-neutral-700 transition-colors duration-200 group-hover:text-emerald-600 cursor-pointer text-center">
+						Sustainable practices and innovation.
+					</p>
+				</div>
+				<div className="text-center group">
+					<h3 className="text-4xl font-bold text-[#C8B06A] mb-2 transition-colors duration-200 group-hover:text-yellow-600 cursor-pointer text-center">
+						Processing
+					</h3>
+					<p className="text-xl text-neutral-700 transition-colors duration-200 group-hover:text-emerald-600 cursor-pointer text-center">
+						Quality control and expertise.
+					</p>
+				</div>
+				<div className="text-center group">
+					<h3 className="text-4xl font-bold text-[#C8B06A] mb-2 transition-colors duration-200 group-hover:text-yellow-600 cursor-pointer text-center">
+						Export
+					</h3>
+					<p className="text-xl text-neutral-700 transition-colors duration-200 group-hover:text-emerald-600 cursor-pointer text-center">
+						Global logistics and distribution.
+					</p>
+				</div>
+				<div className="text-center group">
+					<h3 className="text-4xl font-bold text-[#C8B06A] mb-2 transition-colors duration-200 group-hover:text-yellow-600 cursor-pointer text-center">
+						Imbari Value
+					</h3>
+					<p className="text-xl text-neutral-700 transition-colors duration-200 group-hover:text-emerald-600 cursor-pointer text-center">
+						Premium quality at every step.
+					</p>
+				</div>
+			</section>
 
 			{/* Animated Process Slides */}
 			<section className="w-full max-w-6xl mt-12 mb-8">
@@ -107,14 +160,14 @@ export default function ValueChainPage() {
 									{stage.icon}
 								</div>
 							</div>
-							<h2 className="font-semibold text-amber-200 text-lg mb-4 drop-shadow-lg">
+							<h2 className="font-semibold text-amber-200 text-lg mb-4 drop-shadow-lg text-center">
 								{stage.title}
 							</h2>
-							<div className="flex flex-col gap-3 w-full">
+							<div className="flex flex-col gap-3 w-full items-center">
 								{stage.points.map((point, i) => (
 									<div
 										key={point}
-										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-neutral-100 font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30`}
+										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-neutral-100 font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30 text-center`}
 									>
 										{point}
 									</div>
@@ -132,16 +185,16 @@ export default function ValueChainPage() {
 			{/* Call to Action */}
 			<section className="mt-12 animate-fade-in-up delay-500">
 				<div className="glass-card p-8 text-center max-w-2xl mx-auto shadow-xl">
-					<h3 className="text-2xl font-bold text-green-300 mb-2">
+					<h3 className="text-2xl font-bold text-green-300 mb-2 text-center">
 						Ready to Experience the Imbari Difference?
 					</h3>
-					<p className="text-neutral-200 mb-4">
+					<p className="text-neutral-200 mb-4 text-center">
 						Contact us to learn more about our value chain, sourcing, and
 						partnership opportunities.
 					</p>
 					<a
 						href="/contact"
-						className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-400 text-white font-semibold shadow-lg hover:scale-105 transition-transform focus:outline-emerald-400"
+						className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-400 text-white font-semibold shadow-lg hover:scale-105 transition-transform focus:outline-emerald-400 text-center"
 					>
 						Get in Touch
 					</a>

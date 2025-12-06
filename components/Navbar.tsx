@@ -42,10 +42,10 @@ export default function Navbar() {
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle navigation"
-            className="flex items-center justify-center w-20 h-12 rounded-full border-2 border-emerald-400 bg-gradient-to-tr from-emerald-500 via-emerald-400 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition shadow-lg group"
+            className="flex items-center justify-center w-20 h-12 rounded-full border-2 border-[#C8B06A] bg-gradient-to-tr from-[#7C5A2A] via-[#C8B06A] to-[#3C2A14] hover:from-[#C8B06A] hover:to-[#7C5A2A] transition shadow-lg group"
             type="button"
           >
-            <span className="text-white font-bold text-lg tracking-wide transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse">
+            <span className="text-[#C8B06A] font-bold text-lg tracking-wide transition-transform duration-300 group-hover:scale-110 group-hover:animate-pulse">
               MORE
             </span>
           </button>
@@ -104,14 +104,6 @@ export default function Navbar() {
                 <MobileItem href="/shop" onClick={() => setOpen(false)}>Shop</MobileItem>
                 <MobileItem href="/distribution" onClick={() => setOpen(false)}>Distribution</MobileItem>
                 <MobileItem href="/contact" onClick={() => setOpen(false)}>Contact</MobileItem>
-              </div>
-
-              <div className="border-t border-emerald-400 mt-2 pt-2 px-4">
-                <MobileItem href="/checkout" onClick={() => setOpen(false)}>
-                  <span className="inline-flex items-center gap-2 font-semibold text-emerald-300">
-                    Checkout
-                  </span>
-                </MobileItem>
               </div>
             </div>
           )}

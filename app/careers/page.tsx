@@ -1,10 +1,21 @@
 // app/careers/page.tsx
 import Image from "next/image";
 import Link from "next/link";
+import ParallaxSection from "@/components/ParallaxSection";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 export default function CareersPage() {
   return (
-    <main className="bg-gradient-to-br from-[#020403] via-[#07110c] to-[#1a2a1f] text-white min-h-screen">
+    <main className="bg-white min-h-screen">
+      <h1 className="text-4xl font-bold mb-6">Careers</h1>
+      <p className="mb-8 text-lg">Join our passionate team.</p>
+      <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
+        View Openings
+      </button>
+      <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
+        Apply Now
+      </button>
+
       <div className="main-container py-16 space-y-16">
         {/* HERO SECTION */}
         <section className="relative rounded-3xl shadow-2xl p-0 flex items-stretch min-h-screen overflow-hidden">

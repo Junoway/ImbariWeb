@@ -4,10 +4,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import ImpactChatBot from "@/components/ImpactChatBot";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 export default function OurImpactPage() {
   return (
-    <main className="relative min-h-screen bg-[#050304] text-neutral-50">
+    <main className="bg-white min-h-screen">
+      <div className="flex flex-col items-center justify-center text-center pt-10 pb-6 gap-4">
+        <h1 className="text-4xl font-bold">Our Impact</h1>
+        <p className="mb-2 text-lg">Empowering communities and sustainability.</p>
+        <div className="flex gap-4">
+          <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+            See Our Impact
+          </button>
+          <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
+            Get Involved
+          </button>
+        </div>
+      </div>
+
       <section className="main-container py-20 pb-32 space-y-24 max-w-7xl mx-auto">
         {/* HERO */}
         <header className="max-w-4xl mx-auto text-center space-y-4">

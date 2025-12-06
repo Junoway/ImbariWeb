@@ -1,9 +1,18 @@
 // app/legal/page.tsx
 import Link from "next/link";
+import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 export default function LegalPage() {
   return (
-    <main className="main-container py-16 space-y-10 text-neutral-200">
+    <main className="bg-white min-h-screen">
+      <h1 className="text-4xl font-bold mb-6">Legal</h1>
+      <p className="mb-8 text-lg">Terms of Use & Privacy Policy</p>
+      <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
+        View Terms
+      </button>
+      <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
+        Privacy Policy
+      </button>
       <header className="text-center space-y-3">
         <h1 className="text-3xl font-bold text-emerald-300">Legal Information</h1>
         <p className="text-base text-neutral-400">Terms of Use & Privacy Policy</p>

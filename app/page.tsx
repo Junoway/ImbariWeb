@@ -1,249 +1,219 @@
+"use client";
+// app/page.tsx  (or pages/index.tsx)
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Hero from "../components/Hero";
+
+const heroSlides = [
+  { src: "/images/hero1.jpg", alt: "Uganda coffee farm 1" },
+  { src: "/images/hero2.jpg", alt: "Uganda coffee beans 2" },
+  { src: "/images/hero3.jpg", alt: "Uganda coffee harvest 3" },
+  // add more as needed
+];
 
 export default function Home() {
-  return (
-    <main className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
-      {/* HERO SECTION */}
-      <section className="snap-start min-h-screen w-full flex items-center justify-center relative">
-        <Hero />
-      </section>
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-      {/* OUR PROMISE – CARD + FARM IMAGE */}
-      <section className="snap-start min-h-screen w-full flex items-center justify-center bg-[#010a07] relative">
-        <div className="main-container w-full flex flex-col justify-center items-center space-y-8 animate-fade-in">
-          <header className="text-center">
-            <p className="badge mb-3">Our Promise</p>
-            <h2 className="section-heading">
-              Exceptional Coffee. Ethical Sourcing. African Excellence.
-            </h2>
-            <p className="section-subtitle">
-              Imbari Coffee is a vertically integrated coffee company committed to
-              elevating Uganda’s most prized origins — Bugisu Arabica, Rwenzori
-              Robusta, and Victoria-region microlots — to global specialty
-              standards.
-            </p>
-          </header>
-          <div className="grid gap-6 lg:grid-cols-[2fr,2.2fr] items-center w-full max-w-5xl mx-auto">
-            <div className="card p-6 sm:p-7 text-sm text-neutral-200 space-y-3 text-center animate-slide-in-left">
-              <p className="text-xs text-neutral-300">
-                We partner directly with smallholder farmers, women-led
-                cooperatives, and micro-lot communities to ensure traceability,
-                transparency, and fair pricing at every step of the chain.
-              </p>
-              <div className="flex flex-col gap-2 items-center">
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Direct farmer and cooperative partnerships
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Traceable microlots and specialty profiles
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Instant coffee manufacturing for export markets
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Distribution capabilities across all 54 African states
-                </div>
-              </div>
-            </div>
-            <div className="relative w-full h-56 sm:h-72 animate-slide-in-right">
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <main className="bg-white text-neutral-900">
+      {/* HERO SECTION with simple slider */}
+      <section className="relative w-full h-screen overflow-hidden bg-red-200">
+        {/* Mt. Elgon background image - always visible */}
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Image
+            src="/images/mt-elgon.jpg"
+            alt="Mt. Elgon background"
+            fill
+            className="object-cover object-center w-full h-full"
+            priority
+          />
+        </div>
+        {/* Slider images overlay - add opacity so background is always visible */}
+        {heroSlides.map((slide, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 h-full w-full ${
+              idx === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+            style={{ opacity: idx === currentSlide ? 0.4 : 0 }}
+          >
+            <div className="relative h-full w-full">
               <Image
-                src="/images/farm.jpg"
-                alt="Coffee harvest at Imbari Coffee farms"
+                src={slide.src}
+                alt={slide.alt}
                 fill
-                className="rounded-3xl border border-white/10 object-cover shadow-xl"
+                className="object-cover object-center"
+                priority
               />
             </div>
           </div>
+        ))}
+
+        {/* Hero overlay content */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
+          <h1 style={{ color: '#fff' }} className="text-6xl sm:text-7xl md:text-8xl font-extrabold drop-shadow-lg mb-4">
+            Uganda Specialty Coffee Exporter
+          </h1>
+          <h2 style={{ color: '#fff' }} className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8">
+            "Africa’s Premium Coffee"
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/shop"
+              style={{ color: '#fff' }}
+              className="relative font-bold py-4 px-12 rounded-full shadow-lg transition-all duration-300 text-2xl bg-yellow-400 hover:bg-yellow-500 border-4 border-white/60 focus:outline-none focus:ring-4 focus:ring-yellow-300 overflow-hidden group"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-yellow-300 to-emerald-500 opacity-30 group-hover:opacity-50 transition-all duration-300 blur-xl"></span>
+              <span className="relative flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-7 h-7 text-emerald-700 animate-pulse">
+                  <path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2H8a2 2 0 00-2 2v12zm2-12h8v12H8V7zm2 2v8h4V9h-4z" />
+                </svg>
+                Buy Coffee
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* WHAT WE PRODUCE */}
-      <section className="snap-start min-h-screen w-full flex items-center justify-center bg-neutral-950 relative">
-        <div className="main-container w-full flex flex-col justify-center items-center space-y-8 animate-fade-in">
+      {/* BELOW-THE-FOLD CONTENT */}
+
+      {/* Global Export & Distribution */}
+      <section className="w-full bg-gradient-to-br from-yellow-100 via-emerald-50 to-white py-24 relative overflow-hidden">
+        {/* Decorative motif background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-to-br from-yellow-200 via-emerald-100 to-transparent rounded-full blur-3xl opacity-40" />
+          <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-gradient-to-tr from-emerald-200 via-yellow-100 to-transparent rounded-full blur-2xl opacity-30" />
+        </div>
+        <div className="max-w-5xl mx-auto px-4 flex flex-col items-center space-y-10 relative z-10">
           <header className="text-center">
-            <p className="badge mb-3">What We Produce</p>
-            <h2 className="section-heading">
-              Instant Coffee, Specialty Arabica &amp; Fine Robusta
+            <h2 className="text-5xl sm:text-6xl font-extrabold text-emerald-600 mb-6 drop-shadow-lg animate-fade-in">
+              Global Export & Distribution
             </h2>
-            <p className="section-subtitle">
-              A consolidated platform for brands and buyers seeking reliable,
-              high-quality{" "}
-              <strong>Uganda specialty coffee</strong> and{" "}
-              <strong>African instant coffee manufacturing</strong>.
+            <p className="text-xl sm:text-2xl text-neutral-700 mb-8 font-medium animate-fade-in max-w-3xl mx-auto">
+              <span className="bg-yellow-100 px-2 py-1 rounded-xl shadow-sm">From the volcanic slopes of Mt. Elgon and the Rwenzori Mountains</span>, Imbari Coffee produces and exports world-class <span className="text-emerald-600 font-semibold">Arabica</span>, <span className="text-emerald-700 font-semibold">fine Robusta</span>, and <span className="text-yellow-500 font-semibold">next-generation instant coffees</span> — sustainably grown, expertly processed, and delivered globally with uncompromising quality.
             </p>
           </header>
-          <div className="grid-cards w-full animate-slide-in-up">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 animate-fade-in">
+            <Link
+              href="/contact"
+              className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-xl transition-all duration-200 text-lg tracking-wide"
+            >
+              Request Wholesale Pricing
+            </Link>
+            <Link
+              href="/distribution"
+              className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-400 hover:to-orange-500 text-emerald-900 font-bold py-3 px-8 rounded-full shadow-xl transition-all duration-200 text-lg tracking-wide"
+            >
+              Become a Distributor
+            </Link>
+          </div>
+          <p className="mt-8 max-w-xl text-base text-neutral-700 text-center font-medium animate-fade-in">
+            <span className="bg-white/60 px-2 py-1 rounded-lg">Serving importers, roasters, retailers, coffee brands, hotels, cafés, and FMCG distributors</span> across <span className="text-emerald-600 font-semibold">Africa</span>, <span className="text-yellow-600 font-semibold">Europe</span>, <span className="text-emerald-700 font-semibold">North America</span>, <span className="text-orange-500 font-semibold">China</span>, <span className="text-emerald-500 font-semibold">India</span>, and the <span className="text-yellow-500 font-semibold">Middle East</span>.
+          </p>
+        </div>
+      </section>
+
+      {/* Our Promise */}
+      <section className="w-full py-24 px-4 bg-white relative overflow-hidden">
+        {/* Decorative motif background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-emerald-100 via-yellow-100 to-transparent rounded-full blur-2xl opacity-30" />
+        </div>
+        <div className="max-w-5xl mx-auto flex flex-col items-center space-y-10 relative z-10">
+          <header className="text-center">
+            <p className="uppercase text-lg text-emerald-600 mb-3 tracking-widest font-bold animate-fade-in">Our Promise</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 text-neutral-900 drop-shadow-lg animate-fade-in">
+              Exceptional Coffee. Ethical Sourcing. African Excellence.
+            </h2>
+            <p className="text-neutral-700 mb-8 text-lg animate-fade-in">
+              Imbari Coffee is a vertically integrated coffee company committed to elevating Uganda’s most prized origins — <span className="text-emerald-600 font-semibold">Bugisu Arabica</span>, <span className="text-emerald-700 font-semibold">Rwenzori Robusta</span>, and <span className="text-yellow-500 font-semibold">Victoria-region microlots</span> — to global specialty standards.
+            </p>
+          </header>
+          <div className="bg-gradient-to-br from-green-50 via-yellow-50 to-white p-8 sm:p-10 rounded-2xl shadow-2xl max-w-2xl space-y-6 animate-fade-in flex flex-col items-center text-center">
+            <p className="text-neutral-800 text-lg font-medium text-center">
+              We partner directly with <span className="text-emerald-600 font-semibold">smallholder farmers</span>, <span className="text-yellow-600 font-semibold">women-led cooperatives</span>, and <span className="text-emerald-700 font-semibold">micro-lot communities</span> to ensure traceability, transparency, and fair pricing at every step of the chain.
+            </p>
+            <div className="space-y-3 w-full flex flex-col items-center text-center">
+              <div className="bg-white/80 border-l-4 border-emerald-400 px-4 py-2 rounded-lg shadow-sm font-semibold w-full">Direct farmer and cooperative partnerships</div>
+              <div className="bg-white/80 border-l-4 border-yellow-400 px-4 py-2 rounded-lg shadow-sm font-semibold w-full">Traceable microlots and specialty profiles</div>
+              <div className="bg-white/80 border-l-4 border-emerald-300 px-4 py-2 rounded-lg shadow-sm font-semibold w-full">Instant coffee manufacturing for export markets</div>
+              <div className="bg-white/80 border-l-4 border-emerald-600 px-4 py-2 rounded-lg shadow-sm font-semibold w-full">Distribution capabilities across all 54 African states</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Produce */}
+      <section className="w-full py-20 px-4 bg-green-50">
+        <div className="max-w-5xl mx-auto space-y-12">
+          <header className="text-center">
+            <p className="uppercase text-sm text-emerald-600 mb-2">What We Produce</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Instant Coffee, Specialty Arabica & Fine Robusta</h2>
+            <p className="text-neutral-800 text-sm sm:text-lg max-w-xl mx-auto">
+              A consolidated platform for brands and buyers seeking reliable, high-quality Uganda specialty coffee and African instant coffee manufacturing.
+            </p>
+          </header>
+          <div className="grid gap-8 md:grid-cols-3">
             {/* Instant Coffee */}
-            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
-              <div
-                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
-                style={{
-                  height: "120px",
-                  minHeight: "120px",
-                  maxHeight: "120px",
-                }}
-              >
+            <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
+              <div className="h-32 w-full relative">
                 <Image
                   src="/images/imbari-6b.jpg"
-                  alt="Imbari Coffee packaged instant and roasted products"
-                  width={160}
-                  height={120}
-                  className="object-contain w-auto h-full mx-auto"
+                  alt="Imbari Coffee packaged instant & roasted"
+                  fill
+                  className="object-cover rounded-xl"
                 />
               </div>
-              <h3 className="font-semibold text-emerald-200 mb-1">
-                Instant Coffee
-              </h3>
-              <p className="text-xs text-neutral-300">
-                Premium freeze-dried and spray-dried instant coffee produced to
-                export standards, designed for FMCG brands, supermarkets, hotels,
-                and café chains.
+              <h3 className="font-semibold text-green-700">Instant Coffee</h3>
+              <p className="text-sm text-neutral-600">
+                Premium freeze-dried and spray-dried instant coffee, export ready for FMCG brands, supermarkets, hotels, cafés.
               </p>
-              <div className="flex flex-col gap-2 items-center mt-2">
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Freeze-dried &amp; spray-dried options
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  3-in-1 and 2-in-1 blends
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Jars, sachets, and pouch formats
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  OEM / private-label production
-                </div>
-              </div>
             </article>
 
             {/* Specialty Arabica */}
-            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
-              <div
-                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
-                style={{
-                  height: "120px",
-                  minHeight: "120px",
-                  maxHeight: "120px",
-                }}
-              >
+            <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
+              <div className="h-32 w-full relative">
                 <Image
                   src="/images/sort.jpg"
-                  alt="Specialty Arabica coffee drying on raised beds"
-                  width={160}
-                  height={120}
-                  className="object-contain w-auto h-full mx-auto"
+                  alt="Specialty Arabica drying beds"
+                  fill
+                  className="object-cover rounded-xl"
                 />
               </div>
-              <h3 className="font-semibold text-emerald-200 mb-1">
-                Specialty Arabica — Mt. Elgon
-              </h3>
-              <p className="text-xs text-neutral-300">
-                High-altitude Arabica from 1,800–2,300m in Bugisu, grown on
-                volcanic soils and carefully processed for clean, expressive cups.
+              <h3 className="font-semibold text-green-700">Specialty Arabica — Mt. Elgon</h3>
+              <p className="text-sm text-neutral-600">
+                High-altitude Arabica on volcanic soils, processed with care for clean, expressive cups.
               </p>
-              <div className="flex flex-col gap-2 items-center mt-2">
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Green beans (washed, natural, honey)
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Roasted whole bean &amp; grind
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Notes: floral, citrus, chocolate, winey acidity
-                </div>
-              </div>
             </article>
 
             {/* Fine Robusta */}
-            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
-              <div
-                className="mb-3 overflow-hidden rounded-2xl border border-white/10 bg-black/30 flex items-center justify-center"
-                style={{
-                  height: "120px",
-                  minHeight: "120px",
-                  maxHeight: "120px",
-                }}
-              >
+            <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
+              <div className="h-32 w-full relative">
                 <Image
                   src="/images/farm.jpg"
-                  alt="Fine Robusta coffee grown in Uganda"
-                  width={160}
-                  height={120}
-                  className="object-contain w-auto h-full mx-auto"
+                  alt="Ugandan Robusta coffee plantation"
+                  fill
+                  className="object-cover rounded-xl"
                 />
               </div>
-              <h3 className="font-semibold text-emerald-200 mb-1">
-                Fine Robusta — Rwenzori &amp; Victoria Basin
-              </h3>
-              <p className="text-xs text-neutral-300">
-                Strong, bold, and clean Robusta ideal for espressos, blends, and
-                instant formulations, sourced from Rwenzori and Victoria-region
-                smallholders.
+              <h3 className="font-semibold text-green-700">Fine Robusta — Rwenzori & Victoria Basin</h3>
+              <p className="text-sm text-neutral-600">
+                Strong, bold Robusta ideal for espresso, blends, and instant formulations.
               </p>
-              <div className="flex flex-col gap-2 items-center mt-2">
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Green beans, whole bean, and roast &amp; grind
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Excellent crema, body, and strength
-                </div>
-              </div>
-            </article>
-          </div>
-          {/* Private Label */}
-          <div className="w-full max-w-2xl mt-10">
-            <article className="card p-6 sm:p-7 text-sm text-neutral-200 text-center">
-              <h3 className="font-semibold text-emerald-200 mb-1">
-                Private Label Manufacturing
-              </h3>
-              <p className="text-xs text-neutral-300">
-                We develop and manufacture coffee lines for brands worldwide:
-                instant, roasted, and blended coffees under your own label.
-              </p>
-              <div className="flex flex-col gap-2 items-center mt-2">
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Custom blends &amp; formats
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Packaging design and brand support
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Bulk and retail-ready options
-                </div>
-                <div className="bg-white/5 rounded-lg px-4 py-2 w-full max-w-xs">
-                  Export logistics to Africa, USA, EU, China, India &amp; more
-                </div>
-              </div>
             </article>
           </div>
         </div>
       </section>
 
-      {/* EXPERTISE & TRAINING SECTION */}
-      <section className="snap-start w-full flex items-center justify-center bg-gradient-to-br from-[#07110c] via-[#020403] to-[#1a2a1f] py-20">
-        <div className="main-container w-full max-w-6xl mx-auto grid gap-10 md:grid-cols-3">
-          {/* Farmer Training */}
-          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
-            <h3 className="text-xl font-bold text-emerald-300">Ugandan Coffee Expertise</h3>
-            <p className="text-base text-neutral-300">Farmer Training Programs</p>
-            <p className="text-sm text-neutral-400">We empower Ugandan coffee farmers with modern agricultural techniques, quality control methods, and sustainable practices to improve yields and bean quality for export markets.</p>
-            <Link href="/our-impact" className="button-primary mt-2">Learn More</Link>
-          </article>
-          {/* Export Quality Standards */}
-          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
-            <h3 className="text-xl font-bold text-emerald-300">Export Quality Standards</h3>
-            <p className="text-base text-neutral-300">Our technical programs focus on post-harvest processing, grading, and preparation methods that meet international export requirements and premium market expectations.</p>
-            <Link href="/certifications" className="button-primary mt-2">Quality Standards</Link>
-          </article>
-          {/* Sustainability Workshops */}
-          <article className="card bg-black/40 border border-emerald-400/20 rounded-3xl shadow-lg p-7 flex flex-col items-center text-center space-y-4">
-            <h3 className="text-xl font-bold text-emerald-300">Sustainability Workshops</h3>
-            <p className="text-base text-neutral-300">Educational initiatives promoting environmentally responsible farming practices that protect Uganda's ecosystems while producing exceptional coffee for global markets.</p>
-            <Link href="/about" className="button-primary mt-2">Our Approach</Link>
-          </article>
-        </div>
-      </section>
+      {/* Add more sections (e.g. footer) as needed */}
     </main>
   );
 }
