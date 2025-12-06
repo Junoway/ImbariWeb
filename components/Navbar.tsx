@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import { getImagePath } from "@/lib/utils";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,7 @@ export default function Navbar() {
         {/* LOGO */}
         <Link href="/" className="flex items-center mr-2">
           <Image
-            src="/images/logo-main.jpg"
+            src={getImagePath("/images/logo-main.jpg")}
             alt="Imbari Coffee logo"
             width={56}
             height={56}
@@ -85,7 +86,7 @@ export default function Navbar() {
             <div className="absolute right-0 top-[60px] z-40 w-72 rounded-2xl border border-emerald-300 bg-gradient-to-br from-[#050403] via-emerald-900 to-emerald-700 shadow-2xl backdrop-blur-xl py-4 text-base text-neutral-100 animate-fade-in">
               <div className="px-6 py-3 border-b border-emerald-400 flex items-center gap-3 animate-slide-down">
                 <Image
-                  src="/images/logo-main.jpg"
+                  src={getImagePath("/images/logo-main.jpg")}
                   alt="Imbari Coffee logo"
                   width={36}
                   height={36}
