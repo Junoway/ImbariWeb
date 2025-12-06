@@ -59,17 +59,17 @@ export default function Home() {
 
         {/* Hero overlay content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
-          <h1 style={{ color: '#fff' }} className="text-6xl sm:text-7xl md:text-8xl font-extrabold drop-shadow-lg mb-4">
+          <h1 style={{ color: '#fff', textShadow: '0 4px 32px #0008, 0 1px 0 #fff4' }} className="text-6xl sm:text-7xl md:text-8xl font-extrabold mb-4 animate-fade-in drop-shadow-2xl">
             Uganda Specialty Coffee Exporter
           </h1>
-          <h2 style={{ color: '#fff' }} className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8">
+          <h2 style={{ color: '#fff', textShadow: '0 2px 16px #0006, 0 1px 0 #fff3' }} className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 animate-fade-in drop-shadow-xl">
             "Africa’s Premium Coffee"
           </h2>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/shop"
               style={{ color: '#fff' }}
-              className="relative font-bold py-4 px-12 rounded-full shadow-lg transition-all duration-300 text-2xl bg-yellow-400 hover:bg-yellow-500 border-4 border-white/60 focus:outline-none focus:ring-4 focus:ring-yellow-300 overflow-hidden group"
+              className="relative font-bold py-4 px-12 rounded-full shadow-2xl transition-all duration-300 text-2xl bg-yellow-400 hover:bg-yellow-500 border-4 border-white/60 focus:outline-none focus:ring-4 focus:ring-yellow-300 overflow-hidden group animate-fade-in"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-yellow-300 to-emerald-500 opacity-30 group-hover:opacity-50 transition-all duration-300 blur-xl"></span>
               <span className="relative flex items-center gap-3">

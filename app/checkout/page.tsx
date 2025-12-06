@@ -86,14 +86,12 @@ export default function CheckoutPage() {
     }));
 
     // Call your backend to create a Stripe Checkout session
-    const res = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ lineItems }),
-    });
+    const res = await fetch("/api/checkout", { method: "POST" });
     const data = await res.json();
-    if (data.sessionId) {
-      stripe.redirectToCheckout({ sessionId: data.sessionId });
+    if (data.url) {
+      window.location.assign(data.url);
+    } else {
+      // handle error (optional)
     }
   }
 
@@ -103,7 +101,7 @@ export default function CheckoutPage() {
   }
   function confirmRemove() {
     if (removeModal.itemId != null) {
-      removeItem(Number(removeModal.itemId)); // Ensure ID is a number
+      removeItem(String(removeModal.itemId)); // Ensure ID is a string
       setToast({ message: "Item removed from cart", type: "success" });
     }
     setRemoveModal({ open: false, itemId: null });
