@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-  assetPrefix: "./",
+  basePath: "/ImbariWeb",
+  assetPrefix: "/ImbariWeb",
 };
 
 export default nextConfig;
