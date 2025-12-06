@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import ImpactChatBot from "@/components/ImpactChatBot";
-import { getImagePath } from "@/lib/utils";
 
 export default function Footer() {
   return (
@@ -11,7 +10,7 @@ export default function Footer() {
           {/* BRAND + DESCRIPTION */}
           <div className="flex flex-col items-start gap-5">
             <Image
-              src={getImagePath("/images/logo-foot.jpg")}
+              src="/images/logo-foot.jpg"
               alt="Imbari Coffee Logo"
               width={90}
               height={90}
