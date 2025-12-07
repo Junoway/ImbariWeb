@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ParallaxSection from "@/components/ParallaxSection";
+import { withBasePath } from "@/lib/utils";
 import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 export default function CareersPage() {
@@ -22,7 +23,7 @@ export default function CareersPage() {
           {/* Background Image */}
           <div className="absolute inset-0 w-full h-full z-0">
             <Image
-              src="/images/career.jpg"
+              src={withBasePath("/images/career.jpg")}
               alt="Imbari Coffee delivery bike background"
               fill
               sizes="100vw"
@@ -71,7 +72,7 @@ export default function CareersPage() {
         <section className="flex justify-center">
           <div className="relative w-full max-w-xl h-72 sm:h-96 bg-gradient-to-br from-emerald-400/30 via-white/10 to-emerald-900/20 rounded-3xl shadow-2xl border-4 border-emerald-300/40 overflow-hidden flex items-center justify-center">
             <Image
-              src="/images/career.jpg"
+              src={withBasePath("/images/career.jpg")}
               alt="Imbari Coffee delivery bike"
               fill
               sizes="(max-width: 600px) 100vw, 600px"

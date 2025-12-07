@@ -1,5 +1,6 @@
 import Script from "next/script";
 import Image from "next/image";
+import { withBasePath } from "@/lib/utils";
 import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 const productsJsonLd = {
@@ -121,7 +122,7 @@ export default function ProductsPage() {
           <article id="instant-coffee" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
               <Image
-                src="/images/imbari-6b.jpg"
+                src={withBasePath("/images/imbari-6b.jpg")}
                 alt="Imbari Coffee packaged instant and roasted products"
                 width={160}
                 height={120}
@@ -161,7 +162,7 @@ export default function ProductsPage() {
           <article id="arabica" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
               <Image
-                src="/images/sort.jpg"
+                src={withBasePath("/images/sort.jpg")}
                 alt="Specialty Arabica coffee drying on raised beds"
                 width={160}
                 height={120}
@@ -204,7 +205,7 @@ export default function ProductsPage() {
           <article id="robusta" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
             <div className="mb-5 flex items-center justify-center w-full">
               <Image
-                src="/images/farm.jpg"
+                src={withBasePath("/images/farm.jpg")}
                 alt="Fine Robusta coffee grown in Uganda"
                 width={160}
                 height={120}

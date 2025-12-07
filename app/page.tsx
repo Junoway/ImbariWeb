@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { withBasePath } from "@/lib/utils";
 
 const heroSlides = [
   { src: "/images/mt-elgon.jpg", alt: "Uganda coffee farm 1" },
@@ -29,7 +30,7 @@ export default function Home() {
         {/* Mt. Elgon background image - always visible */}
         <div className="absolute inset-0 w-full h-full -z-10">
           <Image
-            src="/images/mt-elgon.jpg"
+            src={withBasePath("/images/mt-elgon.jpg")}
             alt="Mt. Elgon background"
             fill
             className="object-cover object-center w-full h-full"
@@ -166,7 +167,7 @@ export default function Home() {
               <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
                 <div className="h-32 w-full relative">
                   <Image
-                    src="/images/imbari-6b.jpg"
+                    src={withBasePath("/images/imbari-6b.jpg")}
                   alt="Imbari Coffee packaged instant & roasted"
                   fill
                   className="object-cover rounded-xl"
@@ -182,7 +183,7 @@ export default function Home() {
               <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
                 <div className="h-32 w-full relative">
                   <Image
-                    src="/images/sort.jpg"
+                    src={withBasePath("/images/sort.jpg")}
                   alt="Specialty Arabica drying beds"
                   fill
                   className="object-cover rounded-xl"
@@ -198,7 +199,7 @@ export default function Home() {
               <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
                 <div className="h-32 w-full relative">
                   <Image
-                    src="/images/farm.jpg"
+                    src={withBasePath("/images/farm.jpg")}
                   alt="Ugandan Robusta coffee plantation"
                   fill
                   className="object-cover rounded-xl"

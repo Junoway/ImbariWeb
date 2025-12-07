@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ParallaxSection from "@/components/ParallaxSection";
+import { withBasePath } from "@/lib/utils";
 import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
 export default function ImbariStoryPage() {
@@ -25,7 +26,7 @@ export default function ImbariStoryPage() {
           <div className="relative h-80 w-full flex items-center justify-center">
             <div className="absolute inset-0 rounded-3xl overflow-hidden border border-white/10 bg-black/60 shadow-2xl">
               <Image
-                src="/images/mt-elgon.jpg"
+                src={withBasePath("/images/mt-elgon.jpg")}
                 alt="Mountain spine of Africa where Imbari coffee and covenant culture were born"
                 fill
                 className="object-cover opacity-70"
@@ -165,7 +166,7 @@ export default function ImbariStoryPage() {
             </div>
             <div className="relative h-72 w-full flex items-center justify-center">
               <Image
-                src="/images/farm.jpg"
+                src={withBasePath("/images/farm.jpg")}
                 alt="Coffee farmers and covenant culture in the highlands"
                 fill
                 className="rounded-3xl border border-white/10 object-cover shadow-xl"
@@ -252,7 +253,7 @@ export default function ImbariStoryPage() {
           </div>
           <div className="relative w-full md:w-80 h-52 md:h-64 flex items-center justify-center">
             <Image
-              src="/images/export.jpg"
+              src={withBasePath("/images/export.jpg")}
               alt="Export containers and Imbari Coffee supply chain"
               fill
               className="rounded-2xl border border-white/10 object-cover shadow-lg"

@@ -3,6 +3,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { withBasePath } from "@/lib/utils";
 import ImpactChatBot from "@/components/ImpactChatBot";
 import { KahawaDivider, KahawaMotif } from "@/components/KahawaAssets";
 
@@ -97,7 +98,7 @@ export default function OurImpactPage() {
           <div className="flex flex-col gap-8 items-center justify-center">
             <div className="relative h-80 w-full overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-xl">
               <Image
-                src="/images/farm.jpg"
+                src={withBasePath("/images/farm.jpg")}
                 alt="Women sorting and processing coffee at origin"
                 fill
                 className="object-cover"
@@ -189,7 +190,7 @@ export default function OurImpactPage() {
           <div className="flex flex-col gap-8 items-center justify-center">
             <div className="relative h-80 w-full overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-xl">
               <Image
-                src="/images/export.jpg"
+                src={withBasePath("/images/export.jpg")}
                 alt="Container export representing African coffee moving across borders"
                 fill
                 className="object-cover"

@@ -1,5 +1,6 @@
 // app/shop/page.tsx
 "use client";
+import { withBasePath } from "@/lib/utils";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "250g",
     price: 9,
-    image: "/images/arabica.jpg",
+    image: withBasePath("/images/arabica.jpg"),
     description:
       "Single-origin Mt. Elgon Arabica beans, freshly roasted for home grinding."
   },
@@ -36,7 +37,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "500g",
     price: 16,
-    image: "/images/arabica.jpg",
+    image: withBasePath("/images/arabica.jpg"),
     description: "Family-size whole beans pack with excellent balance."
   },
   {
@@ -45,7 +46,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "1kg",
     price: 28,
-    image: "/images/arabica.jpg",
+    image: withBasePath("/images/arabica.jpg"),
     description: "Café and office pack for serious coffee drinkers."
   },
   {
@@ -54,7 +55,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "500g",
     price: 17,
-    image: "/images/arabica.jpg",
+    image: withBasePath("/images/arabica.jpg"),
     description: "Dark roast for bold flavor and rich crema."
   },
   {
@@ -63,7 +64,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "1kg",
     price: 30,
-    image: "/images/robusta.jpg",
+    image: withBasePath("/images/robusta.jpg"),
     description: "Crafted for espresso machines with thick crema."
   },
 
@@ -74,7 +75,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "250g",
     price: 8,
-    image: "/images/shop.jpg",
+    image: withBasePath("/images/shop.jpg"),
     description: "Smooth grind for pour-over and French press."
   },
   {
@@ -83,7 +84,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "500g",
     price: 14,
-    image: "/images/shop2.jpg",
+    image: withBasePath("/images/shop2.jpg"),
     description: "Ideal for homes and offices."
   },
   {
@@ -92,7 +93,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "250g",
     price: 9,
-    image: "/images/shop2.jpg",
+    image: withBasePath("/images/shop2.jpg"),
     description: "Full-bodied cup for strong coffee lovers."
   },
   {
@@ -101,7 +102,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "500g",
     price: 18,
-    image: "/images/shop3.jpg",
+    image: withBasePath("/images/shop3.jpg"),
     description: "Fine grind ideal for espresso machines."
   },
   {
@@ -110,7 +111,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "1kg",
     price: 26,
-    image: "/images/shop.jpg",
+    image: withBasePath("/images/shop.jpg"),
     description: "Foodservice grind for hotels and restaurants."
   },
 
@@ -121,7 +122,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "100g",
     price: 10,
-    image: "/images/shop2.jpg",
+    image: withBasePath("/images/shop2.jpg"),
     description: "Smooth premium instant coffee."
   },
   {
@@ -130,7 +131,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "200g",
     price: 16,
-    image: "/images/shop3.jpg",
+    image: withBasePath("/images/shop3.jpg"),
     description: "Everyday instant coffee for home and office."
   },
   {
@@ -139,7 +140,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "20 x 2g",
     price: 12,
-    image: "/images/shop2.jpg",
+    image: withBasePath("/images/shop2.jpg"),
     description: "Single-serve sticks for travel."
   },
   {
@@ -148,7 +149,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "500g",
     price: 32,
-    image: "/images/shop3.jpg",
+    image: withBasePath("/images/shop3.jpg"),
     description: "Bulk instant for FMCG distributors."
   },
   {
@@ -157,7 +158,7 @@ const PRODUCTS: Product[] = [
     type: "Instant",
     size: "1kg",
     price: 45,
-    image: "/images/shop2.jpg",
+    image: withBasePath("/images/shop2.jpg"),
     description: "Designed for vending machines."
   },
 
@@ -168,7 +169,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "1kg",
     price: 15,
-    image: "/images/shop4.jpg",
+    image: withBasePath("/images/shop4.jpg"),
     description: "Raw Arabica beans for sampling."
   },
   {
@@ -177,7 +178,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "30kg",
     price: 140,
-    image: "/images/shop4.jpg",
+    image: withBasePath("/images/shop4.jpg"),
     description: "Washed lot for importers."
   },
   {
@@ -186,7 +187,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "30kg",
     price: 150,
-    image: "/images/shop4.jpg",
+    image: withBasePath("/images/shop4.jpg"),
     description: "Fruit-forward natural process beans."
   },
   {
@@ -195,7 +196,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "60kg",
     price: 210,
-    image: "/images/shop4.jpg",
+    image: withBasePath("/images/shop4.jpg"),
     description: "Fine Robusta for espresso blends."
   },
   {
@@ -204,7 +205,7 @@ const PRODUCTS: Product[] = [
     type: "Green",
     size: "60kg x 5 bags",
     price: 980,
-    image: "/images/shop4.jpg",
+    image: withBasePath("/images/shop4.jpg"),
     description: "Full-scale export sample contract."
   }
 ];
