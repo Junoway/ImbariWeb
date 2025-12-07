@@ -7,9 +7,9 @@ import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 
 const heroSlides = [
-  { src: "/images/mt-elgon.jpg", alt: "Uganda coffee farm 1" },
-  { src: "/images/mt-elgon.jpg", alt: "Uganda coffee beans 2" },
-  { src: "/images/mt-elgon.jpg", alt: "Uganda coffee harvest 3" },
+  { src: withBasePath("/images/mt-elgon.jpg"), alt: "Uganda coffee farm 1" },
+  { src: withBasePath("/images/mt-elgon.jpg"), alt: "Uganda coffee beans 2" },
+  { src: withBasePath("/images/mt-elgon.jpg"), alt: "Uganda coffee harvest 3" },
   // add more as needed
 ];
 
