@@ -1,5 +1,7 @@
-// Utility to prefix image paths with basePath in production
-export function getImagePath(path: string): string {
-  const basePath = process.env.NODE_ENV === 'production' ? '/ImbariWeb' : '';
-  return `${basePath}${path}`;
+// BasePath for GitHub Pages deployment
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+// Utility to prefix paths with basePath
+export function withBasePath(path: string): string {
+  return `${BASE_PATH}${path}`;
 }
