@@ -137,7 +137,15 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-gradient-to-br from-yellow-100 via-orange-50 to-emerald-100 min-h-screen">
+      {/* Toast notification */}
+      {toast && (
+        <div className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-full shadow-2xl font-bold text-sm animate-fade-in border-4 ${
+          toast.type === "success" ? "bg-emerald-500 text-white border-green-600" : "bg-red-500 text-white border-red-700"
+        }`}>
+          {toast.message}
+        </div>
+      )}
       {/* Cart Controls */}
       <div className="main-container pt-8 pb-4 flex flex-col gap-2">
         {cartOpen && (

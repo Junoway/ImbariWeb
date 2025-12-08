@@ -74,9 +74,7 @@ export default function Home() {
             >
               <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-yellow-300 to-emerald-500 opacity-30 group-hover:opacity-50 transition-all duration-300 blur-xl"></span>
               <span className="relative flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-7 h-7 text-emerald-700 animate-pulse">
-                  <path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2H8a2 2 0 00-2 2v12zm2-12h8v12H8V7zm2 2v8h4V9h-4z" />
-                </svg>
+                <span className="text-2xl animate-bounce">🐒</span>
                 Buy Coffee
               </span>
             </Link>
@@ -153,62 +151,68 @@ export default function Home() {
       </section>
 
       {/* What We Produce */}
-      <section className="w-full py-20 px-4 bg-green-50">
+      <section className="w-full py-20 px-4 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
         <div className="max-w-5xl mx-auto space-y-12">
           <header className="text-center">
-            <p className="uppercase text-sm text-emerald-600 mb-2">What We Produce</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Instant Coffee, Specialty Arabica & Fine Robusta</h2>
+            <p className="uppercase text-sm text-emerald-600 mb-2 font-bold tracking-widest">What We Produce 🌍</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-emerald-600 via-yellow-500 to-orange-500 bg-clip-text text-transparent">Instant Coffee, Specialty Arabica & Fine Robusta</h2>
             <p className="text-neutral-800 text-sm sm:text-lg max-w-xl mx-auto">
               A consolidated platform for brands and buyers seeking reliable, high-quality Uganda specialty coffee and African instant coffee manufacturing.
             </p>
           </header>
           <div className="grid gap-8 md:grid-cols-3">
             {/* Instant Coffee */}
-              <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
-                <div className="h-32 w-full relative">
+              <article className="bg-gradient-to-br from-orange-400 via-yellow-300 to-orange-300 rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl space-y-4 border-4 border-orange-500 hover:scale-105 transition-transform relative overflow-hidden">
+                <div className="absolute top-2 right-2 text-6xl opacity-20">🍃</div>
+                <div className="h-32 w-full relative z-10">
                   <Image
                     src={withBasePath("/images/imbari-6b.jpg")}
                   alt="Imbari Coffee packaged instant & roasted"
                   fill
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-semibold text-green-700">Instant Coffee</h3>
-              <p className="text-sm text-neutral-600">
+              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Instant Coffee</h3>
+              <p className="text-sm text-white font-medium drop-shadow z-10">
                 Premium freeze-dried and spray-dried instant coffee, export ready for FMCG brands, supermarkets, hotels, cafés.
               </p>
+              <span className="text-3xl z-10">🐒</span>
             </article>
 
             {/* Specialty Arabica */}
-              <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
-                <div className="h-32 w-full relative">
+              <article className="bg-gradient-to-br from-emerald-500 via-green-400 to-emerald-400 rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl space-y-4 border-4 border-green-600 hover:scale-105 transition-transform relative overflow-hidden">
+                <div className="absolute top-2 left-2 text-6xl opacity-20">🌿</div>
+                <div className="h-32 w-full relative z-10">
                   <Image
                     src={withBasePath("/images/sort.jpg")}
                   alt="Specialty Arabica drying beds"
                   fill
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-semibold text-green-700">Specialty Arabica — Mt. Elgon</h3>
-              <p className="text-sm text-neutral-600">
+              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Specialty Arabica — Mt. Elgon</h3>
+              <p className="text-sm text-white font-medium drop-shadow z-10">
                 High-altitude Arabica on volcanic soils, processed with care for clean, expressive cups.
               </p>
+              <span className="text-3xl z-10">🐒</span>
             </article>
 
             {/* Fine Robusta */}
-              <article className="bg-white rounded-2xl p-6 flex flex-col items-center text-center shadow-lg space-y-4">
-                <div className="h-32 w-full relative">
+              <article className="bg-gradient-to-br from-yellow-600 via-amber-500 to-yellow-500 rounded-2xl p-6 flex flex-col items-center text-center shadow-2xl space-y-4 border-4 border-amber-700 hover:scale-105 transition-transform relative overflow-hidden">
+                <div className="absolute bottom-2 right-2 text-6xl opacity-20">🍂</div>
+                <div className="h-32 w-full relative z-10">
                   <Image
                     src={withBasePath("/images/farm.jpg")}
                   alt="Ugandan Robusta coffee plantation"
                   fill
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-semibold text-green-700">Fine Robusta — Rwenzori & Victoria Basin</h3>
-              <p className="text-sm text-neutral-600">
+              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Fine Robusta — Rwenzori & Victoria Basin</h3>
+              <p className="text-sm text-white font-medium drop-shadow z-10">
                 Strong, bold Robusta ideal for espresso, blends, and instant formulations.
               </p>
+              <span className="text-3xl z-10">🐒</span>
             </article>
           </div>
         </div>

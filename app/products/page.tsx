@@ -119,20 +119,25 @@ export default function ProductsPage() {
 
         <section className="grid gap-12 md:grid-cols-3 w-full animate-slide-in-up">
           {/* Instant Coffee */}
-          <article id="instant-coffee" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
-            <div className="mb-5 flex items-center justify-center w-full">
+          <article id="instant-coffee" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-orange-500 via-yellow-400 to-orange-400 border-4 border-orange-600 shadow-2xl rounded-3xl transition-transform hover:scale-105 relative overflow-hidden">
+            {/* Tropical leaf pattern overlay */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute top-4 right-4 text-9xl">🍃</div>
+              <div className="absolute bottom-4 left-4 text-9xl rotate-45">🍃</div>
+            </div>
+            <div className="mb-5 flex items-center justify-center w-full relative z-10">
               <Image
                 src={withBasePath("/images/imbari-6b.jpg")}
                 alt="Imbari Coffee packaged instant and roasted products"
                 width={160}
                 height={120}
-                className="object-contain w-auto h-full mx-auto"
+                className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-semibold text-amber-200 mb-2 text-xl">
+            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
               Instant Coffee Collection
             </h2>
-            <p className="text-base text-neutral-300 mb-4">
+            <p className="text-base text-white/95 mb-4 font-medium drop-shadow relative z-10">
               Export-grade instant coffee ideal for FMCGs, cafés, hotels,
               supermarkets, and private-label brands.
             </p>
@@ -159,20 +164,25 @@ export default function ProductsPage() {
           </article>
 
           {/* Arabica */}
-          <article id="arabica" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
-            <div className="mb-5 flex items-center justify-center w-full">
+          <article id="arabica" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-emerald-600 via-green-500 to-emerald-500 border-4 border-green-700 shadow-2xl rounded-3xl transition-transform hover:scale-105 relative overflow-hidden">
+            {/* Tropical leaf pattern overlay */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute top-4 left-4 text-9xl">🌿</div>
+              <div className="absolute bottom-4 right-4 text-9xl -rotate-12">🌿</div>
+            </div>
+            <div className="mb-5 flex items-center justify-center w-full relative z-10">
               <Image
                 src={withBasePath("/images/sort.jpg")}
                 alt="Specialty Arabica coffee drying on raised beds"
                 width={160}
                 height={120}
-                className="object-contain w-auto h-full mx-auto"
+                className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-semibold text-amber-200 mb-2 text-xl">
+            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
               Specialty Arabica — Mt Elgon
             </h2>
-            <p className="text-base text-neutral-300 mb-4">
+            <p className="text-base text-white/95 mb-4 font-medium drop-shadow relative z-10">
               High-grown Arabica between{" "}
               <strong>1,600–2,300m</strong> on the slopes of Mt. Elgon, offering
               layered complexity and clean cups.
@@ -202,17 +212,22 @@ export default function ProductsPage() {
           </article>
 
           {/* Robusta */}
-          <article id="robusta" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-black/80 via-neutral-900 to-black/90 border border-amber-400/10 shadow-xl rounded-3xl transition-transform hover:scale-105">
-            <div className="mb-5 flex items-center justify-center w-full">
+          <article id="robusta" className="card p-10 text-center flex flex-col items-center bg-gradient-to-br from-amber-700 via-yellow-600 to-amber-600 border-4 border-amber-800 shadow-2xl rounded-3xl transition-transform hover:scale-105 relative overflow-hidden">
+            {/* Tropical leaf pattern overlay */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute top-4 right-4 text-9xl">🍂</div>
+              <div className="absolute bottom-4 left-4 text-9xl rotate-180">🍂</div>
+            </div>
+            <div className="mb-5 flex items-center justify-center w-full relative z-10">
               <Image
                 src={withBasePath("/images/farm.jpg")}
                 alt="Fine Robusta coffee grown in Uganda"
                 width={160}
                 height={120}
-                className="object-contain w-auto h-full mx-auto"
+                className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-semibold text-amber-200 mb-2 text-xl">
+            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
               Fine Robusta — Rwenzori &amp; Victoria Basin
             </h2>
             <p className="text-base text-neutral-300 mb-4">

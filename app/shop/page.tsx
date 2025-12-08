@@ -231,14 +231,17 @@ export default function ShopPage() {
     : filteredProducts;
 
   return (
-    <div className="bg-yellow-100 text-[#10b981] min-h-screen pb-16">
+    <div className="bg-gradient-to-br from-yellow-50 via-orange-50 to-emerald-50 text-[#10b981] min-h-screen pb-16">
       {/* HEADER */}
       <section className="main-container pt-10 pb-6 text-center">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-emerald-500">
+        <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-emerald-600 via-yellow-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm">
           Imbari Coffee Shop
         </h1>
-        <p className="text-sm text-emerald-900 max-w-2xl mx-auto">
-          Discover premium roasted, instant, and green coffees from Uganda.
+        <p className="text-sm text-emerald-900 max-w-2xl mx-auto mt-2">
+          🌿 100% Arabica Coffee from Uganda's finest regions 🌿
+        </p>
+        <p className="text-xs text-emerald-700 max-w-xl mx-auto mt-1">
+          Premium roasted beans, fine ground, instant, and green coffee for import.
         </p>
       </section>
 
@@ -301,17 +304,17 @@ export default function ShopPage() {
             return (
               <article
                 key={product.id}
-                className="rounded-xl border border-emerald-200 bg-white shadow-sm hover:shadow-md transition p-3 flex flex-col"
+                className="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-white via-yellow-50/30 to-emerald-50/30 shadow-md hover:shadow-xl hover:border-emerald-400 transition-all duration-300 p-3 flex flex-col"
               >
-                {/* IMAGE WITH ZOOM EFFECT */}
+                {/* IMAGE WITH ZOOM EFFECT & COLORED BACKGROUND */}
                 <div className="w-full flex justify-center">
-                  <div className="w-40 h-40 border border-emerald-200 rounded-md bg-white overflow-hidden flex items-center justify-center">
+                  <div className="w-40 h-40 border-2 border-emerald-300 rounded-lg bg-gradient-to-br from-green-100 via-yellow-100 to-orange-100 overflow-hidden flex items-center justify-center shadow-inner">
                     <Image
                       src={product.image}
                       alt={product.name}
                       width={200}
                       height={200}
-                      className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-125"
+                      className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-110 drop-shadow-lg"
                     />
                   </div>
                 </div>
