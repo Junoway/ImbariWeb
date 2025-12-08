@@ -39,28 +39,8 @@ export default function Navbar() {
           <Link href="/contact" className="hover:text-emerald-300 transition">Contact</Link>
         </nav>
 
-        {/* RIGHT SIDE (ACCOUNT + CART + MENU) */}
+        {/* RIGHT SIDE (CART + MENU) */}
         <div className="flex items-center gap-4 ml-auto relative">
-          {/* ACCOUNT BUTTON */}
-          {isAuthenticated ? (
-            <Link
-              href="/account"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 transition shadow-lg"
-            >
-              <span className="text-white font-bold text-sm">
-                {user?.firstName}
-              </span>
-              <span className="text-xl">👤</span>
-            </Link>
-          ) : (
-            <Link
-              href="/login"
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white font-bold text-sm shadow-lg transition"
-            >
-              Log In
-            </Link>
-          )}
-
           {/* MENU BUTTON – now with 'MORE' text and animation */}
           <button
             onClick={() => setOpen((v) => !v)}
@@ -127,6 +107,30 @@ export default function Navbar() {
                 <MobileItem href="/shop" onClick={() => setOpen(false)}>Shop</MobileItem>
                 <MobileItem href="/distribution" onClick={() => setOpen(false)}>Distribution</MobileItem>
                 <MobileItem href="/contact" onClick={() => setOpen(false)}>Contact</MobileItem>
+                
+                {/* Account/Subscription Section */}
+                <div className="mt-2 pt-2 border-t border-emerald-400/30">
+                  {isAuthenticated ? (
+                    <MobileItem href="/account" onClick={() => setOpen(false)}>
+                      <span className="flex items-center gap-2">
+                        👤 My Account ({user?.firstName})
+                      </span>
+                    </MobileItem>
+                  ) : (
+                    <>
+                      <MobileItem href="/signup" onClick={() => setOpen(false)}>
+                        <span className="flex items-center gap-2">
+                          ⭐ Subscribe & Save 10%
+                        </span>
+                      </MobileItem>
+                      <MobileItem href="/login" onClick={() => setOpen(false)}>
+                        <span className="flex items-center gap-2">
+                          🔑 Log In
+                        </span>
+                      </MobileItem>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}

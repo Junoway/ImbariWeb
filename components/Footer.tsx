@@ -146,6 +146,14 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/signup"
+                  className="hover:text-emerald-300 transition font-semibold text-emerald-200"
+                >
+                  Subscribe & Save
+                </Link>
+              </li>
             </ul>
           </div>
 
