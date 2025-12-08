@@ -12,7 +12,7 @@ export default function Navbar() {
   const { totalQuantity } = useCart() || { totalQuantity: 0 };
 
   return (
-    <header className="border-b border-white/10 bg-[#050403]/95 backdrop-blur-md">
+    <header className="relative z-50 border-b border-white/10 bg-[#050403]/95 backdrop-blur-md">
       <div className="main-container relative flex items-center justify-between py-3 sm:py-4">
 
         {/* LOGO */}
