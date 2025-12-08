@@ -78,10 +78,10 @@ export default function CheckoutPage() {
       
       // Prepare checkout data
       const checkoutData = {
-        items: items.map((item) => ({
+        items: items.map(item => ({
           id: item.id,
           name: item.name,
-          description: item.description || '',
+          description: '',
           price: item.price,
           quantity: item.quantity,
           image: item.image,
