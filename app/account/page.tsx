@@ -73,13 +73,13 @@ export default function AccountPage() {
                 SUBSCRIPTIONS
               </Link>
               <Link
-                href="/account/orders"
+                href="/order-history"
                 className="block px-4 py-3 rounded-lg hover:bg-emerald-50 text-emerald-800 font-semibold transition"
               >
                 ORDER HISTORY
               </Link>
               <Link
-                href="/account/settings"
+                href="/settings"
                 className="block px-4 py-3 rounded-lg hover:bg-emerald-50 text-emerald-800 font-semibold transition"
               >
                 SETTINGS

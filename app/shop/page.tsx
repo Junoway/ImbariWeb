@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
+import { useAuth } from "@/components/AuthContext";
 
 type ProductType = "Beans" | "Ground" | "Instant" | "Green";
 
@@ -212,12 +213,24 @@ const PRODUCTS: Product[] = [
 
 export default function ShopPage() {
   const { items, addItem } = useCart();
+  const { user } = useAuth();
   const [activeFilter, setActiveFilter] = useState<ProductType | "All">("All");
   const [searchTerm, setSearchTerm] = useState("");
 
   const router = useRouter();
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // 10% discount for subscribers
+  const isSubscriber = user?.isSubscribed || false;
+  const DISCOUNT_RATE = 0.10;
+  
+  const getDiscountedPrice = (price: number) => {
+    if (isSubscriber) {
+      return Number((price * (1 - DISCOUNT_RATE)).toFixed(2));
+    }
+    return price;
+  };
 
   const filteredProducts =
     activeFilter === "All"
@@ -243,6 +256,16 @@ export default function ShopPage() {
         <p className="text-xs text-emerald-700 max-w-xl mx-auto mt-1">
           Premium roasted beans, fine ground, instant, and green coffee for import.
         </p>
+        
+        {/* SUBSCRIBER BADGE */}
+        {isSubscriber && (
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-white font-bold shadow-lg border-2 border-orange-600">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            <span>Subscriber - 10% OFF All Products!</span>
+          </div>
+        )}
       </section>
 
       {/* CART SUMMARY */}
@@ -333,8 +356,21 @@ export default function ShopPage() {
                     <span className="text-[10px] text-emerald-500 uppercase">
                       {product.size}
                     </span>
-                    <div className="text-sm font-bold text-emerald-600">
-                      ${product.price}
+                    <div className="flex flex-col">
+                      {isSubscriber ? (
+                        <>
+                          <div className="text-sm font-bold text-emerald-600">
+                            ${getDiscountedPrice(product.price)}
+                          </div>
+                          <div className="text-[10px] text-gray-400 line-through">
+                            ${product.price}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-sm font-bold text-emerald-600">
+                          ${product.price}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -343,7 +379,7 @@ export default function ShopPage() {
                     onClick={() => addItem({
                       id: product.id,
                       name: product.name,
-                      price: product.price,
+                      price: isSubscriber ? getDiscountedPrice(product.price) : product.price,
                       image: product.image,
                     }, 1)}
                     className={`px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[11px] flex items-center gap-1 hover:bg-emerald-400 transition ${
