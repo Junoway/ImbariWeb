@@ -71,27 +71,53 @@ export default function CheckoutPage() {
 
   async function handleStripeCheckout() {
     if (items.length === 0) return;
-    const stripe = await stripePromise;
-    // Prepare line items for Stripe
-    const lineItems = items.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
+    setPlacingOrder(true);
+    try {
+      // Get backend URL from environment variable
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://your-backend.vercel.app';
+      
+      // Prepare checkout data
+      const checkoutData = {
+        items: items.map((item) => ({
+          id: item.id,
           name: item.name,
-          images: [item.image],
-        },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.quantity,
-    }));
+          description: item.description || '',
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+        })),
+        discountCode: discountApplied ? discountCode : undefined,
+        tipAmount: tip.toString(),
+      };
 
-    // Call your backend to create a Stripe Checkout session
-    const res = await fetch("/api/checkout", { method: "POST" });
-    const data = await res.json();
-    if (data.url) {
-      window.location.assign(data.url);
-    } else {
-      // handle error (optional)
+      // Call backend to create Stripe Checkout session
+      const res = await fetch(`${apiUrl}/api/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkoutData),
+      });
+
+      if (!res.ok) {
+        const error = await res.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(error.error || 'Failed to create checkout session');
+      }
+
+      const data = await res.json();
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.assign(data.url);
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setToast({ 
+        message: error instanceof Error ? error.message : 'Failed to start checkout', 
+        type: 'error' 
+      });
+      setPlacingOrder(false);
     }
   }
 
