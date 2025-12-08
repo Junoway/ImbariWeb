@@ -17,6 +17,15 @@ export type User = {
   isSubscribed: boolean;
 };
 
+// Backdoor test account - DO NOT commit to production!
+const TEST_ACCOUNT = {
+  email: "imbaricoffee@gmail.com",
+  password: "Coffee2025!",
+  firstName: "Arthur",
+  lastName: "Kenrald",
+  isSubscribed: true,
+};
+
 type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
@@ -35,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     firstName: string;
     lastName: string;
     password: string;
+    verificationCode?: string;
   } | null>(null);
 
   // Load user from localStorage on mount
@@ -42,6 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem("imbari_user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }
+    
+    // Load pending verification if exists
+    const pending = localStorage.getItem("imbari_pending_verification");
+    if (pending) {
+      setPendingVerification(JSON.parse(pending));
     }
   }, []);
 
@@ -52,12 +68,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
   ): Promise<boolean> => {
     try {
-      // Store pending verification data
-      setPendingVerification({ email, firstName, lastName, password });
+      // Generate verification code
+      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
       
-      // In a real app, send verification email here
-      // For now, we'll simulate it
-      console.log("Verification code sent to:", email);
+      // Store pending verification data with code
+      const pendingData = { 
+        email, 
+        firstName, 
+        lastName, 
+        password,
+        verificationCode 
+      };
+      setPendingVerification(pendingData);
+      localStorage.setItem("imbari_pending_verification", JSON.stringify(pendingData));
+      
+      // Send verification email via EmailJS
+      try {
+        const { sendVerificationEmail } = await import("@/lib/emailService");
+        const emailSent = await sendVerificationEmail(email, firstName, verificationCode);
+        if (!emailSent) {
+          console.error("Failed to send verification email");
+          // Still allow signup to proceed for demo purposes
+        }
+      } catch (error) {
+        console.error("Error sending verification email:", error);
+        // Still allow signup to proceed for demo purposes
+      }
+      
+      console.log(`Verification code for ${email}: ${verificationCode}`);
       
       return true;
     } catch (error) {
@@ -68,9 +106,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyEmail = async (code: string): Promise<boolean> => {
     try {
-      // In a real app, verify the code with backend
-      // For demo, accept any 6-digit code
       if (code.length === 6 && pendingVerification) {
+        // Check if code matches the sent verification code
+        if (pendingVerification.verificationCode && code !== pendingVerification.verificationCode) {
+          console.error("Invalid verification code");
+          return false;
+        }
+        
         const newUser: User = {
           id: Date.now().toString(),
           firstName: pendingVerification.firstName,
@@ -85,6 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           `imbari_auth_${pendingVerification.email}`,
           pendingVerification.password
         );
+        localStorage.removeItem("imbari_pending_verification");
         setPendingVerification(null);
         
         return true;

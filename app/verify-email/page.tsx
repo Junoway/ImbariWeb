@@ -65,7 +65,7 @@ export default function VerifyEmailPage() {
                 placeholder="000000"
               />
               <p className="text-xs text-emerald-600 mt-2 text-center">
-                For demo: Enter any 6 digits (e.g., 123456)
+                Check your email inbox and spam folder
               </p>
             </div>
 
