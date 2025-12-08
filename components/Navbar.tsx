@@ -5,11 +5,13 @@ import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 import { useState } from "react";
 import { useCart } from "@/components/CartContext";
+import { useAuth } from "@/components/AuthContext";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { totalQuantity } = useCart() || { totalQuantity: 0 };
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <header className="relative z-50 border-b border-white/10 bg-[#050403]/95 backdrop-blur-md">
@@ -37,8 +39,28 @@ export default function Navbar() {
           <Link href="/contact" className="hover:text-emerald-300 transition">Contact</Link>
         </nav>
 
-        {/* RIGHT SIDE (CART + MENU) */}
-        <div className="flex items-center gap-8 ml-auto relative">
+        {/* RIGHT SIDE (ACCOUNT + CART + MENU) */}
+        <div className="flex items-center gap-4 ml-auto relative">
+          {/* ACCOUNT BUTTON */}
+          {isAuthenticated ? (
+            <Link
+              href="/account"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 transition shadow-lg"
+            >
+              <span className="text-white font-bold text-sm">
+                {user?.firstName}
+              </span>
+              <span className="text-xl">👤</span>
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white font-bold text-sm shadow-lg transition"
+            >
+              Log In
+            </Link>
+          )}
+
           {/* MENU BUTTON – now with 'MORE' text and animation */}
           <button
             onClick={() => setOpen((v) => !v)}

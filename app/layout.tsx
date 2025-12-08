@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { CartProvider } from "@/components/CartContext";
+import { AuthProvider } from "@/components/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -68,23 +69,25 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
 
-        <CartProvider>
-          <Navbar />
-          <main className="flex-1 flex flex-col items-center justify-center w-full mx-auto overflow-hidden">
-            {children}
-            {/* Back to Top Button (Client Only) */}
-            {typeof window !== 'undefined' && (
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-full shadow-lg shadow-emerald-400/30 transition-all text-base animate-fade-in"
-                aria-label="Back to top"
-              >
-                ↑ Back to Top
-              </button>
-            )}
-          </main>
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-1 flex flex-col items-center justify-center w-full mx-auto overflow-hidden">
+              {children}
+              {/* Back to Top Button (Client Only) */}
+              {typeof window !== 'undefined' && (
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-full shadow-lg shadow-emerald-400/30 transition-all text-base animate-fade-in"
+                  aria-label="Back to top"
+                >
+                  ↑ Back to Top
+                </button>
+              )}
+            </main>
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
