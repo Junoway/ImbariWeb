@@ -123,13 +123,16 @@ For the application to send emails in production, these secrets must be configur
 
 ### Testing the Verification Flow
 
-#### Method 1: Using Console (Recommended for Testing)
-1. Open browser DevTools (F12)
-2. Go to Console tab
-3. Sign up with any email address
-4. Look for log message: `📋 Verification code for <email>: XXXXXX`
-5. Copy the 6-digit code
-6. Enter it on the verification page
+#### Method 1: Using Console (Development Environment Only)
+1. Run the application in development mode: `npm run dev`
+2. Open browser DevTools (F12)
+3. Go to Console tab
+4. Sign up with any email address
+5. Look for log message: `📋 Verification code for <email>: XXXXXX`
+6. Copy the 6-digit code
+7. Enter it on the verification page
+
+**Note**: In production builds, verification codes are not logged for security reasons.
 
 #### Method 2: Using Real Email
 1. Sign up with a real email address
@@ -150,7 +153,7 @@ The enhanced logging uses emojis to make scanning easier:
 - 🔍 **Search/Verify**: Verification checks
 - ⚠️ **Warning**: Non-critical issues
 
-Example console output during successful signup:
+Example console output during successful signup (development mode):
 ```
 🔐 Starting signup process for: user@example.com
 ✅ Generated verification code: 123456
@@ -213,11 +216,13 @@ Email response text: OK
 5. **Rate Limiting**: Consider implementing to prevent abuse
 6. **Logging Security**: ✅ Production logs don't expose sensitive data:
    - Service IDs are masked as "[Configured]" or "[Missing]"
-   - Verification codes are never logged in production logs
+   - Verification codes are logged only in development mode (NODE_ENV === 'development')
+   - Production builds show "[REDACTED]" instead of actual codes
    - Only validation success/failure is logged, not actual code values
-7. **Development Debugging**: The verification code is still logged to console for testing purposes (line 98 in AuthContext.tsx) - this helps developers test without email setup
-
-Note: The actual verification code is intentionally logged to console (for testing) but should be removed or made conditional for production deployments.
+7. **Development Debugging**: Verification codes are logged to console only when NODE_ENV === 'development'
+   - Helps developers test without email setup
+   - Automatically disabled in production builds
+   - Safe for deployment
 
 ### Support Resources
 

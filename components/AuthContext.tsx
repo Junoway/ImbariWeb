@@ -72,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Generate verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log('✅ Generated verification code:', verificationCode);
+      console.log('✅ Generated verification code:', process.env.NODE_ENV === 'development' ? verificationCode : '[REDACTED]');
       
       // Store pending verification data with code
       const pendingData = { 
@@ -106,7 +106,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Still allow signup to proceed for demo purposes
       }
       
-      console.log(`📋 Verification code for ${email}: ${verificationCode}`);
+      // Log verification code for testing in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`📋 Verification code for ${email}: ${verificationCode}`);
+      } else {
+        console.log('📋 Verification code sent to email (check inbox/spam folder)');
+      }
       console.log('✅ Signup process completed successfully');
       
       return true;

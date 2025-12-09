@@ -40,7 +40,7 @@ export async function sendVerificationEmail(
     console.log('Email template params prepared:', {
       to_email: templateParams.to_email,
       to_name: templateParams.to_name,
-      verification_code: templateParams.verification_code,
+      verification_code: process.env.NODE_ENV === 'development' ? templateParams.verification_code : '[REDACTED]',
     });
 
     const response = await emailjs.send(
