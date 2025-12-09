@@ -4,7 +4,7 @@
 import emailjs from '@emailjs/browser';
 
 // EmailJS configuration - Production values
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_ftjumeq';
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_aos7b6k';
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_ywhi5fk';
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'VR5vwO_VVQQML0jZ5';
 
@@ -26,8 +26,11 @@ export async function sendVerificationEmail(
     const templateParams = {
       to_email: email,
       to_name: firstName,
+      from_name: 'Imbari Coffee',
+      reply_to: 'imbaricoffee@gmail.com',
       verification_code: verificationCode,
       company_name: 'Imbari Coffee',
+      subject: 'Verify your Imbari Coffee account - Action Required',
     };
 
     const response = await emailjs.send(
