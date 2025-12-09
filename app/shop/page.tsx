@@ -268,48 +268,50 @@ export default function ShopPage() {
         />
       </section>
 
-      {/* PROMOTIONAL SECTIONS */}
-      <section className="main-container pt-6 pb-6">
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Ready to Gift */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-yellow-400">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-3">
-              🎁 Ready to Gift
-            </h2>
-            <p className="text-emerald-900 mb-3 leading-relaxed">
-              Imbari Coffee makes a great gift! Choose a beautifully curated bundle for your loved ones.
-            </p>
-            <p className="text-emerald-700 mb-4">
-              In a rush? Check out our digital gift cards!
-            </p>
-            <p className="text-xs text-emerald-600 italic">
-              *Premade bundles are not eligible for further promotions or discount codes.
-            </p>
-            <button
-              onClick={() => setActiveFilter("Gift")}
-              className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-white font-bold shadow-lg hover:shadow-xl transition"
-            >
-              View Gifts
-            </button>
-          </div>
+      {/* PROMOTIONAL SECTIONS - Only show to non-logged-in users */}
+      {!user && (
+        <section className="main-container pt-6 pb-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Ready to Gift */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-yellow-400">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-3">
+                🎁 Ready to Gift
+              </h2>
+              <p className="text-emerald-900 mb-3 leading-relaxed">
+                Imbari Coffee makes a great gift! Choose a beautifully curated bundle for your loved ones.
+              </p>
+              <p className="text-emerald-700 mb-4">
+                In a rush? Check out our digital gift cards!
+              </p>
+              <p className="text-xs text-emerald-600 italic">
+                *Premade bundles are not eligible for further promotions or discount codes.
+              </p>
+              <button
+                onClick={() => setActiveFilter("Gift")}
+                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+              >
+                View Gifts
+              </button>
+            </div>
 
-          {/* 10% Off for New Subscribers */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-emerald-400">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-3">
-              📧 10% Off for New Subscribers
-            </h2>
-            <p className="text-emerald-900 mb-3 leading-relaxed">
-              Sign up for our mailing list and get <strong>10% off</strong> your next order + subscriber-only deals.
-            </p>
-            <button
-              onClick={() => router.push('/subscriptions')}
-              className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition"
-            >
-              Subscribe Now
-            </button>
+            {/* 10% Off for New Subscribers */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-emerald-400">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-3">
+                📧 10% Off for New Subscribers
+              </h2>
+              <p className="text-emerald-900 mb-3 leading-relaxed">
+                Sign up for our mailing list and get <strong>10% off</strong> your next order + subscriber-only deals.
+              </p>
+              <button
+                onClick={() => router.push('/subscriptions')}
+                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+              >
+                Subscribe Now
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* FILTERS */}
       <section className="main-container pt-1 pb-4">
@@ -374,7 +376,7 @@ export default function ShopPage() {
                         {product.size}
                       </span>
                       <div className="flex flex-col">
-                        {isSubscriber ? (
+                        {user ? (
                           <>
                             <div className="text-sm font-bold text-emerald-600">
                               ${getDiscountedPrice(product.price)}
@@ -396,7 +398,7 @@ export default function ShopPage() {
                       onClick={() => addItem({
                         id: product.id,
                         name: product.name,
-                        price: isSubscriber ? getDiscountedPrice(product.price) : product.price,
+                        price: user ? getDiscountedPrice(product.price) : product.price,
                         image: product.image,
                       }, 1)}
                       className={`px-3 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[10px] flex items-center gap-1 hover:bg-emerald-400 transition ${

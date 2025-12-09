@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 import { useCart } from "@/components/CartContext";
+import { useAuth } from "@/components/AuthContext";
 
 const FEATURED_PRODUCTS = [
   {
@@ -44,6 +45,7 @@ const FEATURED_PRODUCTS = [
 export default function SubscriptionsPage() {
   const router = useRouter();
   const { addItem } = useCart();
+  const { user } = useAuth();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-emerald-50">
@@ -69,12 +71,21 @@ export default function SubscriptionsPage() {
             Never run out of Africa's finest coffee. Get monthly deliveries with exclusive subscriber benefits and discounts.
           </p>
           
-          <button
-            onClick={() => router.push("/signup")}
-            className="px-10 py-5 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-emerald-900 font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-yellow-300"
-          >
-            Start Your Subscription Today
-          </button>
+          {!user ? (
+            <button
+              onClick={() => router.push("/signup")}
+              className="px-10 py-5 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-emerald-900 font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-yellow-300"
+            >
+              Start Your Subscription Today
+            </button>
+          ) : (
+            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-emerald-900 font-bold text-xl shadow-2xl border-4 border-yellow-300">
+              <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span>You're Already Subscribed! Enjoy 10% Off</span>
+            </div>
+          )}
         </div>
       </section>
 
@@ -223,34 +234,36 @@ export default function SubscriptionsPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-700 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Experience Africa's Finest Coffee?
-          </h2>
-          <p className="text-xl mb-8 text-emerald-100">
-            Join thousands of coffee lovers enjoying premium Ugandan coffee delivered to their door every month.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => router.push("/signup")}
-              className="px-10 py-5 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-emerald-900 font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-yellow-300"
-            >
-              Subscribe Now
-            </button>
-            <button
-              onClick={() => router.push("/shop")}
-              className="px-10 py-5 rounded-full bg-white/10 backdrop-blur text-white font-bold text-xl shadow-xl hover:bg-white/20 transition-all border-4 border-white/30"
-            >
-              Shop Without Subscription
-            </button>
+      {/* CTA Section - Only show to non-logged-in users */}
+      {!user && (
+        <section className="py-20 px-4 bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-700 text-white">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to Experience Africa's Finest Coffee?
+            </h2>
+            <p className="text-xl mb-8 text-emerald-100">
+              Join thousands of coffee lovers enjoying premium Ugandan coffee delivered to their door every month.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => router.push("/signup")}
+                className="px-10 py-5 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-emerald-900 font-bold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-yellow-300"
+              >
+                Subscribe Now
+              </button>
+              <button
+                onClick={() => router.push("/shop")}
+                className="px-10 py-5 rounded-full bg-white/10 backdrop-blur text-white font-bold text-xl shadow-xl hover:bg-white/20 transition-all border-4 border-white/30"
+              >
+                Shop Without Subscription
+              </button>
+            </div>
+            <p className="text-sm text-emerald-200 mt-6">
+              No commitment • Cancel anytime • Free shipping on orders $30+
+            </p>
           </div>
-          <p className="text-sm text-emerald-200 mt-6">
-            No commitment • Cancel anytime • Free shipping on orders $30+
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 }
