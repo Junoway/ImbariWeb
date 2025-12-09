@@ -22,8 +22,8 @@ EmailJS is perfect for static sites hosted on GitHub Pages because:
 1. Once logged in, go to **Email Services** in the left sidebar
 2. Click **Add New Service**
 3. Choose your email provider:
-   - **Gmail** (recommended - easiest to set up)
-   - Outlook
+   - **Gmail** (strongly recommended - easiest to set up and most reliable)
+   - Outlook (not recommended - has restrictions on reply-to addresses)
    - Yahoo
    - Or use your custom SMTP
 4. Follow the connection wizard:

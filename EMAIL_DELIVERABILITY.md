@@ -1,5 +1,14 @@
 # Email Deliverability Tips
 
+## Known Issues
+
+### Outlook Permission Error
+If you're using Outlook as your EmailJS service and seeing the error "The user account which was used to submit this request does not have the right to send mail on behalf of the specified sending account", this means:
+- Outlook doesn't allow sending emails with a reply-to address from a different email provider
+- **Solution:** Remove the `reply_to` parameter from your email template, or switch to Gmail which is more flexible
+
+**Recommendation:** Use Gmail instead of Outlook for EmailJS as it's easier to configure and doesn't have these restrictions.
+
 ## Current Issue
 Verification emails are being sent to spam folders. This is common for new email senders.
 
@@ -43,8 +52,9 @@ Your EmailJS template should include:
    - Don't send too many emails at once
 
 2. **SPF/DKIM Records:**
-   - EmailJS handles this automatically for Outlook
-   - Make sure your Outlook account is verified
+   - EmailJS handles this automatically for Gmail and Outlook
+   - Make sure your email account is properly verified
+   - **Note:** If using Outlook, do NOT set a custom reply-to address from a different provider (e.g., Gmail) as Outlook will reject emails with permission errors
 
 3. **Monitor EmailJS Dashboard:**
    - Check bounce rates and spam reports

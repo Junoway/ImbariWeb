@@ -27,7 +27,6 @@ export async function sendVerificationEmail(
       to_email: email,
       to_name: firstName,
       from_name: 'Imbari Coffee',
-      reply_to: 'imbaricoffee@gmail.com',
       verification_code: verificationCode,
       company_name: 'Imbari Coffee',
       subject: 'Verify your Imbari Coffee account - Action Required',
