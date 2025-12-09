@@ -23,6 +23,12 @@ export async function sendVerificationEmail(
   verificationCode: string
 ): Promise<boolean> {
   try {
+    console.log('EmailJS Send Attempt:', {
+      serviceId: EMAILJS_SERVICE_ID,
+      templateId: EMAILJS_TEMPLATE_ID,
+      publicKey: EMAILJS_PUBLIC_KEY
+    });
+
     const templateParams = {
       to_email: email,
       to_name: firstName,
@@ -41,8 +47,11 @@ export async function sendVerificationEmail(
 
     console.log('Email sent successfully:', response);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to send email:', error);
+    console.error('Error status:', error?.status);
+    console.error('Error text:', error?.text);
+    console.error('Full error object:', JSON.stringify(error, null, 2));
     return false;
   }
 }
