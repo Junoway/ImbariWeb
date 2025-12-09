@@ -8,7 +8,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import { maskEmailForLogging } from "@/lib/utils";
+import { maskEmailForLogging, maskVerificationCodeForLogging } from "@/lib/utils";
 
 export type User = {
   id: string;
@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Generate verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log('✅ Generated verification code:', process.env.NODE_ENV === 'development' ? verificationCode : '[REDACTED]');
+      console.log('✅ Generated verification code:', maskVerificationCodeForLogging(verificationCode));
       
       // Store pending verification data with code
       const pendingData = { 
