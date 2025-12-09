@@ -8,6 +8,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { maskEmailForLogging, maskVerificationCodeForLogging } from "@/lib/utils";
 
 export type User = {
   id: string;
@@ -68,8 +69,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
   ): Promise<boolean> => {
     try {
+      console.log('🔐 Starting signup process for:', maskEmailForLogging(email));
+      
       // Generate verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      console.log('✅ Generated verification code:', maskVerificationCodeForLogging(verificationCode));
       
       // Store pending verification data with code
       const pendingData = { 
@@ -81,37 +85,59 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
       setPendingVerification(pendingData);
       localStorage.setItem("imbari_pending_verification", JSON.stringify(pendingData));
+      console.log('✅ Stored pending verification data in localStorage');
       
       // Send verification email via EmailJS
+      console.log('📧 Attempting to send verification email...');
       try {
         const { sendVerificationEmail } = await import("@/lib/emailService");
         const emailSent = await sendVerificationEmail(email, firstName, verificationCode);
         if (!emailSent) {
-          console.error("Failed to send verification email");
+          console.error("❌ Failed to send verification email");
+          console.warn("⚠️ Proceeding with signup anyway for demo purposes");
+          console.warn("⚠️ User should check spam folder or use console verification code");
           // Still allow signup to proceed for demo purposes
+        } else {
+          console.log('✅ Verification email sent successfully!');
         }
       } catch (error) {
-        console.error("Error sending verification email:", error);
+        console.error("❌ Error sending verification email:", error);
+        console.warn("⚠️ Proceeding with signup anyway for demo purposes");
+        console.warn("⚠️ User should check spam folder or use console verification code");
         // Still allow signup to proceed for demo purposes
       }
       
-      console.log(`Verification code for ${email}: ${verificationCode}`);
+      // Log verification code for testing in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`📋 Verification code for ${email}: ${verificationCode}`);
+      } else {
+        console.log('📋 Verification code sent to email (check inbox/spam folder)');
+      }
+      console.log('✅ Signup process completed successfully');
       
       return true;
     } catch (error) {
-      console.error("Signup error:", error);
+      console.error("❌ Signup error:", error);
       return false;
     }
   };
 
   const verifyEmail = async (code: string): Promise<boolean> => {
     try {
+      console.log('🔍 Verifying email with code...');
+      console.log('📋 Pending verification data:', pendingVerification ? {
+        email: maskEmailForLogging(pendingVerification.email),
+        hasCode: !!pendingVerification.verificationCode
+      } : 'None');
+      
       if (code.length === 6 && pendingVerification) {
         // Check if code matches the sent verification code
         if (pendingVerification.verificationCode && code !== pendingVerification.verificationCode) {
-          console.error("Invalid verification code");
+          console.error("❌ Invalid verification code - code does not match");
           return false;
         }
+        
+        console.log('✅ Verification code matches!');
         
         const newUser: User = {
           id: Date.now().toString(),
@@ -120,6 +146,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: pendingVerification.email,
           isSubscribed: false,
         };
+        
+        console.log('✅ Creating new user:', maskEmailForLogging(newUser.email));
         
         setUser(newUser);
         localStorage.setItem("imbari_user", JSON.stringify(newUser));
@@ -130,11 +158,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem("imbari_pending_verification");
         setPendingVerification(null);
         
+        console.log('✅ Email verification completed successfully!');
         return true;
       }
+      console.error('❌ Verification failed: Invalid code length or no pending verification');
       return false;
     } catch (error) {
-      console.error("Verification error:", error);
+      console.error("❌ Verification error:", error);
       return false;
     }
   };

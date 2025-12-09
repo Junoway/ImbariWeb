@@ -2,6 +2,7 @@
 "use client";
 
 import emailjs from '@emailjs/browser';
+import { maskEmailForLogging, maskVerificationCodeForLogging } from './utils';
 
 // EmailJS configuration - Production values
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_ftjumeq';
@@ -23,6 +24,10 @@ export async function sendVerificationEmail(
   verificationCode: string
 ): Promise<boolean> {
   try {
+    console.log('Attempting to send verification email to:', maskEmailForLogging(email));
+    console.log('Using EmailJS Service ID:', EMAILJS_SERVICE_ID ? '[Configured]' : '[Missing]');
+    console.log('Using EmailJS Template ID:', EMAILJS_TEMPLATE_ID ? '[Configured]' : '[Missing]');
+    
     const templateParams = {
       to_email: email,
       to_name: firstName,
@@ -33,16 +38,28 @@ export async function sendVerificationEmail(
       subject: 'Verify your Imbari Coffee account - Action Required',
     };
 
+    console.log('Email template params prepared (partial view):', {
+      to_email: maskEmailForLogging(templateParams.to_email),
+      to_name: templateParams.to_name,
+      verification_code: maskVerificationCodeForLogging(templateParams.verification_code),
+    });
+
     const response = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
       templateParams
     );
 
-    console.log('Email sent successfully:', response);
+    console.log('✅ Email sent successfully:', response);
+    console.log('Email status:', response.status);
+    console.log('Email response text:', response.text);
     return true;
   } catch (error) {
-    console.error('Failed to send email:', error);
+    console.error('❌ Failed to send verification email:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
     return false;
   }
 }
