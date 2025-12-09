@@ -32,6 +32,7 @@ type AuthContextType = {
   signup: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
   verifyEmail: (code: string) => Promise<boolean>;
   logout: () => void;
+  toggleSubscription: () => void;
   isAuthenticated: boolean;
 };
 
@@ -178,6 +179,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("imbari_user");
   };
 
+  const toggleSubscription = () => {
+    if (user) {
+      const updatedUser = { ...user, isSubscribed: !user.isSubscribed };
+      setUser(updatedUser);
+      localStorage.setItem("imbari_user", JSON.stringify(updatedUser));
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -186,6 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signup,
         verifyEmail,
         logout,
+        toggleSubscription,
         isAuthenticated: !!user,
       }}
     >
