@@ -118,7 +118,7 @@ export default function Navbar() {
                     </MobileItem>
                   ) : (
                     <>
-                      <MobileItem href="/signup" onClick={() => setOpen(false)}>
+                      <MobileItem href="/subscriptions" onClick={() => setOpen(false)}>
                         <span className="flex items-center gap-2">
                           ⭐ Subscribe & Save 10%
                         </span>
