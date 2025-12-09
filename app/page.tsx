@@ -111,7 +111,7 @@ export default function Home() {
               href="/distribution"
               className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-400 hover:to-orange-500 text-emerald-900 font-bold py-3 px-8 rounded-full shadow-xl transition-all duration-200 text-lg tracking-wide"
             >
-              Become a Distributor
+              Become a Microlot Distributor
             </Link>
           </div>
           <p className="mt-8 max-w-xl text-base text-neutral-700 text-center font-medium animate-fade-in">
