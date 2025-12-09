@@ -24,8 +24,8 @@ export async function sendVerificationEmail(
 ): Promise<boolean> {
   try {
     console.log('Attempting to send verification email to:', email);
-    console.log('Using EmailJS Service ID:', EMAILJS_SERVICE_ID);
-    console.log('Using EmailJS Template ID:', EMAILJS_TEMPLATE_ID);
+    console.log('Using EmailJS Service ID:', EMAILJS_SERVICE_ID ? '[Configured]' : '[Missing]');
+    console.log('Using EmailJS Template ID:', EMAILJS_TEMPLATE_ID ? '[Configured]' : '[Missing]');
     
     const templateParams = {
       to_email: email,

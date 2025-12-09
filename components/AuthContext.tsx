@@ -118,18 +118,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyEmail = async (code: string): Promise<boolean> => {
     try {
-      console.log('🔍 Verifying email with code:', code);
+      console.log('🔍 Verifying email with code...');
       console.log('📋 Pending verification data:', pendingVerification ? {
         email: pendingVerification.email,
-        hasCode: !!pendingVerification.verificationCode,
-        expectedCode: pendingVerification.verificationCode
+        hasCode: !!pendingVerification.verificationCode
       } : 'None');
       
       if (code.length === 6 && pendingVerification) {
         // Check if code matches the sent verification code
         if (pendingVerification.verificationCode && code !== pendingVerification.verificationCode) {
-          console.error("❌ Invalid verification code");
-          console.error(`Expected: ${pendingVerification.verificationCode}, Got: ${code}`);
+          console.error("❌ Invalid verification code - code does not match");
           return false;
         }
         
