@@ -26,12 +26,16 @@ export default function ContactPage() {
 
     try {
       // Initialize EmailJS with public key
-      emailjs.init("VR5vwO_VVQQML0jZ5");
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "VR5vwO_VVQQML0jZ5";
+      emailjs.init(publicKey);
 
       // Send to both emails via EmailJS template
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_aos7b6k";
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID || "template_dt4cyeh";
+      
       await emailjs.send(
-        "service_aos7b6k",
-        "template_dt4cyeh",
+        serviceId,
+        templateId,
         {
           from_name: formData.name,
           company: formData.company,
