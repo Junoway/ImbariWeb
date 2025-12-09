@@ -21,13 +21,13 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
-  // BEANS
+  // ROASTED BEANS
   {
     id: 1,
     name: "Medium Roast – Whole Beans",
     type: "Beans",
-    size: "250g",
-    price: 9,
+    size: "12oz (340g)",
+    price: 17.99,
     image: withBasePath("/images/arabica.jpg"),
     description:
       "Single-origin Mt. Elgon Arabica beans, freshly roasted for home grinding."
@@ -36,26 +36,17 @@ const PRODUCTS: Product[] = [
     id: 2,
     name: "Medium Roast – Whole Beans",
     type: "Beans",
-    size: "500g",
-    price: 16,
+    size: "2lb (907g)",
+    price: 44.99,
     image: withBasePath("/images/arabica.jpg"),
     description: "Family-size whole beans pack with excellent balance."
-  },
-  {
-    id: 3,
-    name: "Medium Roast – Whole Beans",
-    type: "Beans",
-    size: "1kg",
-    price: 28,
-    image: withBasePath("/images/arabica.jpg"),
-    description: "Café and office pack for serious coffee drinkers."
   },
   {
     id: 4,
     name: "Dark Roast – Whole Beans",
     type: "Beans",
-    size: "500g",
-    price: 17,
+    size: "12oz (340g)",
+    price: 17.99,
     image: withBasePath("/images/arabica.jpg"),
     description: "Dark roast for bold flavor and rich crema."
   },
@@ -63,19 +54,19 @@ const PRODUCTS: Product[] = [
     id: 5,
     name: "Espresso Roast – Whole Beans",
     type: "Beans",
-    size: "1kg",
-    price: 30,
+    size: "2lb (907g)",
+    price: 44.99,
     image: withBasePath("/images/robusta.jpg"),
     description: "Crafted for espresso machines with thick crema."
   },
 
-  // GROUND
+  // GROUND COFFEE
   {
     id: 6,
     name: "Medium Roast – Ground Coffee",
     type: "Ground",
-    size: "250g",
-    price: 8,
+    size: "12oz (340g)",
+    price: 17.99,
     image: withBasePath("/images/shop.jpg"),
     description: "Smooth grind for pour-over and French press."
   },
@@ -83,8 +74,8 @@ const PRODUCTS: Product[] = [
     id: 7,
     name: "Medium Roast – Ground Coffee",
     type: "Ground",
-    size: "500g",
-    price: 14,
+    size: "2lb (907g)",
+    price: 44.99,
     image: withBasePath("/images/shop2.jpg"),
     description: "Ideal for homes and offices."
   },
@@ -92,8 +83,8 @@ const PRODUCTS: Product[] = [
     id: 8,
     name: "Dark Roast – Ground Coffee",
     type: "Ground",
-    size: "250g",
-    price: 9,
+    size: "12oz (340g)",
+    price: 17.99,
     image: withBasePath("/images/shop2.jpg"),
     description: "Full-bodied cup for strong coffee lovers."
   },
@@ -101,48 +92,50 @@ const PRODUCTS: Product[] = [
     id: 9,
     name: "Espresso Grind – Ground Coffee",
     type: "Ground",
-    size: "500g",
-    price: 18,
+    size: "2lb (907g)",
+    price: 44.99,
     image: withBasePath("/images/shop3.jpg"),
     description: "Fine grind ideal for espresso machines."
   },
-  {
-    id: 10,
-    name: "Hotel & Restaurant Grind",
-    type: "Ground",
-    size: "1kg",
-    price: 26,
-    image: withBasePath("/images/shop.jpg"),
-    description: "Foodservice grind for hotels and restaurants."
-  },
 
-  // INSTANT
+  // SINGLE SERVE PACKS
   {
     id: 11,
-    name: "Imbari Instant – Premium",
+    name: "Single Serve Coffee Pods",
     type: "Instant",
-    size: "100g",
-    price: 10,
+    size: "Box of 24",
+    price: 19.99,
     image: withBasePath("/images/shop2.jpg"),
-    description: "Smooth premium instant coffee."
-  },
-  {
-    id: 12,
-    name: "Imbari Instant – Classic Jar",
-    type: "Instant",
-    size: "200g",
-    price: 16,
-    image: withBasePath("/images/shop3.jpg"),
-    description: "Everyday instant coffee for home and office."
+    description: "Convenient single-serve pods for quick brewing."
   },
   {
     id: 13,
     name: "Imbari Instant – Travel Sticks",
     type: "Instant",
-    size: "20 x 2g",
-    price: 12,
+    size: "Box of 24",
+    price: 19.99,
     image: withBasePath("/images/shop2.jpg"),
-    description: "Single-serve sticks for travel."
+    description: "Single-serve instant sticks for travel and convenience."
+  },
+
+  // GREEN BEANS
+  {
+    id: 16,
+    name: "Green Bean Robusta",
+    type: "Green",
+    size: "1kg (2.2lb)",
+    price: 6.99,
+    image: withBasePath("/images/shop4.jpg"),
+    description: "Unroasted Robusta beans for home or commercial roasting."
+  },
+  {
+    id: 17,
+    name: "Green Bean Arabica",
+    type: "Green",
+    size: "1kg (2.2lb)",
+    price: 15.99,
+    image: withBasePath("/images/arabica.jpg"),
+    description: "Premium unroasted Arabica beans from Mt. Elgon."
   },
   {
     id: 14,
@@ -216,6 +209,9 @@ export default function ShopPage() {
   const { user } = useAuth();
   const [activeFilter, setActiveFilter] = useState<ProductType | "All">("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showGiftModal, setShowGiftModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [giftOption, setGiftOption] = useState<"single" | "monthly">("single");
 
   const router = useRouter();
 
@@ -350,77 +346,71 @@ export default function ShopPage() {
                   {product.description}
                 </p>
 
-                {/* FOOTER (PRICE + BUTTON) */}
-                <div className="mt-auto flex items-center justify-between pt-2 border-t border-emerald-100">
-                  <div>
-                    <span className="text-[10px] text-emerald-500 uppercase">
-                      {product.size}
-                    </span>
-                    <div className="flex flex-col">
-                      {isSubscriber ? (
-                        <>
+                {/* FOOTER (PRICE + BUTTONS) */}
+                <div className="mt-auto pt-2 border-t border-emerald-100 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-emerald-500 uppercase">
+                        {product.size}
+                      </span>
+                      <div className="flex flex-col">
+                        {isSubscriber ? (
+                          <>
+                            <div className="text-sm font-bold text-emerald-600">
+                              ${getDiscountedPrice(product.price)}
+                            </div>
+                            <div className="text-[10px] text-gray-400 line-through">
+                              ${product.price.toFixed(2)}
+                            </div>
+                          </>
+                        ) : (
                           <div className="text-sm font-bold text-emerald-600">
-                            ${getDiscountedPrice(product.price)}
+                            ${product.price.toFixed(2)}
                           </div>
-                          <div className="text-[10px] text-gray-400 line-through">
-                            ${product.price}
-                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* ADD BUTTON */}
+                    <button
+                      onClick={() => addItem({
+                        id: product.id,
+                        name: product.name,
+                        price: isSubscriber ? getDiscountedPrice(product.price) : product.price,
+                        image: product.image,
+                      }, 1)}
+                      className={`px-3 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[10px] flex items-center gap-1 hover:bg-emerald-400 transition ${
+                        isInCart ? "opacity-95" : ""
+                      }`}
+                    >
+                      {isInCart ? (
+                        <>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <span>Added</span>
                         </>
                       ) : (
-                        <div className="text-sm font-bold text-emerald-600">
-                          ${product.price}
-                        </div>
+                        <>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.5 17h9a1 1 0 00.85-1.53L17 13M7 13V6h10v7" />
+                          </svg>
+                          <span>Add</span>
+                        </>
                       )}
-                    </div>
+                    </button>
                   </div>
-
-                  {/* ADD BUTTON WITH SELECTED STATE */}
+                  
+                  {/* GIFT BUTTON */}
                   <button
-                    onClick={() => addItem({
-                      id: product.id,
-                      name: product.name,
-                      price: isSubscriber ? getDiscountedPrice(product.price) : product.price,
-                      image: product.image,
-                    }, 1)}
-                    className={`px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[11px] flex items-center gap-1 hover:bg-emerald-400 transition ${
-                      isInCart ? "opacity-95" : ""
-                    }`}
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setShowGiftModal(true);
+                    }}
+                    className="w-full py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold shadow text-[10px] flex items-center justify-center gap-1 hover:from-yellow-500 hover:to-orange-500 transition"
                   >
-                    {isInCart ? (
-                      <>
-                        <svg
-                          className="w-3.5 h-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        <span>Added</span>
-                      </>
-                    ) : (
-                      <>
-                        <svg
-                          className="w-3.5 h-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.5 17h9a1 1 0 00.85-1.53L17 13M7 13V6h10v7"
-                          />
-                        </svg>
-                        <span>Add to Cart</span>
-                      </>
-                    )}
+                    <span>🎁</span>
+                    <span>Send as Gift</span>
                   </button>
                 </div>
               </article>
@@ -428,6 +418,131 @@ export default function ShopPage() {
           })}
         </div>
       </section>
+
+      {/* GIFT MODAL */}
+      {showGiftModal && selectedProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border-4 border-yellow-300">
+            <div className="text-center mb-6">
+              <div className="text-6xl mb-3">🎁</div>
+              <h2 className="text-2xl font-bold text-emerald-800 mb-2">
+                Send Coffee as a Gift
+              </h2>
+              <p className="text-sm text-emerald-600">
+                {selectedProduct.name} ({selectedProduct.size})
+              </p>
+            </div>
+
+            {/* Gift Options */}
+            <div className="space-y-4 mb-6">
+              <button
+                onClick={() => setGiftOption("single")}
+                className={`w-full p-4 rounded-lg border-2 transition ${
+                  giftOption === "single"
+                    ? "border-emerald-500 bg-emerald-50"
+                    : "border-gray-200 hover:border-emerald-300"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <div className="font-bold text-emerald-800">Single Gift Purchase</div>
+                    <div className="text-sm text-emerald-600">One-time gift delivery</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-emerald-600">
+                      ${selectedProduct.price.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setGiftOption("monthly")}
+                className={`w-full p-4 rounded-lg border-2 transition ${
+                  giftOption === "monthly"
+                    ? "border-yellow-500 bg-yellow-50"
+                    : "border-gray-200 hover:border-yellow-300"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <div className="font-bold text-emerald-800 flex items-center gap-2">
+                      Monthly Gift Subscription
+                      <span className="text-xs bg-yellow-400 text-yellow-900 px-2 py-0.5 rounded-full font-bold">
+                        SAVE 10%
+                      </span>
+                    </div>
+                    <div className="text-sm text-emerald-600">Recurring monthly delivery</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-yellow-600">
+                      ${(selectedProduct.price * 0.9).toFixed(2)}
+                    </div>
+                    <div className="text-xs text-gray-400 line-through">
+                      ${selectedProduct.price.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            {/* Benefits */}
+            {giftOption === "monthly" && (
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 mb-6 border-2 border-yellow-200">
+                <div className="text-sm text-emerald-800 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span>✓</span>
+                    <span>10% discount on every delivery</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>✓</span>
+                    <span>Free shipping on orders $30+</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>✓</span>
+                    <span>Cancel or pause anytime</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>✓</span>
+                    <span>Exclusive subscriber perks</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowGiftModal(false);
+                  setSelectedProduct(null);
+                }}
+                className="flex-1 py-3 rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  const price = giftOption === "monthly" 
+                    ? selectedProduct.price * 0.9 
+                    : selectedProduct.price;
+                  addItem({
+                    id: selectedProduct.id,
+                    name: `${selectedProduct.name} ${giftOption === "monthly" ? "(Monthly Gift)" : "(Gift)"}`,
+                    price: Number(price.toFixed(2)),
+                    image: selectedProduct.image,
+                  }, 1);
+                  setShowGiftModal(false);
+                  setSelectedProduct(null);
+                }}
+                className="flex-1 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-white font-bold shadow-lg hover:shadow-xl transition border-2 border-yellow-300"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
