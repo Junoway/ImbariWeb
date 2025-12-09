@@ -8,6 +8,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { maskEmailForLogging } from "@/lib/utils";
 
 export type User = {
   id: string;
@@ -68,8 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
   ): Promise<boolean> => {
     try {
-      const maskedEmail = process.env.NODE_ENV === 'development' ? email : email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
-      console.log('🔐 Starting signup process for:', maskedEmail);
+      console.log('🔐 Starting signup process for:', maskEmailForLogging(email));
       
       // Generate verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -126,7 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log('🔍 Verifying email with code...');
       console.log('📋 Pending verification data:', pendingVerification ? {
-        email: process.env.NODE_ENV === 'development' ? pendingVerification.email : pendingVerification.email.replace(/(.{2})(.*)(@.*)/, '$1***$3'),
+        email: maskEmailForLogging(pendingVerification.email),
         hasCode: !!pendingVerification.verificationCode
       } : 'None');
       
@@ -147,8 +147,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isSubscribed: false,
         };
         
-        const maskedNewEmail = process.env.NODE_ENV === 'development' ? newUser.email : newUser.email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
-        console.log('✅ Creating new user:', maskedNewEmail);
+        console.log('✅ Creating new user:', maskEmailForLogging(newUser.email));
         
         setUser(newUser);
         localStorage.setItem("imbari_user", JSON.stringify(newUser));

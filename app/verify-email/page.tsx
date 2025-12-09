@@ -50,8 +50,12 @@ export default function VerifyEmailPage() {
               <strong>📬 Check your inbox and spam folder!</strong>
               <br />
               The email may take a few moments to arrive.
-              <br />
-              For testing, check the browser console for the code.
+              {process.env.NODE_ENV === 'development' && (
+                <>
+                  <br />
+                  For testing, check the browser console for the code.
+                </>
+              )}
             </p>
           </div>
         </div>

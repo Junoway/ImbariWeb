@@ -2,6 +2,7 @@
 "use client";
 
 import emailjs from '@emailjs/browser';
+import { maskEmailForLogging } from './utils';
 
 // EmailJS configuration - Production values
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_ftjumeq';
@@ -23,8 +24,7 @@ export async function sendVerificationEmail(
   verificationCode: string
 ): Promise<boolean> {
   try {
-    const maskedEmail = process.env.NODE_ENV === 'development' ? email : email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
-    console.log('Attempting to send verification email to:', maskedEmail);
+    console.log('Attempting to send verification email to:', maskEmailForLogging(email));
     console.log('Using EmailJS Service ID:', EMAILJS_SERVICE_ID ? '[Configured]' : '[Missing]');
     console.log('Using EmailJS Template ID:', EMAILJS_TEMPLATE_ID ? '[Configured]' : '[Missing]');
     
@@ -39,7 +39,7 @@ export async function sendVerificationEmail(
     };
 
     console.log('Email template params prepared (partial view):', {
-      to_email: templateParams.to_email,
+      to_email: maskEmailForLogging(templateParams.to_email),
       to_name: templateParams.to_name,
       verification_code: process.env.NODE_ENV === 'development' ? templateParams.verification_code : '[REDACTED]',
     });
