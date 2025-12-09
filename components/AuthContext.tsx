@@ -68,7 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
   ): Promise<boolean> => {
     try {
-      console.log('🔐 Starting signup process for:', email);
+      const maskedEmail = process.env.NODE_ENV === 'development' ? email : email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
+      console.log('🔐 Starting signup process for:', maskedEmail);
       
       // Generate verification code
       const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -125,7 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log('🔍 Verifying email with code...');
       console.log('📋 Pending verification data:', pendingVerification ? {
-        email: pendingVerification.email,
+        email: process.env.NODE_ENV === 'development' ? pendingVerification.email : pendingVerification.email.replace(/(.{2})(.*)(@.*)/, '$1***$3'),
         hasCode: !!pendingVerification.verificationCode
       } : 'None');
       
@@ -146,7 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isSubscribed: false,
         };
         
-        console.log('✅ Creating new user:', newUser.email);
+        const maskedNewEmail = process.env.NODE_ENV === 'development' ? newUser.email : newUser.email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
+        console.log('✅ Creating new user:', maskedNewEmail);
         
         setUser(newUser);
         localStorage.setItem("imbari_user", JSON.stringify(newUser));

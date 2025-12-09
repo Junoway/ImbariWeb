@@ -218,10 +218,12 @@ Email response text: OK
    - Service IDs are masked as "[Configured]" or "[Missing]"
    - Verification codes are logged only in development mode (NODE_ENV === 'development')
    - Production builds show "[REDACTED]" instead of actual codes
+   - Email addresses are partially masked in production (e.g., "us***@example.com")
    - Only validation success/failure is logged, not actual code values
-7. **Development Debugging**: Verification codes are logged to console only when NODE_ENV === 'development'
-   - Helps developers test without email setup
-   - Automatically disabled in production builds
+7. **Development Debugging**: Sensitive data is logged only when NODE_ENV === 'development'
+   - Verification codes visible in console for testing
+   - Full email addresses shown for debugging
+   - Automatically masked in production builds
    - Safe for deployment
 
 ### Support Resources

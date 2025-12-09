@@ -23,7 +23,8 @@ export async function sendVerificationEmail(
   verificationCode: string
 ): Promise<boolean> {
   try {
-    console.log('Attempting to send verification email to:', email);
+    const maskedEmail = process.env.NODE_ENV === 'development' ? email : email.replace(/(.{2})(.*)(@.*)/, '$1***$3');
+    console.log('Attempting to send verification email to:', maskedEmail);
     console.log('Using EmailJS Service ID:', EMAILJS_SERVICE_ID ? '[Configured]' : '[Missing]');
     console.log('Using EmailJS Template ID:', EMAILJS_TEMPLATE_ID ? '[Configured]' : '[Missing]');
     
@@ -37,7 +38,7 @@ export async function sendVerificationEmail(
       subject: 'Verify your Imbari Coffee account - Action Required',
     };
 
-    console.log('Email template params prepared:', {
+    console.log('Email template params prepared (partial view):', {
       to_email: templateParams.to_email,
       to_name: templateParams.to_name,
       verification_code: process.env.NODE_ENV === 'development' ? templateParams.verification_code : '[REDACTED]',
