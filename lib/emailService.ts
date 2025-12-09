@@ -3,12 +3,16 @@
 
 import emailjs from '@emailjs/browser';
 
-// EmailJS configuration
-// You'll need to create a free account at https://www.emailjs.com/
-// Then add your keys here or in environment variables
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_imbari';
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_verification';
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'your_public_key';
+// EmailJS configuration - Production values
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_ftjumeq';
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_ywhi5fk';
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'VR5vwO_VVQQML0jZ5';
+
+console.log('EmailJS Config:', {
+  serviceId: EMAILJS_SERVICE_ID,
+  templateId: EMAILJS_TEMPLATE_ID,
+  publicKey: EMAILJS_PUBLIC_KEY ? 'Present' : 'Missing'
+});
 
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
