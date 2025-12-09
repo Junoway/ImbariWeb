@@ -44,7 +44,16 @@ export default function VerifyEmailPage() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 via-yellow-500 to-orange-500 bg-clip-text text-transparent mb-2">
             Verify Your Email
           </h1>
-          <p className="text-emerald-700">We've sent a 6-digit code to your email</p>
+          <p className="text-emerald-700 font-semibold">We've sent a 6-digit code to your email</p>
+          <div className="mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg">
+            <p className="text-sm text-emerald-800">
+              <strong>📬 Check your inbox and spam folder!</strong>
+              <br />
+              The email may take a few moments to arrive.
+              <br />
+              For testing, check the browser console for the code.
+            </p>
+          </div>
         </div>
 
         {/* Verification Card */}
