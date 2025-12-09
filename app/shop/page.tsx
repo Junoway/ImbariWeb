@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import { useAuth } from "@/components/AuthContext";
 
-type ProductType = "Beans" | "Ground" | "Instant" | "Green";
+type ProductType = "Beans" | "Ground" | "Instant" | "Green" | "Pods" | "Concentrate" | "Gift";
 
 type Product = {
   id: number;
@@ -118,6 +118,28 @@ const PRODUCTS: Product[] = [
     description: "Single-serve instant sticks for travel and convenience."
   },
 
+  // K-CUP PODS
+  {
+    id: 18,
+    name: "Keurig K-Cups Pods",
+    type: "Pods",
+    size: "Box of 24",
+    price: 20.99,
+    image: withBasePath("/images/shop.jpg"),
+    description: "Keurig-compatible K-Cup pods for single-serve brewing."
+  },
+
+  // ULTRA CONCENTRATE
+  {
+    id: 19,
+    name: "Ultra Concentrate",
+    type: "Concentrate",
+    size: "250ml",
+    price: 21.99,
+    image: withBasePath("/images/shop3.jpg"),
+    description: "Concentrated coffee extract for instant iced or hot coffee."
+  },
+
   // GREEN BEANS
   {
     id: 16,
@@ -137,70 +159,25 @@ const PRODUCTS: Product[] = [
     image: withBasePath("/images/arabica.jpg"),
     description: "Premium unroasted Arabica beans from Mt. Elgon."
   },
-  {
-    id: 14,
-    name: "Imbari Instant – Foodservice Pack",
-    type: "Instant",
-    size: "500g",
-    price: 32,
-    image: withBasePath("/images/shop3.jpg"),
-    description: "Bulk instant for FMCG distributors."
-  },
-  {
-    id: 15,
-    name: "Imbari Instant – Vending Blend",
-    type: "Instant",
-    size: "1kg",
-    price: 45,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Designed for vending machines."
-  },
 
-  // GREEN
-  {
-    id: 16,
-    name: "Green Coffee – Arabica Sample",
-    type: "Green",
-    size: "1kg",
-    price: 15,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Raw Arabica beans for sampling."
-  },
-  {
-    id: 17,
-    name: "Green Coffee – Washed Arabica",
-    type: "Green",
-    size: "30kg",
-    price: 140,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Washed lot for importers."
-  },
-  {
-    id: 18,
-    name: "Green Coffee – Natural Arabica",
-    type: "Green",
-    size: "30kg",
-    price: 150,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Fruit-forward natural process beans."
-  },
-  {
-    id: 19,
-    name: "Green Coffee – Fine Robusta",
-    type: "Green",
-    size: "60kg",
-    price: 210,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Fine Robusta for espresso blends."
-  },
+  // GIFT ITEMS
   {
     id: 20,
-    name: "Green Coffee – Export Sample Contract",
-    type: "Green",
-    size: "60kg x 5 bags",
-    price: 980,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Full-scale export sample contract."
+    name: "Imbari The Unity Mug",
+    type: "Gift",
+    size: "12oz ceramic",
+    price: 15.00,
+    image: withBasePath("/images/shop.jpg"),
+    description: "Premium ceramic mug with Imbari Unity design."
+  },
+  {
+    id: 21,
+    name: "Imbari Safari Tote Bag",
+    type: "Gift",
+    size: "Canvas",
+    price: 25.00,
+    image: withBasePath("/images/shop2.jpg"),
+    description: "Stylish canvas tote bag with safari-inspired Imbari design."
   }
 ];
 
@@ -291,10 +268,53 @@ export default function ShopPage() {
         />
       </section>
 
+      {/* PROMOTIONAL SECTIONS */}
+      <section className="main-container pt-6 pb-6">
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Ready to Gift */}
+          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-yellow-400">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-3">
+              🎁 Ready to Gift
+            </h2>
+            <p className="text-emerald-900 mb-3 leading-relaxed">
+              Imbari Coffee makes a great gift! Choose a beautifully curated bundle for your loved ones.
+            </p>
+            <p className="text-emerald-700 mb-4">
+              In a rush? Check out our digital gift cards!
+            </p>
+            <p className="text-xs text-emerald-600 italic">
+              *Premade bundles are not eligible for further promotions or discount codes.
+            </p>
+            <button
+              onClick={() => setActiveFilter("Gift")}
+              className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+            >
+              View Gifts
+            </button>
+          </div>
+
+          {/* 10% Off for New Subscribers */}
+          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-emerald-400">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-3">
+              📧 10% Off for New Subscribers
+            </h2>
+            <p className="text-emerald-900 mb-3 leading-relaxed">
+              Sign up for our mailing list and get <strong>10% off</strong> your next order + subscriber-only deals.
+            </p>
+            <button
+              onClick={() => router.push('/subscriptions')}
+              className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+            >
+              Subscribe Now
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* FILTERS */}
       <section className="main-container pt-1 pb-4">
         <div className="flex flex-wrap gap-2 justify-center text-xs">
-          {(["All", "Beans", "Ground", "Instant", "Green"] as const).map(
+          {(["All", "Beans", "Ground", "Instant", "Pods", "Concentrate", "Green", "Gift"] as const).map(
             (filter) => (
               <button
                 key={filter}
