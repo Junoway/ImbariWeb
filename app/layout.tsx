@@ -6,6 +6,7 @@ import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { CartProvider } from "@/components/CartContext";
 import { AuthProvider } from "@/components/AuthContext";
+import FAQSchema from "@/components/FAQSchema";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,36 +19,146 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Imbari Coffee | Africa’s Premium Coffee, Perfected",
+  title: "Imbari Coffee | Uganda Coffee Exporter | Premium Arabica & Robusta | East Africa Specialty Coffee",
   description:
-    "Imbari Coffee is a Uganda specialty coffee exporter and African instant coffee manufacturer, offering Mt Elgon Arabica micro-lots, fine Robusta, and private-label instant coffees.",
+    "Imbari Coffee - Uganda's #1 specialty coffee exporter. Premium Mt. Elgon Arabica, Uganda Robusta, Ethiopian coffee, Kenya AA, Rwanda coffee. East Africa's finest kahawa. Organic certified instant coffee manufacturer. Sustainable coffee since 1893.",
+  keywords: [
+    "imbari",
+    "imbari coffee",
+    "uganda coffee",
+    "uganda coffee exporters",
+    "uganda robusta",
+    "specialty coffee",
+    "east africa coffee",
+    "kahawa1893",
+    "kahawa",
+    "kenya coffee",
+    "rwanda coffee",
+    "ethiopian coffee",
+    "ethiopian best arabica",
+    "ethiopian best coffee",
+    "mt elgon arabica",
+    "african coffee",
+    "uganda arabica",
+    "specialty robusta",
+    "instant coffee manufacturer",
+    "private label coffee",
+    "organic coffee uganda",
+    "fair trade coffee",
+    "sustainable coffee",
+    "direct trade coffee",
+    "single origin coffee",
+    "premium african coffee",
+    "east african coffee beans",
+    "uganda coffee beans",
+    "coffee from uganda",
+  ],
+  authors: [{ name: "Imbari Coffee" }],
+  creator: "Imbari Coffee",
+  publisher: "Imbari Coffee",
+  metadataBase: new URL("https://www.imbaricoffee.com"),
+  alternates: {
+    canonical: "https://www.imbaricoffee.com",
+  },
   openGraph: {
-    title: "Imbari Coffee | Africa’s Premium Coffee, Perfected",
+    title: "Imbari Coffee | Uganda's Premium Coffee Exporter | Arabica & Robusta",
     description:
-      "Premium African coffee from Mt. Elgon and the Rwenzori Mountains. Instant coffee, specialty Arabica, fine Robusta, and private-label manufacturing.",
-    url: "http://localhost:3000", // change to https://imbari.coffee in production
+      "Premium East African coffee: Uganda Arabica, Robusta, Ethiopian, Kenyan, Rwanda specialty beans. Organic instant coffee manufacturer. Sustainable since 1893.",
+    url: "https://www.imbaricoffee.com",
     siteName: "Imbari Coffee",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "https://www.imbaricoffee.com/images/mt-elgon.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Imbari Coffee - Uganda Premium Coffee Beans",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Imbari Coffee | Uganda Coffee Exporter",
+    description: "Premium East African specialty coffee: Uganda Arabica, Robusta, Ethiopian, Kenyan beans",
+    images: ["https://www.imbaricoffee.com/images/mt-elgon.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "GOOGLE_VERIFICATION_CODE", // Add after Google Search Console setup
   },
 };
 
 // Organization + LocalBusiness JSON-LD for SEO
 const orgJsonLd = {
   "@context": "https://schema.org",
-  "@type": ["Organization", "LocalBusiness"],
+  "@type": ["Organization", "LocalBusiness", "Store"],
   name: "Imbari Coffee",
-  url: "http://localhost:3000",
-  logo: "http://localhost:3000/logo-main.jpg",
+  alternateName: ["Kahawa1893", "Imbari"],
+  url: "https://www.imbaricoffee.com",
+  logo: "https://www.imbaricoffee.com/images/logo-main.jpg",
+  image: "https://www.imbaricoffee.com/images/mt-elgon.jpg",
   description:
-    "Imbari Coffee is a Uganda specialty coffee exporter and African instant coffee manufacturer, producing Mt Elgon Arabica micro-lots, fine Robusta, and private-label instant coffees.",
+    "Imbari Coffee is Uganda's premier specialty coffee exporter and East Africa's leading instant coffee manufacturer. We produce premium Mt. Elgon Arabica, fine Uganda Robusta, Ethiopian Arabica, Kenya AA, and Rwanda specialty coffee. Organic certified, fair trade, sustainable coffee since 1893.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Kampala",
     addressRegion: "Central",
     addressCountry: "UG",
   },
-  email: "info@imbari.coffee",
-  telephone: "+256000000000",
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "0.3476",
+    longitude: "32.5825",
+  },
+  email: "info@imbaricoffee.com",
+  telephone: "+256-XXX-XXXXX", // Add actual phone
+  sameAs: [
+    "https://www.facebook.com/imbaricoffee",
+    "https://www.instagram.com/imbaricoffee",
+    "https://twitter.com/imbaricoffee",
+    "https://www.linkedin.com/company/imbari-coffee",
+  ],
+  founder: {
+    "@type": "Person",
+    name: "Imbari Founders",
+  },
+  foundingDate: "1893",
+  areaServed: [
+    "Uganda",
+    "Kenya",
+    "Rwanda",
+    "Ethiopia",
+    "Tanzania",
+    "United States",
+    "Europe",
+    "Asia",
+    "Worldwide",
+  ],
+  knowsAbout: [
+    "Coffee Farming",
+    "Arabica Coffee",
+    "Robusta Coffee",
+    "Instant Coffee Manufacturing",
+    "Specialty Coffee",
+    "Organic Coffee",
+    "Fair Trade Coffee",
+    "Sustainable Agriculture",
+    "Coffee Exporting",
+    "Private Label Coffee",
+  ],
+  slogan: "Africa's Premium Coffee, Perfected",
+  priceRange: "$$",
   areaServed: ["Africa", "Europe", "North America", "Asia", "Middle East"],
 };
 
@@ -68,6 +179,9 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+        
+        {/* FAQ Schema for SEO */}
+        <FAQSchema />
 
         <AuthProvider>
           <CartProvider>
