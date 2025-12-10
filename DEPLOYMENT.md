@@ -3,10 +3,11 @@
 
 ## Overview
 - **Hosting**: GitHub Pages (FREE) - https://junoway.github.io/ImbariWeb
-- **Domain**: imbaricoffee.com (Namecheap - $144.80 for 10 years)
+- **Primary Domain**: https://www.imbaricoffee.com (Namecheap - $144.80 for 10 years)
+- **Secondary Domain**: https://imbaricoffee.com (redirects to www)
 - **DNS**: PremiumDNS (Namecheap - $2.98/year)
 - **Email**: Private Email 3 mailboxes (Namecheap - Free trial, then paid)
-- **SSL**: GitHub Pages automatic SSL (FREE)
+- **SSL**: GitHub Pages automatic SSL (FREE) - HTTPS enforced
 
 ## DNS Configuration (Namecheap PremiumDNS)
 
@@ -43,13 +44,15 @@ Value: 185.199.111.153
 TTL: Automatic
 ```
 
-#### CNAME Record (for www)
+#### CNAME Record (for www - Primary Domain)
 ```
 Type: CNAME
 Host: www
 Value: junoway.github.io.
 TTL: Automatic
 ```
+
+**Note**: The apex domain (imbaricoffee.com) will redirect to www.imbaricoffee.com automatically via A records.
 
 #### MX Records (for Private Email)
 ```
@@ -149,11 +152,16 @@ After DNS propagates, remove basePath in next.config.ts
 3. Change nameservers to PremiumDNS (already done)
 4. Go to Advanced DNS tab
 5. Add all DNS records listed above
-6. Wait 24-48 hours for propagation
-
 ### Phase 2: GitHub Pages Custom Domain (Day 2-3)
-1. Verify DNS propagation: `nslookup imbaricoffee.com`
-2. Add custom domain in GitHub repo settings
+1. Verify DNS propagation: 
+   - `nslookup www.imbaricoffee.com`
+   - `nslookup imbaricoffee.com`
+2. Add custom domain in GitHub repo settings: `www.imbaricoffee.com`
+3. **Check "Enforce HTTPS"** in GitHub Pages settings
+4. Wait for SSL certificate (automatic, ~1 hour)
+5. Test both URLs:
+   - Primary: https://www.imbaricoffee.com
+   - Secondary: https://imbaricoffee.com (should redirect to www)po settings
 3. Wait for SSL certificate (automatic, ~1 hour)
 4. Test: https://imbaricoffee.com
 
@@ -178,14 +186,16 @@ nslookup imbaricoffee.com
 
 # Check MX records
 nslookup -type=MX imbaricoffee.com
-
-# Check SPF
-nslookup -type=TXT imbaricoffee.com
-```
-
 ### Website Access
-- [ ] https://imbaricoffee.com loads correctly
-- [ ] https://www.imbaricoffee.com redirects to imbaricoffee.com
+- [ ] https://www.imbaricoffee.com loads correctly (primary)
+- [ ] https://imbaricoffee.com redirects to www (secondary)
+- [ ] http://www.imbaricoffee.com redirects to HTTPS
+- [ ] http://imbaricoffee.com redirects to HTTPS www
+- [ ] SSL certificate is valid (green padlock)
+- [ ] All images load properly
+- [ ] Contact form works
+- [ ] Shop functions correctly
+- [ ] Cart and checkout workee.com redirects to imbaricoffee.com
 - [ ] SSL certificate is valid (green padlock)
 - [ ] All images load properly
 - [ ] Contact form works

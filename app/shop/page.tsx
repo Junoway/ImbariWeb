@@ -132,7 +132,7 @@ const PRODUCTS: Product[] = [
   // ULTRA CONCENTRATE
   {
     id: 19,
-    name: "Ultra Concentrate",
+    name: "Ultra Coffee Concentrate",
     type: "Concentrate",
     size: "250ml",
     price: 21.99,

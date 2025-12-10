@@ -1,0 +1,14 @@
+# Imbari Coffee - robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://imbaricoffee.com/sitemap.xml
+
+# Disallow admin/account pages from search engines
+Disallow: /account
+Disallow: /checkout
+Disallow: /verify-email
+
+# Crawl-delay (optional, adjust as needed)
+Crawl-delay: 10
