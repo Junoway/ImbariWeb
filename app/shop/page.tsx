@@ -190,6 +190,15 @@ const PRODUCTS: Product[] = [
   },
   {
     id: 25,
+    name: "Imbari Logo Golf Cap",
+    type: "Gift",
+    size: "Adjustable",
+    price: 44.99,
+    image: withBasePath("/images/imb10.jpg"),
+    description: "Premium golf cap with embroidered Imbari logo."
+  },
+  {
+    id: 26,
     name: "Dark Roast – Whole Beans",
     type: "Beans",
     size: "2lb (907g)",
@@ -198,7 +207,7 @@ const PRODUCTS: Product[] = [
     description: "Bold dark roast in family-size 2lb pack."
   },
   {
-    id: 26,
+    id: 27,
     name: "Dark Roast – Ground Coffee",
     type: "Ground",
     size: "2lb (907g)",
@@ -207,7 +216,7 @@ const PRODUCTS: Product[] = [
     description: "Rich dark roast ground coffee for strong, bold brews."
   },
   {
-    id: 27,
+    id: 28,
     name: "Espresso Grind – Ground Coffee",
     type: "Ground",
     size: "2lb (907g)",
@@ -216,7 +225,7 @@ const PRODUCTS: Product[] = [
     description: "Large pack of fine espresso grind for machines."
   },
   {
-    id: 28,
+    id: 29,
     name: "Light Roast – Whole Beans",
     type: "Beans",
     size: "2lb (907g)",
@@ -225,7 +234,7 @@ const PRODUCTS: Product[] = [
     description: "Light roast beans in bulk for daily brewing."
   },
   {
-    id: 29,
+    id: 30,
     name: "Light Roast – Ground Coffee",
     type: "Ground",
     size: "2lb (907g)",
@@ -252,15 +261,6 @@ const PRODUCTS: Product[] = [
     price: 25.00,
     image: withBasePath("/images/shop2.jpg"),
     description: "Stylish canvas tote bag with safari-inspired Imbari design."
-  },
-  {
-    id: 25,
-    name: "Imbari Logo Golf Cap",
-    type: "Gift",
-    size: "Adjustable",
-    price: 44.99,
-    image: withBasePath("/images/imb10.jpg"),
-    description: "Premium golf cap with embroidered Imbari logo."
   }
 ];
 
