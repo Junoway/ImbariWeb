@@ -252,6 +252,15 @@ const PRODUCTS: Product[] = [
     price: 25.00,
     image: withBasePath("/images/shop2.jpg"),
     description: "Stylish canvas tote bag with safari-inspired Imbari design."
+  },
+  {
+    id: 25,
+    name: "Imbari Logo Golf Cap",
+    type: "Gift",
+    size: "Adjustable",
+    price: 44.99,
+    image: withBasePath("/images/imb10.jpg"),
+    description: "Premium golf cap with embroidered Imbari logo."
   }
 ];
 
