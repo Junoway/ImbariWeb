@@ -8,17 +8,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // We keep the "coffee" name so all existing classes still work,
-        // but now it's a deep luxury green palette.
+        // Imbari vibrant tropical palette
         coffee: {
-          dark: "#02140A",   // deep forest green (almost black)
-          mid: "#064E3B",    // rich emerald
-          light: "#ECFDF3",  // very light green/white
-          accent: "#16A34A"  // bright, premium green
+          dark: "#1e293b",   // navy blue (dark slate)
+          mid: "#1e3a8a",    // rich blue
+          light: "#fef3c7",  // cream/amber light
+          accent: "#ff6b35"  // vibrant orange
+        },
+        imbari: {
+          orange: "#ff6b35",
+          coral: "#ff8c42",
+          blue: "#1e3a8a",
+          navy: "#1e293b",
+          teal: "#14b8a6",
+          turquoise: "#06b6d4",
+          cream: "#fef3c7",
+          peach: "#fed7aa",
+          gold: "#fbbf24"
         }
       },
       boxShadow: {
-        "brand-soft": "0 18px 45px rgba(0,0,0,0.55)"
+        "brand-soft": "0 18px 45px rgba(255, 107, 53, 0.25)",
+        "brand-glow": "0 0 40px rgba(255, 107, 53, 0.3)"
       },
       borderRadius: {
         brand: "1.75rem"

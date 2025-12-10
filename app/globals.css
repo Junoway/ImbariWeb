@@ -2,24 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* KAHAWA-INSPIRED PALETTE */
+/* IMBARI VIBRANT PALETTE - Inspired by tropical coffee packaging */
 :root {
-  --kahawa-brown: #4e342e;
-  --kahawa-gold: #ffd700;
-  --kahawa-black: #181818;
-  --kahawa-red: #b71c1c;
-  --kahawa-cream: #f5f3e7;
-  --kahawa-green: #388e3c;
-  --kahawa-accent: #ffd700;
-  --bg-main: var(--kahawa-cream);
-  --fg-main: var(--kahawa-black);
-  --accent: var(--kahawa-gold);
-  --accent-soft: #ffe066;
+  --imbari-orange: #ff6b35;
+  --imbari-coral: #ff8c42;
+  --imbari-blue: #1e3a8a;
+  --imbari-navy: #1e293b;
+  --imbari-teal: #14b8a6;
+  --imbari-turquoise: #06b6d4;
+  --imbari-cream: #fef3c7;
+  --imbari-peach: #fed7aa;
+  --imbari-gold: #fbbf24;
+  --imbari-black: #0f172a;
+  
+  /* Semantic colors */
+  --bg-main: var(--imbari-cream);
+  --fg-main: var(--imbari-navy);
+  --accent: var(--imbari-orange);
+  --accent-secondary: var(--imbari-teal);
+  --accent-soft: var(--imbari-coral);
 }
 
 body {
   margin: 0;
-  background: linear-gradient(120deg, var(--kahawa-cream) 0%, var(--kahawa-brown) 100%);
+  background: linear-gradient(135deg, var(--imbari-cream) 0%, var(--imbari-peach) 50%, var(--imbari-orange) 100%);
   color: var(--fg-main);
   font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
@@ -29,7 +35,7 @@ body {
 h1, h2, h3, .section-heading {
   font-family: var(--font-playfair), "Times New Roman", serif;
   letter-spacing: -0.02em;
-  color: var(--kahawa-brown);
+  color: var(--imbari-navy);
 }
 
 .main-container {
@@ -49,47 +55,52 @@ h1, h2, h3, .section-heading {
 
 .card {
   border-radius: 1.75rem;
-  border: 1px solid var(--kahawa-gold);
-  background-color: #fffbe6;
-  box-shadow: 0 18px 45px rgba(78, 52, 46, 0.15);
+  border: 2px solid var(--imbari-orange);
+  background: linear-gradient(135deg, #ffffff 0%, var(--imbari-cream) 100%);
+  box-shadow: 0 18px 45px rgba(255, 107, 53, 0.2);
 }
 
 .button-primary {
-  background: linear-gradient(90deg, var(--kahawa-gold), var(--kahawa-brown));
-  color: var(--kahawa-black);
+  background: linear-gradient(90deg, var(--imbari-orange), var(--imbari-coral));
+  color: white;
   font-weight: bold;
   border: none;
-  box-shadow: 0 18px 45px rgba(78, 52, 46, 0.15);
-  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 18px 45px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s ease;
 }
 .button-primary:hover {
-  background: linear-gradient(90deg, var(--kahawa-brown), var(--kahawa-gold));
-  color: #fffbe6;
-  box-shadow: 0 22px 55px rgba(78, 52, 46, 0.25);
+  background: linear-gradient(90deg, var(--imbari-teal), var(--imbari-turquoise));
+  color: white;
+  box-shadow: 0 22px 55px rgba(20, 184, 166, 0.4);
+  transform: translateY(-2px);
 }
 
 .badge {
-  border: 1px solid var(--kahawa-gold);
-  background: var(--kahawa-gold);
-  color: var(--kahawa-brown);
+  border: 2px solid var(--imbari-orange);
+  background: linear-gradient(135deg, var(--imbari-orange), var(--imbari-coral));
+  color: white;
   font-weight: bold;
 }
 
 .section-heading {
-  color: var(--kahawa-brown);
+  color: var(--imbari-navy);
+  background: linear-gradient(90deg, var(--imbari-orange), var(--imbari-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-subtitle {
-  color: var(--kahawa-green);
+  color: var(--imbari-teal);
 }
 
 a {
-  color: var(--kahawa-brown);
+  color: var(--imbari-navy);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 a:hover {
-  color: var(--kahawa-gold);
+  color: var(--imbari-orange);
 }
 
 .text-muted {
