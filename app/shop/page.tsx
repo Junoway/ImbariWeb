@@ -28,7 +28,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "12oz (340g)",
     price: 17.99,
-    image: withBasePath("/images/arabica.jpg"),
+    image: withBasePath("/images/imb7.jpg"),
     description:
       "Single-origin Mt. Elgon Arabica beans, freshly roasted for home grinding."
   },
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "2lb (907g)",
     price: 44.99,
-    image: withBasePath("/images/arabica.jpg"),
+    image: withBasePath("/images/imb1.jpg"),
     description: "Family-size whole beans pack with excellent balance."
   },
   {
@@ -47,16 +47,16 @@ const PRODUCTS: Product[] = [
     type: "Beans",
     size: "12oz (340g)",
     price: 17.99,
-    image: withBasePath("/images/arabica.jpg"),
+    image: withBasePath("/images/imb8.jpg"),
     description: "Dark roast for bold flavor and rich crema."
   },
   {
     id: 5,
     name: "Espresso Roast – Whole Beans",
     type: "Beans",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/robusta.jpg"),
+    size: "12oz (340g)",
+    price: 17.99,
+    image: withBasePath("/images/imb3.jpg"),
     description: "Crafted for espresso machines with thick crema."
   },
 
@@ -67,7 +67,7 @@ const PRODUCTS: Product[] = [
     type: "Ground",
     size: "12oz (340g)",
     price: 17.99,
-    image: withBasePath("/images/shop.jpg"),
+    image: withBasePath("/images/imb5.jpg"),
     description: "Smooth grind for pour-over and French press."
   },
   {
@@ -92,41 +92,41 @@ const PRODUCTS: Product[] = [
     id: 9,
     name: "Espresso Grind – Ground Coffee",
     type: "Ground",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop3.jpg"),
+    size: "12oz (340g)",
+    price: 17.99,
+    image: withBasePath("/images/imb4.jpg"),
     description: "Fine grind ideal for espresso machines."
   },
 
-  // SINGLE SERVE PACKS
+  // SINGLE SERVE PACKS & SACHETS
   {
     id: 11,
-    name: "Single Serve Coffee Pods",
+    name: "Sample Light Roast Sachet",
     type: "Instant",
-    size: "Box of 24",
-    price: 19.99,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Convenient single-serve pods for quick brewing."
+    size: "0.5oz (14.2g)",
+    price: 2.49,
+    image: withBasePath("/images/imb6.jpg"),
+    description: "Try our light roast in convenient single-serve sachet."
   },
   {
     id: 13,
-    name: "Imbari Instant – Travel Sticks",
+    name: "12-Pack Sachets Box",
     type: "Instant",
-    size: "Box of 24",
-    price: 19.99,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Single-serve instant sticks for travel and convenience."
+    size: "Box of 12",
+    price: 24.99,
+    image: withBasePath("/images/imb9.jpg"),
+    description: "12 single-serve sachets for travel and convenience."
   },
 
   // K-CUP PODS
   {
     id: 18,
-    name: "Keurig K-Cups Pods",
+    name: "Dark Roast Keurig K-Cups",
     type: "Pods",
     size: "Box of 24",
     price: 20.99,
-    image: withBasePath("/images/shop.jpg"),
-    description: "Keurig-compatible K-Cup pods for single-serve brewing."
+    image: withBasePath("/images/imb2.jpg"),
+    description: "24 Dark Roast Keurig-compatible K-Cup pods for bold single-serve brewing."
   },
 
   // ULTRA CONCENTRATE
@@ -158,6 +158,80 @@ const PRODUCTS: Product[] = [
     price: 15.99,
     image: withBasePath("/images/arabica.jpg"),
     description: "Premium unroasted Arabica beans from Mt. Elgon."
+  },
+
+  // ADDITIONAL ROAST VARIETIES
+  {
+    id: 22,
+    name: "Light Roast – Whole Beans",
+    type: "Beans",
+    size: "12oz (340g)",
+    price: 17.99,
+    image: withBasePath("/images/arabica.jpg"),
+    description: "Bright and fruity light roast for delicate flavor profiles."
+  },
+  {
+    id: 23,
+    name: "Light Roast – Ground Coffee",
+    type: "Ground",
+    size: "12oz (340g)",
+    price: 17.99,
+    image: withBasePath("/images/shop.jpg"),
+    description: "Light roast ground coffee for bright morning cups."
+  },
+  {
+    id: 24,
+    name: "Espresso Roast – Whole Beans",
+    type: "Beans",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/robusta.jpg"),
+    description: "Large pack of espresso beans for coffee enthusiasts."
+  },
+  {
+    id: 25,
+    name: "Dark Roast – Whole Beans",
+    type: "Beans",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/shop4.jpg"),
+    description: "Bold dark roast in family-size 2lb pack."
+  },
+  {
+    id: 26,
+    name: "Dark Roast – Ground Coffee",
+    type: "Ground",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/shop3.jpg"),
+    description: "Rich dark roast ground coffee for strong, bold brews."
+  },
+  {
+    id: 27,
+    name: "Espresso Grind – Ground Coffee",
+    type: "Ground",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/shop4.jpg"),
+    description: "Large pack of fine espresso grind for machines."
+  },
+  {
+    id: 28,
+    name: "Light Roast – Whole Beans",
+    type: "Beans",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/arabica.jpg"),
+    description: "Light roast beans in bulk for daily brewing."
+  },
+  {
+    id: 29,
+    name: "Light Roast – Ground Coffee",
+    type: "Ground",
+    size: "2lb (907g)",
+    price: 44.99,
+    image: withBasePath("/images/shop.jpg"),
+    description: "Family-size light roast ground coffee."
   },
 
   // GIFT ITEMS
