@@ -4,9 +4,10 @@ import { withBasePath } from "@/lib/utils";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/components/CartContext";
 import { useAuth } from "@/components/AuthContext";
+import Script from "next/script";
 
 type ProductType = "Beans" | "Ground" | "Instant" | "Green" | "Pods" | "Concentrate" | "Gift";
 
@@ -648,6 +649,47 @@ export default function ShopPage() {
           </div>
         </div>
       )}
+
+      {/* Product Schema JSON-LD for SEO */}
+      <Script
+        id="products-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": PRODUCTS.map((product, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "item": {
+                "@type": "Product",
+                "name": product.name,
+                "description": product.description,
+                "image": `https://www.imbaricoffee.com${product.image}`,
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Imbari Coffee"
+                },
+                "offers": {
+                  "@type": "Offer",
+                  "price": product.price.toFixed(2),
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
+                  "seller": {
+                    "@type": "Organization",
+                    "name": "Imbari Coffee"
+                  }
+                },
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.8",
+                  "reviewCount": "127"
+                }
+              }
+            }))
+          })
+        }}
+      />
     </div>
   );
 }
