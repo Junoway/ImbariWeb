@@ -159,7 +159,6 @@ const orgJsonLd = {
   ],
   slogan: "Africa's Premium Coffee, Perfected",
   priceRange: "$$",
-  areaServed: ["Africa", "Europe", "North America", "Asia", "Middle East"],
 };
 
 export default function RootLayout({
