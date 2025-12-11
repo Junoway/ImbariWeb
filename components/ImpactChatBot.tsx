@@ -42,7 +42,7 @@ export default function ImpactChatBot() {
   useEffect(() => {
     if (!sessionId || !chatStarted || !database) return;
 
-    const sessionRef = ref(database, `chatSessions/${sessionId}`);
+    const sessionRef = ref(database, `chats/${sessionId}`);
     
     const unsubscribe = onValue(sessionRef, (snapshot) => {
       const data = snapshot.val();
@@ -66,7 +66,7 @@ export default function ImpactChatBot() {
   useEffect(() => {
     if (!sessionId || !chatStarted || !database) return;
 
-    const messagesRef = ref(database, `messages/${sessionId}`);
+    const messagesRef = ref(database, `chats/${sessionId}/messages`);
     const messagesQuery = query(messagesRef, orderByChild("timestamp"));
     
     const unsubscribe = onValue(messagesQuery, (snapshot) => {
@@ -130,7 +130,7 @@ export default function ImpactChatBot() {
 
     try {
       // Create new chat session
-      const sessionsRef = ref(database, "chatSessions");
+      const sessionsRef = ref(database, "chats");
       const newSessionRef = push(sessionsRef);
       const newSessionId = newSessionRef.key;
 
@@ -182,7 +182,7 @@ export default function ImpactChatBot() {
 
     try {
       // Send to Firebase
-      const messagesRef = ref(database, `messages/${sessionId}`);
+      const messagesRef = ref(database, `chats/${sessionId}/messages`);
       const newMessageRef = push(messagesRef);
       
       await set(newMessageRef, {
@@ -196,7 +196,7 @@ export default function ImpactChatBot() {
       });
 
       // Update session
-      const sessionRef = ref(database, `chatSessions/${sessionId}`);
+      const sessionRef = ref(database, `chats/${sessionId}`);
       await set(sessionRef, {
         customerName: name,
         customerEmail: email,
