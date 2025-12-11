@@ -1,269 +1,16 @@
 // app/shop/page.tsx
 "use client";
-import { withBasePath } from "@/lib/utils";
+import { PRODUCTS, type ProductType, type Product } from "@/lib/products";
+import { formatCurrency } from "@/lib/utils";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useCart } from "@/components/CartContext";
 import { useAuth } from "@/components/AuthContext";
 import Script from "next/script";
 
-type ProductType = "Beans" | "Ground" | "Instant" | "Green" | "Pods" | "Concentrate" | "Gift";
-
-type Product = {
-  id: number;
-  name: string;
-  type: ProductType;
-  size: string;
-  price: number;
-  image: string;
-  description: string;
-};
-
-const PRODUCTS: Product[] = [
-  // ROASTED BEANS
-  {
-    id: 1,
-    name: "Medium Roast – Whole Beans",
-    type: "Beans",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/imb7.jpg"),
-    description:
-      "Single-origin Mt. Elgon Arabica beans, freshly roasted for home grinding."
-  },
-  {
-    id: 2,
-    name: "Medium Roast – Whole Beans",
-    type: "Beans",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/imb1.jpg"),
-    description: "Family-size whole beans pack with excellent balance."
-  },
-  {
-    id: 4,
-    name: "Dark Roast – Whole Beans",
-    type: "Beans",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/imb8.jpg"),
-    description: "Dark roast for bold flavor and rich crema."
-  },
-  {
-    id: 5,
-    name: "Espresso Roast – Whole Beans",
-    type: "Beans",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/imb3.jpg"),
-    description: "Crafted for espresso machines with thick crema."
-  },
-
-  // GROUND COFFEE
-  {
-    id: 6,
-    name: "Medium Roast – Ground Coffee",
-    type: "Ground",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/imb5.jpg"),
-    description: "Smooth grind for pour-over and French press."
-  },
-  {
-    id: 7,
-    name: "Medium Roast – Ground Coffee",
-    type: "Ground",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Ideal for homes and offices."
-  },
-  {
-    id: 8,
-    name: "Dark Roast – Ground Coffee",
-    type: "Ground",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Full-bodied cup for strong coffee lovers."
-  },
-  {
-    id: 9,
-    name: "Espresso Grind – Ground Coffee",
-    type: "Ground",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/imb4.jpg"),
-    description: "Fine grind ideal for espresso machines."
-  },
-
-  // SINGLE SERVE PACKS & SACHETS
-  {
-    id: 11,
-    name: "Sample Light Roast Sachet",
-    type: "Instant",
-    size: "0.5oz (14.2g)",
-    price: 2.49,
-    image: withBasePath("/images/imb6.jpg"),
-    description: "Try our light roast in convenient single-serve sachet."
-  },
-  {
-    id: 13,
-    name: "12-Pack Sachets Box",
-    type: "Instant",
-    size: "Box of 12",
-    price: 24.99,
-    image: withBasePath("/images/imb9.jpg"),
-    description: "12 single-serve sachets for travel and convenience."
-  },
-
-  // K-CUP PODS
-  {
-    id: 18,
-    name: "Dark Roast Keurig K-Cups",
-    type: "Pods",
-    size: "Box of 24",
-    price: 20.99,
-    image: withBasePath("/images/imb2.jpg"),
-    description: "24 Dark Roast Keurig-compatible K-Cup pods for bold single-serve brewing."
-  },
-
-  // ULTRA CONCENTRATE
-  {
-    id: 19,
-    name: "Ultra Coffee Concentrate",
-    type: "Concentrate",
-    size: "250ml",
-    price: 21.99,
-    image: withBasePath("/images/shop3.jpg"),
-    description: "Concentrated coffee extract for instant iced or hot coffee."
-  },
-
-  // GREEN BEANS
-  {
-    id: 16,
-    name: "Green Bean Robusta",
-    type: "Green",
-    size: "1kg (2.2lb)",
-    price: 6.99,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Unroasted Robusta beans for home or commercial roasting."
-  },
-  {
-    id: 17,
-    name: "Green Bean Arabica",
-    type: "Green",
-    size: "1kg (2.2lb)",
-    price: 15.99,
-    image: withBasePath("/images/arabica.jpg"),
-    description: "Premium unroasted Arabica beans from Mt. Elgon."
-  },
-
-  // ADDITIONAL ROAST VARIETIES
-  {
-    id: 22,
-    name: "Light Roast – Whole Beans",
-    type: "Beans",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/arabica.jpg"),
-    description: "Bright and fruity light roast for delicate flavor profiles."
-  },
-  {
-    id: 23,
-    name: "Light Roast – Ground Coffee",
-    type: "Ground",
-    size: "12oz (340g)",
-    price: 17.99,
-    image: withBasePath("/images/shop.jpg"),
-    description: "Light roast ground coffee for bright morning cups."
-  },
-  {
-    id: 24,
-    name: "Espresso Roast – Whole Beans",
-    type: "Beans",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/robusta.jpg"),
-    description: "Large pack of espresso beans for coffee enthusiasts."
-  },
-  {
-    id: 25,
-    name: "Imbari Logo Golf Cap",
-    type: "Gift",
-    size: "Adjustable",
-    price: 44.99,
-    image: withBasePath("/images/imb10.jpg"),
-    description: "Premium golf cap with embroidered Imbari logo."
-  },
-  {
-    id: 26,
-    name: "Dark Roast – Whole Beans",
-    type: "Beans",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Bold dark roast in family-size 2lb pack."
-  },
-  {
-    id: 27,
-    name: "Dark Roast – Ground Coffee",
-    type: "Ground",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop3.jpg"),
-    description: "Rich dark roast ground coffee for strong, bold brews."
-  },
-  {
-    id: 28,
-    name: "Espresso Grind – Ground Coffee",
-    type: "Ground",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop4.jpg"),
-    description: "Large pack of fine espresso grind for machines."
-  },
-  {
-    id: 29,
-    name: "Light Roast – Whole Beans",
-    type: "Beans",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/arabica.jpg"),
-    description: "Light roast beans in bulk for daily brewing."
-  },
-  {
-    id: 30,
-    name: "Light Roast – Ground Coffee",
-    type: "Ground",
-    size: "2lb (907g)",
-    price: 44.99,
-    image: withBasePath("/images/shop.jpg"),
-    description: "Family-size light roast ground coffee."
-  },
-
-  // GIFT ITEMS
-  {
-    id: 20,
-    name: "Imbari The Unity Mug",
-    type: "Gift",
-    size: "12oz ceramic",
-    price: 15.00,
-    image: withBasePath("/images/shop.jpg"),
-    description: "Premium ceramic mug with Imbari Unity design."
-  },
-  {
-    id: 21,
-    name: "Imbari Safari Tote Bag",
-    type: "Gift",
-    size: "Canvas",
-    price: 25.00,
-    image: withBasePath("/images/shop2.jpg"),
-    description: "Stylish canvas tote bag with safari-inspired Imbari design."
-  }
-];
 
 export default function ShopPage() {
   const { items, addItem } = useCart();
@@ -431,8 +178,8 @@ export default function ShopPage() {
                 key={product.id}
                 className="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-white via-yellow-50/30 to-emerald-50/30 shadow-md hover:shadow-xl hover:border-emerald-400 transition-all duration-300 p-3 flex flex-col"
               >
-                {/* IMAGE WITH ZOOM EFFECT & COLORED BACKGROUND */}
-                <div className="w-full flex justify-center">
+                {/* IMAGE WITH ZOOM EFFECT & COLORED BACKGROUND - Links to product page */}
+                <Link href={`/shop/${product.slug}`} className="w-full flex justify-center">
                   <div className="w-40 h-40 border-2 border-emerald-300 rounded-lg bg-gradient-to-br from-green-100 via-yellow-100 to-orange-100 overflow-hidden flex items-center justify-center shadow-inner">
                     <Image
                       src={product.image}
@@ -442,15 +189,17 @@ export default function ShopPage() {
                       className="w-36 h-36 object-contain transition-transform duration-300 hover:scale-110 drop-shadow-lg"
                     />
                   </div>
-                </div>
+                </Link>
 
-                {/* DETAILS */}
-                <h2 className="text-sm font-bold text-emerald-800 mt-2 line-clamp-2">
-                  {product.name}
-                </h2>
-                <p className="text-[11px] text-emerald-900/90 line-clamp-2">
-                  {product.description}
-                </p>
+                {/* DETAILS - Links to product page */}
+                <Link href={`/shop/${product.slug}`} className="block mt-2">
+                  <h2 className="text-sm font-bold text-emerald-800 line-clamp-2 hover:text-emerald-600 transition-colors">
+                    {product.name}
+                  </h2>
+                  <p className="text-[11px] text-emerald-900/90 line-clamp-2">
+                    {product.description}
+                  </p>
+                </Link>
 
                 {/* FOOTER (PRICE + BUTTONS) */}
                 <div className="mt-auto pt-2 border-t border-emerald-100 space-y-2">
