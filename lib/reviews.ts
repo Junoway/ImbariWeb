@@ -1,0 +1,96 @@
+import { database } from './firebase';
+import { ref, push, set, onValue, off, query, orderByChild } from 'firebase/database';
+
+export interface Review {
+  id?: string;
+  productId: string;
+  name: string;
+  email: string;
+  rating: number;
+  comment: string;
+  verified: boolean;
+  timestamp: number;
+}
+
+/**
+ * Submit a new review to Firebase
+ */
+export async function submitReview(review: Omit<Review, 'id' | 'timestamp' | 'verified'>): Promise<string> {
+  if (!database) {
+    throw new Error('Firebase database not initialized');
+  }
+
+  const reviewsRef = ref(database, `reviews/${review.productId}`);
+  const newReviewRef = push(reviewsRef);
+  
+  const reviewData: Omit<Review, 'id'> = {
+    ...review,
+    verified: false, // Admin can verify later
+    timestamp: Date.now(),
+  };
+
+  await set(newReviewRef, reviewData);
+  return newReviewRef.key || '';
+}
+
+/**
+ * Get all reviews for a specific product
+ */
+export function getProductReviews(
+  productId: string,
+  callback: (reviews: Review[]) => void
+): () => void {
+  if (!database) {
+    callback([]);
+    return () => {};
+  }
+
+  const reviewsRef = ref(database, `reviews/${productId}`);
+  const reviewsQuery = query(reviewsRef, orderByChild('timestamp'));
+
+  const handleValue = (snapshot: any) => {
+    const reviews: Review[] = [];
+    snapshot.forEach((childSnapshot: any) => {
+      reviews.push({
+        id: childSnapshot.key,
+        ...childSnapshot.val(),
+      });
+    });
+    // Reverse to show newest first
+    callback(reviews.reverse());
+  };
+
+  onValue(reviewsQuery, handleValue);
+
+  // Return unsubscribe function
+  return () => off(reviewsQuery, 'value', handleValue);
+}
+
+/**
+ * Calculate average rating for a product
+ */
+export function calculateAverageRating(reviews: Review[]): number {
+  if (reviews.length === 0) return 0;
+  
+  const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+  return Math.round((sum / reviews.length) * 10) / 10; // Round to 1 decimal
+}
+
+/**
+ * Get rating distribution
+ */
+export function getRatingDistribution(reviews: Review[]): Record<number, number> {
+  const distribution: Record<number, number> = {
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0,
+  };
+
+  reviews.forEach(review => {
+    distribution[review.rating] = (distribution[review.rating] || 0) + 1;
+  });
+
+  return distribution;
+}

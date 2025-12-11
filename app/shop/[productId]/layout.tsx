@@ -3,11 +3,12 @@ import { getProductBySlug, getAllProductSlugs } from '@/lib/products';
 import { formatCurrency } from '@/lib/utils';
 
 type Props = {
-  params: { productId: string };
+  params: Promise<{ productId: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = getProductBySlug(params.productId);
+  const { productId } = await params;
+  const product = getProductBySlug(productId);
 
   if (!product) {
     return {

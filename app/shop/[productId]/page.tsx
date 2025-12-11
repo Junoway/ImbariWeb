@@ -8,11 +8,13 @@ import { notFound, useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/utils';
 import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
-import { useState } from 'react';
+import { useState, use, useEffect } from 'react';
+import { submitReview, getProductReviews, calculateAverageRating, type Review } from '@/lib/reviews';
 
 // Dynamic product page - receives productId (slug) from URL
-export default function ProductPage({ params }: { params: { productId: string } }) {
-  const product = getProductBySlug(params.productId);
+export default function ProductPage({ params }: { params: Promise<{ productId: string }> }) {
+  const { productId } = use(params);
+  const product = getProductBySlug(productId);
   const { addItem } = useCart();
   const { user } = useAuth();
   const router = useRouter();
@@ -26,10 +28,21 @@ export default function ProductPage({ params }: { params: { productId: string } 
     rating: 5,
     comment: ''
   });
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   if (!product) {
     notFound();
   }
+
+  // Load reviews from Firebase
+  useEffect(() => {
+    const unsubscribe = getProductReviews(productId, (loadedReviews) => {
+      setReviews(loadedReviews);
+    });
+
+    return () => unsubscribe();
+  }, [productId]);
 
   // 10% discount for subscribers
   const isSubscriber = user?.isSubscribed || false;
@@ -70,41 +83,39 @@ export default function ProductPage({ params }: { params: { productId: string } 
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
-  const handleFeedbackSubmit = (e: React.FormEvent) => {
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Submit feedback to Firebase or email service
-    alert('Thank you for your feedback! We appreciate your review.');
-    setShowFeedbackForm(false);
-    setFeedbackData({ name: '', email: '', rating: 5, comment: '' });
+    setIsSubmittingReview(true);
+
+    try {
+      await submitReview({
+        productId: productId,
+        name: feedbackData.name,
+        email: feedbackData.email,
+        rating: feedbackData.rating,
+        comment: feedbackData.comment,
+      });
+
+      alert('Thank you for your review! It has been submitted successfully.');
+      setShowFeedbackForm(false);
+      setFeedbackData({ name: '', email: '', rating: 5, comment: '' });
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Failed to submit review. Please try again.');
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
-  // Sample customer reviews (can be moved to database later)
-  const customerReviews = [
-    {
-      name: "Sarah M.",
-      rating: 5,
-      date: "Nov 2024",
-      comment: "Absolutely love this coffee! The flavor is rich and smooth, perfect for my morning routine.",
-      verified: true
-    },
-    {
-      name: "James K.",
-      rating: 5,
-      date: "Oct 2024",
-      comment: "Best Ethiopian coffee I've tried. The chocolate notes are amazing!",
-      verified: true
-    },
-    {
-      name: "Linda P.",
-      rating: 4,
-      date: "Sep 2024",
-      comment: "Great quality coffee. Would love to see more variety in roast levels.",
-      verified: true
-    }
-  ];
+  // Calculate review statistics from Firebase data
+  const averageRating = reviews.length > 0 ? calculateAverageRating(reviews) : 0;
+  const totalReviews = reviews.length;
 
-  const averageRating = 4.8;
-  const totalReviews = 127;
+  // Format timestamp to readable date
+  const formatReviewDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  };
 
   // Product story based on type
   const getProductStory = () => {
@@ -491,43 +502,56 @@ export default function ProductPage({ params }: { params: { productId: string } 
       {/* Customer Reviews Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-200">
         <h2 className="text-3xl font-bold text-gray-900 mb-8">Customer Reviews</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {customerReviews.map((review, index) => (
-            <div key={index} className="bg-white rounded-lg p-6 shadow-md">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                    <span className="text-orange-600 font-semibold">
-                      {review.name.charAt(0)}
+        
+        {reviews.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <p className="text-gray-500 mb-4">No reviews yet. Be the first to review this product!</p>
+            <button
+              onClick={() => setShowFeedbackForm(true)}
+              className="px-6 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition"
+            >
+              Write a Review
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {reviews.slice(0, 6).map((review) => (
+              <div key={review.id} className="bg-white rounded-lg p-6 shadow-md">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                      <span className="text-orange-600 font-semibold">
+                        {review.name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">{review.name}</div>
+                      <div className="text-xs text-gray-500">{formatReviewDate(review.timestamp)}</div>
+                    </div>
+                  </div>
+                  {review.verified && (
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                      Verified
                     </span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{review.name}</div>
-                    <div className="text-xs text-gray-500">{review.date}</div>
-                  </div>
+                  )}
                 </div>
-                {review.verified && (
-                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                    Verified
-                  </span>
-                )}
+                <div className="flex mb-3">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className={`w-5 h-5 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">{review.comment}</p>
               </div>
-              <div className="flex mb-3">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg
-                    key={star}
-                    className={`w-5 h-5 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-700 text-sm leading-relaxed">{review.comment}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* FEEDBACK FORM MODAL */}
@@ -617,15 +641,27 @@ export default function ProductPage({ params }: { params: { productId: string } 
                 <button
                   type="button"
                   onClick={() => setShowFeedbackForm(false)}
-                  className="flex-1 py-3 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition"
+                  disabled={isSubmittingReview}
+                  className="flex-1 py-3 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg"
+                  disabled={isSubmittingReview}
+                  className="flex-1 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Submit Review
+                  {isSubmittingReview ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Review'
+                  )}
                 </button>
               </div>
             </form>
