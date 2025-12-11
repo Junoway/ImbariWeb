@@ -10,6 +10,7 @@ import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
 import { useState } from 'react';
 
+// Dynamic product page - receives productId (slug) from URL
 export default function ProductPage({ params }: { params: { productId: string } }) {
   const product = getProductBySlug(params.productId);
   const { addItem } = useCart();
