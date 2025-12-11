@@ -1,11 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { database } from "@/lib/firebase";
+import { ref, push, set, onValue, serverTimestamp, query, orderByChild } from "firebase/database";
 
 type Message = {
-  from: "bot" | "user";
+  id?: string;
+  from: "customer" | "admin" | "bot";
   text: string;
+  timestamp?: number;
 };
 
 const QUICK_TOPICS = [
@@ -35,57 +39,192 @@ export default function ImpactChatBot() {
   const [phone, setPhone] = useState("");
   const [input, setInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [chatStarted, setChatStarted] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const addUserMessage = (text: string) => {
-    if (!text.trim()) return;
-    setMessages((prev) => [...prev, { from: "user", text: text.trim() }]);
-    setInput("");
-    setTimeout(() => {
+  // Listen for real-time messages from admin
+  useEffect(() => {
+    if (!sessionId || !chatStarted) return;
+
+    const messagesRef = ref(database, `messages/${sessionId}`);
+    const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+    
+    const unsubscribe = onValue(messagesQuery, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const messageList: Message[] = Object.entries(data).map(([id, msg]: [string, any]) => ({
+          id,
+          text: msg.text,
+          from: msg.from,
+          timestamp: msg.timestamp,
+        }));
+        messageList.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+        
+        // Add bot welcome messages at the start
+        const allMessages = [
+          ...messages.filter(m => m.from === "bot"),
+          ...messageList,
+        ];
+        
+        setMessages(allMessages);
+        
+        // Show notification for new admin messages when chat is closed
+        const hasAdminMessage = messageList.some(m => m.from === "admin" && !m.id?.includes("read"));
+        if (hasAdminMessage && !open) {
+          setHasNewMessage(true);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [sessionId, chatStarted]);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Clear notification when opening chat
+  useEffect(() => {
+    if (open) {
+      setHasNewMessage(false);
+    }
+  }, [open]);
+
+  const startChat = async () => {
+    if (!name || !email) {
       setMessages((prev) => [
         ...prev,
         {
           from: "bot",
-          text:
-            "Thank you for sharing. Our team will review this and contact you by email or WhatsApp with next steps.",
-        },
-      ]);
-    }, 400);
-  };
-
-  const handleQuickTopic = (topic: string) => {
-    addUserMessage(topic);
-  };
-
-  const handleSubmitLead = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email || !input) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "bot",
-          text:
-            "Please fill in your name, email, and your main inquiry so we can respond properly.",
+          text: "Please provide your name and email to start chatting with our team.",
         },
       ]);
       return;
     }
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+
+    try {
+      // Create new chat session
+      const sessionsRef = ref(database, "chatSessions");
+      const newSessionRef = push(sessionsRef);
+      const newSessionId = newSessionRef.key;
+
+      if (!newSessionId) return;
+
+      await set(newSessionRef, {
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        lastMessage: "Chat started",
+        lastMessageTime: Date.now(),
+        unreadCount: 0,
+        status: "active",
+      });
+
+      setSessionId(newSessionId);
+      setChatStarted(true);
+
       setMessages((prev) => [
         ...prev,
         {
           from: "bot",
-          text:
-            "Covenant received. 😊 The Imbari team has your request and will get back to you shortly.",
+          text: `Thanks ${name}! You're now connected to our team. They'll respond shortly. Feel free to share your questions below.`,
         },
       ]);
-      setInput("");
-    }, 600);
+    } catch (error) {
+      console.error("Error starting chat:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: "Sorry, we couldn't connect right now. Please try again or email us at info@imbaricoffee.com",
+        },
+      ]);
+    }
+  };
+
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || !sessionId) return;
+
+    const messageText = text.trim();
+    
+    // Add message to local state immediately
+    setMessages((prev) => [
+      ...prev,
+      { from: "customer", text: messageText },
+    ]);
+    setInput("");
+
+    try {
+      // Send to Firebase
+      const messagesRef = ref(database, `messages/${sessionId}`);
+      const newMessageRef = push(messagesRef);
+      
+      await set(newMessageRef, {
+        text: messageText,
+        from: "customer",
+        timestamp: serverTimestamp(),
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        read: false,
+      });
+
+      // Update session
+      const sessionRef = ref(database, `chatSessions/${sessionId}`);
+      await set(sessionRef, {
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        lastMessage: messageText,
+        lastMessageTime: Date.now(),
+        unreadCount: 1,
+        status: "active",
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: "Message failed to send. Please check your connection and try again.",
+        },
+      ]);
+    }
+  };
+
+  const addUserMessage = (text: string) => {
+    if (!chatStarted) {
+      setInput(text);
+      return;
+    }
+    sendMessage(text);
+  };
+
+  const handleQuickTopic = (topic: string) => {
+    if (!chatStarted) {
+      setInput(topic);
+      return;
+    }
+    sendMessage(topic);
+  };
+
+  const handleSubmitLead = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!chatStarted) {
+      startChat();
+      return;
+    }
+
+    if (!input.trim()) return;
+    sendMessage(input);
   };
 
   // --- MODAL CONTENT (CENTERED, NOT COVERING NAVBAR) ---
@@ -123,101 +262,140 @@ export default function ImpactChatBot() {
             <div
               key={idx}
               className={`flex ${
-                m.from === "user" ? "justify-end" : "justify-start"
+                m.from === "customer" ? "justify-end" : "justify-start"
               }`}
             >
               <div
                 className={`max-w-[80%] rounded-2xl px-5 py-2.5 leading-snug shadow-lg ${
-                  m.from === "user"
+                  m.from === "customer"
                     ? "bg-emerald-500 text-black"
+                    : m.from === "admin"
+                    ? "bg-blue-500 text-white"
                     : "bg-white/10 text-neutral-100"
                 }`}
               >
+                {m.from === "admin" && (
+                  <div className="text-xs font-semibold mb-1 opacity-80">
+                    Imbari Team
+                  </div>
+                )}
                 {m.text}
+                {m.timestamp && (
+                  <div className={`text-xs mt-1 ${m.from === "customer" ? "text-black/60" : "text-white/60"}`}>
+                    {new Date(m.timestamp).toLocaleTimeString()}
+                  </div>
+                )}
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
 
-          {/* Quick Topic Chips */}
-          <div className="mt-6 flex flex-wrap gap-3 justify-center">
-            {QUICK_TOPICS.map((topic) => (
-              <button
-                key={topic}
-                type="button"
-                onClick={() => handleQuickTopic(topic)}
-                className="rounded-full border border-emerald-400/60 bg-black/50 px-4 py-2 text-xs text-emerald-200 hover:bg-emerald-500/10 transition font-semibold shadow-sm hover:scale-105 active:scale-95"
-              >
-                {topic}
-              </button>
-            ))}
-          </div>
+          {/* Quick Topic Chips - Only show before chat starts */}
+          {!chatStarted && (
+            <div className="mt-6 flex flex-wrap gap-3 justify-center">
+              {QUICK_TOPICS.map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => handleQuickTopic(topic)}
+                  className="rounded-full border border-emerald-400/60 bg-black/50 px-4 py-2 text-xs text-emerald-200 hover:bg-emerald-500/10 transition font-semibold shadow-sm hover:scale-105 active:scale-95"
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Lead Capture Form */}
+        {/* Lead Capture Form / Message Input */}
         <form
           onSubmit={handleSubmitLead}
           className="border-t border-white/10 px-8 py-6 space-y-4 bg-black/60"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-xs text-neutral-400 font-semibold">
-                Name
-              </label>
+          {!chatStarted ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs text-neutral-400 font-semibold">
+                    Name *
+                  </label>
+                  <input
+                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    autoComplete="name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-neutral-400 font-semibold">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs text-neutral-400 font-semibold">
+                  WhatsApp / Phone (optional)
+                </label>
+                <input
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+256..."
+                  autoComplete="tel"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs text-neutral-400 font-semibold">
+                  Your main question or request (optional)
+                </label>
+                <textarea
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition resize-none placeholder:text-neutral-500"
+                  rows={4}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Tell us how you want to work with Imbari..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="block mx-auto w-full max-w-[240px] rounded-xl bg-emerald-400 text-base font-bold text-black py-3 px-6 mt-2 hover:bg-emerald-300 transition disabled:opacity-60 shadow-lg shadow-emerald-400/20"
+              >
+                {submitting ? "Connecting..." : "Start Chat"}
+              </button>
+            </>
+          ) : (
+            <div className="flex gap-3">
               <input
-                className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                autoComplete="name"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type your message..."
+                className="flex-1 rounded-lg bg-black/70 border border-white/15 px-4 py-3 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                autoFocus
               />
+              <button
+                type="submit"
+                className="bg-emerald-400 hover:bg-emerald-300 text-black font-bold px-6 py-3 rounded-lg transition shadow-lg shadow-emerald-400/20"
+              >
+                Send
+              </button>
             </div>
-            <div>
-              <label className="text-xs text-neutral-400 font-semibold">
-                Email
-              </label>
-              <input
-                className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-neutral-400 font-semibold">
-              WhatsApp / Phone (optional)
-            </label>
-            <input
-              className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+256..."
-              autoComplete="tel"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs text-neutral-400 font-semibold">
-              Your main question or request
-            </label>
-            <textarea
-              className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition resize-none placeholder:text-neutral-500"
-              rows={4}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Tell us how you want to work with Imbari..."
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="block mx-auto w-full max-w-[240px] rounded-xl bg-emerald-400 text-base font-bold text-black py-3 px-6 mt-2 hover:bg-emerald-300 transition disabled:opacity-60 shadow-lg shadow-emerald-400/20"
-          >
-            {submitting ? "Sending..." : "Send to Imbari Team"}
-          </button>
+          )}
         </form>
       </div>
     </div>
@@ -230,9 +408,16 @@ export default function ImpactChatBot() {
         type="button"
         onClick={() => setOpen(true)}
         style={{ position: 'fixed', bottom: 16, right: 16, left: 'auto', top: 'auto' }}
-        className="!fixed !bottom-4 !right-4 !z-50 flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/40 hover:bg-emerald-400 transition"
+        className="!fixed !bottom-4 !right-4 !z-50 flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/40 hover:bg-emerald-400 transition relative"
         aria-label="Chat with Imbari Coffee"
       >
+        {/* Notification Badge */}
+        {hasNewMessage && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
+            !
+          </span>
+        )}
+        
         {/* Chat Icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
