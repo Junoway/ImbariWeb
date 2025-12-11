@@ -4,22 +4,27 @@ import { getProductBySlug } from '@/lib/products';
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/utils';
 import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
 import { useState } from 'react';
 
-// This needs to be exported from a separate metadata file for static generation
-// Since this is now a client component, metadata must be handled differently
-
 export default function ProductPage({ params }: { params: { productId: string } }) {
   const product = getProductBySlug(params.productId);
   const { addItem } = useCart();
   const { user } = useAuth();
+  const router = useRouter();
   const [showGiftModal, setShowGiftModal] = useState(false);
   const [giftOption, setGiftOption] = useState<"single" | "monthly">("single");
   const [addedToCart, setAddedToCart] = useState(false);
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [feedbackData, setFeedbackData] = useState({
+    name: '',
+    email: '',
+    rating: 5,
+    comment: ''
+  });
 
   if (!product) {
     notFound();
@@ -64,8 +69,77 @@ export default function ProductPage({ params }: { params: { productId: string } 
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Submit feedback to Firebase or email service
+    alert('Thank you for your feedback! We appreciate your review.');
+    setShowFeedbackForm(false);
+    setFeedbackData({ name: '', email: '', rating: 5, comment: '' });
+  };
+
+  // Sample customer reviews (can be moved to database later)
+  const customerReviews = [
+    {
+      name: "Sarah M.",
+      rating: 5,
+      date: "Nov 2024",
+      comment: "Absolutely love this coffee! The flavor is rich and smooth, perfect for my morning routine.",
+      verified: true
+    },
+    {
+      name: "James K.",
+      rating: 5,
+      date: "Oct 2024",
+      comment: "Best Ethiopian coffee I've tried. The chocolate notes are amazing!",
+      verified: true
+    },
+    {
+      name: "Linda P.",
+      rating: 4,
+      date: "Sep 2024",
+      comment: "Great quality coffee. Would love to see more variety in roast levels.",
+      verified: true
+    }
+  ];
+
+  const averageRating = 4.8;
+  const totalReviews = 127;
+
+  // Product story based on type
+  const getProductStory = () => {
+    switch (product.type) {
+      case "Beans":
+        return "Sourced from the volcanic slopes of Mt. Elgon, where altitudes reach 2,300 meters above sea level. Our farmers practice sustainable agriculture passed down through generations, ensuring each bean carries the authentic taste of Uganda's coffee heritage. The rich volcanic soil infuses our beans with unique mineral complexity, creating a cup that tells the story of East Africa.";
+      case "Ground":
+        return "Expertly ground to perfection, this coffee represents months of careful cultivation and precise roasting. Every batch is tested for optimal grind consistency, ensuring your brewing method extracts the full spectrum of flavors. From our farms to your cup, we maintain the highest standards of quality control.";
+      case "Instant":
+        return "Innovation meets tradition in our instant coffee. Using advanced freeze-drying technology, we preserve the authentic flavors of freshly brewed Imbari coffee in convenient sachets. Perfect for travelers, campers, and coffee lovers on the go who refuse to compromise on taste.";
+      case "Green":
+        return "For the true coffee artisan, our green beans offer a canvas for your roasting creativity. Handpicked at peak ripeness and carefully processed, these beans await your personal touch. Experience the joy of roasting and unlock flavors tailored to your exact preferences.";
+      case "Pods":
+        return "Convenience without compromise. Our K-Cup pods deliver the full Imbari experience in seconds. Each pod is nitrogen-flushed to lock in freshness, ensuring your single-serve cup rivals any café-quality brew. Perfect for busy mornings or office coffee stations.";
+      case "Concentrate":
+        return "The ultimate coffee innovation – ultra-concentrated liquid coffee that transforms into 20+ servings. Whether you're crafting iced lattes, hot americanos, or creative coffee cocktails, our concentrate gives you barista-level control with zero waste and maximum convenience.";
+      case "Gift":
+        return "Share the Imbari experience with those you cherish. Each gift item is carefully curated to celebrate Uganda's coffee culture and our commitment to sustainable, ethical sourcing. More than a gift – it's an invitation to join our global coffee community.";
+      default:
+        return "Every Imbari product carries the essence of Uganda's coffee tradition. From seed to cup, we honor the farmers, the land, and the craft that makes each sip extraordinary.";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Close Button - Fixed top right */}
+      <button
+        onClick={() => router.push('/shop')}
+        className="fixed top-20 right-4 z-50 bg-white hover:bg-gray-100 text-gray-700 p-3 rounded-full shadow-lg transition-all duration-200 border-2 border-gray-200 hover:border-orange-500"
+        aria-label="Close and return to shop"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <nav className="text-sm text-gray-500">
@@ -107,6 +181,34 @@ export default function ProductPage({ params }: { params: { productId: string } 
                 </div>
               </div>
             </div>
+
+            {/* Rating Summary Below Image */}
+            <div className="mt-6 bg-white rounded-lg p-6 shadow-md">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <svg
+                        key={star}
+                        className={`w-6 h-6 ${star <= Math.floor(averageRating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-2xl font-bold text-gray-900">{averageRating}</span>
+                </div>
+                <span className="text-sm text-gray-600">{totalReviews} reviews</span>
+              </div>
+              <button
+                onClick={() => setShowFeedbackForm(true)}
+                className="w-full py-2 px-4 bg-orange-50 text-orange-600 rounded-lg font-semibold hover:bg-orange-100 transition-colors"
+              >
+                Write a Review
+              </button>
+            </div>
           </div>
 
           {/* Product Info */}
@@ -139,6 +241,14 @@ export default function ProductPage({ params }: { params: { productId: string } 
               <h2 className="text-xl font-semibold text-gray-900 mb-3">About This Product</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
                 {product.longDescription || product.description}
+              </p>
+            </div>
+
+            {/* Product Story */}
+            <div className="mb-8 p-6 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg border border-orange-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Our Story</h3>
+              <p className="text-gray-700 leading-relaxed text-sm">
+                {getProductStory()}
               </p>
             </div>
 
@@ -377,6 +487,151 @@ export default function ProductPage({ params }: { params: { productId: string } 
         </div>
       )}
 
+      {/* Customer Reviews Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-200">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">Customer Reviews</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {customerReviews.map((review, index) => (
+            <div key={index} className="bg-white rounded-lg p-6 shadow-md">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                    <span className="text-orange-600 font-semibold">
+                      {review.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">{review.name}</div>
+                    <div className="text-xs text-gray-500">{review.date}</div>
+                  </div>
+                </div>
+                {review.verified && (
+                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                    Verified
+                  </span>
+                )}
+              </div>
+              <div className="flex mb-3">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    className={`w-5 h-5 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-700 text-sm leading-relaxed">{review.comment}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FEEDBACK FORM MODAL */}
+      {showFeedbackForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
+              <button
+                onClick={() => setShowFeedbackForm(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={feedbackData.name}
+                  onChange={(e) => setFeedbackData({ ...feedbackData, name: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={feedbackData.email}
+                  onChange={(e) => setFeedbackData({ ...feedbackData, email: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Rating *
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setFeedbackData({ ...feedbackData, rating: star })}
+                      className="focus:outline-none"
+                    >
+                      <svg
+                        className={`w-10 h-10 ${star <= feedbackData.rating ? 'text-yellow-400' : 'text-gray-300'} hover:text-yellow-400 transition-colors`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Review *
+                </label>
+                <textarea
+                  required
+                  value={feedbackData.comment}
+                  onChange={(e) => setFeedbackData({ ...feedbackData, comment: e.target.value })}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="Tell us what you think about this product..."
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowFeedbackForm(false)}
+                  className="flex-1 py-3 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg"
+                >
+                  Submit Review
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Product Schema JSON-LD for SEO */}
       <Script
         id="product-schema"
@@ -405,8 +660,8 @@ export default function ProductPage({ params }: { params: { productId: string } 
             },
             "aggregateRating": {
               "@type": "AggregateRating",
-              "ratingValue": "4.8",
-              "reviewCount": "127"
+              "ratingValue": averageRating.toString(),
+              "reviewCount": totalReviews.toString()
             }
           })
         }}
