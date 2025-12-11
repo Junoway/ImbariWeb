@@ -40,6 +40,10 @@ export default function AdminChatDashboard() {
 
   // Check authentication state
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
@@ -49,7 +53,7 @@ export default function AdminChatDashboard() {
 
   // Load chat sessions
   useEffect(() => {
-    if (!user) return;
+    if (!user || !database) return;
 
     const sessionsRef = ref(database, "chatSessions");
     const unsubscribe = onValue(sessionsRef, (snapshot) => {
@@ -76,7 +80,7 @@ export default function AdminChatDashboard() {
 
   // Load messages for selected session
   useEffect(() => {
-    if (!selectedSession || !user) return;
+    if (!selectedSession || !user || !database) return;
 
     const messagesRef = ref(database, `messages/${selectedSession}`);
     const messagesQuery = query(messagesRef, orderByChild("timestamp"));
@@ -98,18 +102,21 @@ export default function AdminChatDashboard() {
         setMessages(messageList);
         
         // Mark messages as read
-        messageList.forEach((msg) => {
-          if (msg.from === "customer" && !msg.read) {
-            const msgRef = ref(database, `messages/${selectedSession}/${msg.id}`);
-            set(msgRef, { ...msg, read: true });
+        if (database) {
+          const db = database; // Type narrowing for TypeScript
+          messageList.forEach((msg) => {
+            if (msg.from === "customer" && !msg.read) {
+              const msgRef = ref(db, `messages/${selectedSession}/${msg.id}`);
+              set(msgRef, { ...msg, read: true });
+            }
+          });
+          
+          // Reset unread count
+          const sessionRef = ref(db, `chatSessions/${selectedSession}`);
+          const session = sessions.find(s => s.id === selectedSession);
+          if (session) {
+            set(sessionRef, { ...session, unreadCount: 0 });
           }
-        });
-        
-        // Reset unread count
-        const sessionRef = ref(database, `chatSessions/${selectedSession}`);
-        const session = sessions.find(s => s.id === selectedSession);
-        if (session) {
-          set(sessionRef, { ...session, unreadCount: 0 });
         }
       }
     });
@@ -124,6 +131,7 @@ export default function AdminChatDashboard() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!auth) return;
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
@@ -132,13 +140,15 @@ export default function AdminChatDashboard() {
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
+    if (auth) {
+      await signOut(auth);
+    }
     setSelectedSession(null);
   };
 
   const sendReply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!replyText.trim() || !selectedSession) return;
+    if (!replyText.trim() || !selectedSession || !database) return;
 
     const messagesRef = ref(database, `messages/${selectedSession}`);
     const newMessageRef = push(messagesRef);
@@ -166,14 +176,14 @@ export default function AdminChatDashboard() {
 
   const markAsResolved = async (sessionId: string) => {
     const session = sessions.find(s => s.id === sessionId);
-    if (session) {
-      // TODO: Email backend will work when deployed to Vercel (not GitHub Pages)
-      // For now, just mark as resolved - email system ready for future deployment
-      
-      // Mark session as resolved
-      const sessionRef = ref(database, `chatSessions/${sessionId}`);
-      await set(sessionRef, { ...session, status: "resolved" });
-    }
+    if (!session || !database) return;
+    
+    // TODO: Email backend will work when deployed to Vercel (not GitHub Pages)
+    // For now, just mark as resolved - email system ready for future deployment
+    
+    // Mark session as resolved
+    const sessionRef = ref(database, `chatSessions/${sessionId}`);
+    await set(sessionRef, { ...session, status: "resolved" });
   };
 
   if (loading) {

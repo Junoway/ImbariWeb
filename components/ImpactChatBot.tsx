@@ -40,7 +40,7 @@ export default function ImpactChatBot() {
 
   // Listen for session status (resolved by admin)
   useEffect(() => {
-    if (!sessionId || !chatStarted) return;
+    if (!sessionId || !chatStarted || !database) return;
 
     const sessionRef = ref(database, `chatSessions/${sessionId}`);
     
@@ -64,7 +64,7 @@ export default function ImpactChatBot() {
 
   // Listen for real-time messages from admin
   useEffect(() => {
-    if (!sessionId || !chatStarted) return;
+    if (!sessionId || !chatStarted || !database) return;
 
     const messagesRef = ref(database, `messages/${sessionId}`);
     const messagesQuery = query(messagesRef, orderByChild("timestamp"));
@@ -117,6 +117,17 @@ export default function ImpactChatBot() {
       return;
     }
 
+    if (!database) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: "Chat service is currently unavailable. Please try again later.",
+        },
+      ]);
+      return;
+    }
+
     try {
       // Create new chat session
       const sessionsRef = ref(database, "chatSessions");
@@ -158,7 +169,7 @@ export default function ImpactChatBot() {
   };
 
   const sendMessage = async (text: string) => {
-    if (!text.trim() || !sessionId) return;
+    if (!text.trim() || !sessionId || !database) return;
 
     const messageText = text.trim();
     
