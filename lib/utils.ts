@@ -1,5 +1,5 @@
 // Utility to prefix image paths with basePath
+// No basePath needed for custom domain (www.imbaricoffee.com)
 export function withBasePath(path: string): string {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-  return `${basePath}${path}`;
+  return path;
 }
