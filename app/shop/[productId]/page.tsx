@@ -10,6 +10,8 @@ import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
 import { useState } from 'react';
 
+export const dynamicParams = false;
+
 export default function ProductPage({ params }: { params: { productId: string } }) {
   const product = getProductBySlug(params.productId);
   const { addItem } = useCart();
