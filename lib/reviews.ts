@@ -1,5 +1,5 @@
-import { database } from './firebase';
-import { ref, push, set, onValue, off, query, orderByChild } from 'firebase/database';
+import { ref, push, set, onValue, off, query, orderByChild, getDatabase } from 'firebase/database';
+import { app } from './firebase';
 
 export interface Review {
   id?: string;
@@ -13,11 +13,27 @@ export interface Review {
 }
 
 /**
+ * Get database instance (client-side only)
+ */
+function getDatabaseInstance() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  try {
+    return getDatabase(app);
+  } catch (error) {
+    console.error('Firebase database error:', error);
+    return null;
+  }
+}
+
+/**
  * Submit a new review to Firebase
  */
 export async function submitReview(review: Omit<Review, 'id' | 'timestamp' | 'verified'>): Promise<string> {
+  const database = getDatabaseInstance();
   if (!database) {
-    throw new Error('Firebase database not initialized');
+    throw new Error('Firebase database not initialized. Please check your Firebase configuration.');
   }
 
   const reviewsRef = ref(database, `reviews/${review.productId}`);
@@ -40,6 +56,7 @@ export function getProductReviews(
   productId: string,
   callback: (reviews: Review[]) => void
 ): () => void {
+  const database = getDatabaseInstance();
   if (!database) {
     callback([]);
     return () => {};
