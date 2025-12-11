@@ -23,17 +23,7 @@ const QUICK_TOPICS = [
 export default function ImpactChatBot() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      from: "bot",
-      text: "Welcome to Imbari Coffee. How can we help you today?",
-    },
-    {
-      from: "bot",
-      text:
-        "We connect African farms to global buyers, empower women in coffee, and move Imbari across Africa and worldwide.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -47,6 +37,30 @@ export default function ImpactChatBot() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Listen for session status (resolved by admin)
+  useEffect(() => {
+    if (!sessionId || !chatStarted) return;
+
+    const sessionRef = ref(database, `chatSessions/${sessionId}`);
+    
+    const unsubscribe = onValue(sessionRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.status === "resolved") {
+        // Admin marked as resolved - close chat and reset
+        setOpen(false);
+        setMessages([]);
+        setChatStarted(false);
+        setSessionId(null);
+        setName("");
+        setEmail("");
+        setPhone("");
+        setInput("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [sessionId, chatStarted]);
 
   // Listen for real-time messages from admin
   useEffect(() => {
@@ -66,13 +80,7 @@ export default function ImpactChatBot() {
         }));
         messageList.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
         
-        // Add bot welcome messages at the start
-        const allMessages = [
-          ...messages.filter(m => m.from === "bot"),
-          ...messageList,
-        ];
-        
-        setMessages(allMessages);
+        setMessages(messageList);
         
         // Show notification for new admin messages when chat is closed
         const hasAdminMessage = messageList.some(m => m.from === "admin" && !m.id?.includes("read"));
@@ -289,22 +297,6 @@ export default function ImpactChatBot() {
             </div>
           ))}
           <div ref={messagesEndRef} />
-
-          {/* Quick Topic Chips - Only show before chat starts */}
-          {!chatStarted && (
-            <div className="mt-6 flex flex-wrap gap-3 justify-center">
-              {QUICK_TOPICS.map((topic) => (
-                <button
-                  key={topic}
-                  type="button"
-                  onClick={() => handleQuickTopic(topic)}
-                  className="rounded-full border border-emerald-400/60 bg-black/50 px-4 py-2 text-xs text-emerald-200 hover:bg-emerald-500/10 transition font-semibold shadow-sm hover:scale-105 active:scale-95"
-                >
-                  {topic}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Lead Capture Form / Message Input */}
@@ -359,14 +351,32 @@ export default function ImpactChatBot() {
 
               <div>
                 <label className="text-xs text-neutral-400 font-semibold">
-                  Your main question or request (optional)
+                  How can we help? (optional)
+                </label>
+                <select
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                >
+                  <option value="">Select a topic or type your own below...</option>
+                  {QUICK_TOPICS.map((topic) => (
+                    <option key={topic} value={topic}>
+                      {topic}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs text-neutral-400 font-semibold">
+                  Additional details (optional)
                 </label>
                 <textarea
                   className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition resize-none placeholder:text-neutral-500"
-                  rows={4}
-                  value={input}
+                  rows={3}
+                  value={input && !QUICK_TOPICS.includes(input) ? input : ""}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Tell us how you want to work with Imbari..."
+                  placeholder="Tell us more about your needs..."
                 />
               </div>
 
