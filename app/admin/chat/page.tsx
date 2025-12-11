@@ -167,38 +167,12 @@ export default function AdminChatDashboard() {
   const markAsResolved = async (sessionId: string) => {
     const session = sessions.find(s => s.id === sessionId);
     if (session) {
-      try {
-        // Send professional follow-up email using our own backend
-        const response = await fetch('/api/send-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to_email: session.customerEmail,
-            to_name: session.customerName,
-            shop_link: "https://www.imbaricoffee.com/shop",
-            subscribe_link: "https://www.imbaricoffee.com/subscriptions",
-            about_link: "https://www.imbaricoffee.com/about",
-            impact_link: "https://www.imbaricoffee.com/our-impact",
-          }),
-        });
-
-        const result = await response.json();
-        
-        if (!result.success) {
-          console.error("Email sending failed:", result.error);
-        }
-
-        // Mark session as resolved (even if email fails)
-        const sessionRef = ref(database, `chatSessions/${sessionId}`);
-        await set(sessionRef, { ...session, status: "resolved" });
-      } catch (error) {
-        console.error("Error in markAsResolved:", error);
-        // Still mark as resolved even if email fails
-        const sessionRef = ref(database, `chatSessions/${sessionId}`);
-        await set(sessionRef, { ...session, status: "resolved" });
-      }
+      // TODO: Email backend will work when deployed to Vercel (not GitHub Pages)
+      // For now, just mark as resolved - email system ready for future deployment
+      
+      // Mark session as resolved
+      const sessionRef = ref(database, `chatSessions/${sessionId}`);
+      await set(sessionRef, { ...session, status: "resolved" });
     }
   };
 
