@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
   images: { unoptimized: true },
-  // basePath removed for custom domain (www.imbaricoffee.com)
-  // Only needed for GitHub Pages subdirectory (username.github.io/repo)
+  // Removed output: "export" for Vercel deployment
+  // Vercel handles Next.js apps natively without static export
   env: {
     NEXT_PUBLIC_EMAILJS_SERVICE_ID: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
     NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
