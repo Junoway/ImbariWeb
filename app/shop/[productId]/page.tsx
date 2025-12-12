@@ -41,17 +41,22 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   // Load reviews from Firebase
   useEffect(() => {
     console.log('🔍 Loading reviews for product:', productId);
+    
     const unsubscribe = getProductReviews(productId, (loadedReviews) => {
       console.log('✅ Reviews loaded:', loadedReviews.length, loadedReviews);
       setReviews(loadedReviews);
       console.log('📊 State updated, reviews.length should be:', loadedReviews.length);
     });
 
-    return () => unsubscribe();
+    return () => {
+      console.log('🧹 Cleaning up reviews listener for:', productId);
+      unsubscribe();
+    };
   }, [productId]);
 
   // Debug: Log reviews state at render time
   console.log('🎨 RENDER: reviews.length =', reviews.length, 'reviews =', reviews);
+  console.log('🎨 Reviews array content:', reviews.map(r => ({ id: r.id, name: r.name })));
 
   // 10% discount for subscribers
   const isSubscriber = user?.isSubscribed || false;
@@ -582,8 +587,11 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
           </div>
         ) : (
           <>
+            {console.log('📦 About to render reviews grid. Reviews to show:', showAllReviews ? reviews.length : Math.min(reviews.length, 8))}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {(showAllReviews ? reviews : reviews.slice(0, 8)).map((review) => (
+              {(showAllReviews ? reviews : reviews.slice(0, 8)).map((review) => {
+                console.log('🔷 Rendering individual review:', review.id);
+                return (
                 <div key={review.id} className="bg-white rounded-lg p-6 shadow-md">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -636,7 +644,8 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Show More/Less Button */}
