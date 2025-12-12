@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { database } from "@/lib/firebase";
-import { ref, push, set, onValue, serverTimestamp, query, orderByChild } from "firebase/database";
+import { ref, push, set, update, onValue, serverTimestamp, query, orderByChild } from "firebase/database";
 
 type Message = {
   id?: string;
@@ -131,11 +131,13 @@ export default function ImpactChatBot() {
     try {
       // Create new chat session
       const sessionsRef = ref(database, "chats");
+      console.log('🔥 Creating session at path:', 'chats');
       const newSessionRef = push(sessionsRef);
       const newSessionId = newSessionRef.key;
 
       if (!newSessionId) return;
 
+      console.log('🔥 Session ID created:', newSessionId);
       await set(newSessionRef, {
         customerName: name,
         customerEmail: email,
@@ -145,6 +147,7 @@ export default function ImpactChatBot() {
         unreadCount: 0,
         status: "active",
       });
+      console.log('✅ Session created successfully at chats/' + newSessionId);
 
       setSessionId(newSessionId);
       setChatStarted(true);
@@ -183,6 +186,7 @@ export default function ImpactChatBot() {
     try {
       // Send to Firebase
       const messagesRef = ref(database, `chats/${sessionId}/messages`);
+      console.log('🔥 Sending message to path:', `chats/${sessionId}/messages`);
       const newMessageRef = push(messagesRef);
       
       await set(newMessageRef, {
@@ -194,10 +198,11 @@ export default function ImpactChatBot() {
         customerPhone: phone,
         read: false,
       });
+      console.log('✅ Message sent successfully');
 
-      // Update session
+      // Update session (use update to preserve messages)
       const sessionRef = ref(database, `chats/${sessionId}`);
-      await set(sessionRef, {
+      await update(sessionRef, {
         customerName: name,
         customerEmail: email,
         customerPhone: phone,

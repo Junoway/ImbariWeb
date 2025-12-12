@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { database, auth } from "@/lib/firebase";
-import { ref, onValue, push, set, serverTimestamp, query, orderByChild } from "firebase/database";
+import { ref, onValue, push, set, update, serverTimestamp, query, orderByChild } from "firebase/database";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 type Message = {
@@ -56,8 +56,10 @@ export default function AdminChatDashboard() {
     if (!user || !database) return;
 
     const sessionsRef = ref(database, "chats");
+    console.log('🔥 Admin: Listening for sessions at path:', 'chats');
     const unsubscribe = onValue(sessionsRef, (snapshot) => {
       const data = snapshot.val();
+      console.log('🔥 Admin: Sessions data received:', data);
       if (data) {
         const sessionList: ChatSession[] = Object.entries(data).map(([id, session]: [string, any]) => ({
           id,
@@ -84,9 +86,11 @@ export default function AdminChatDashboard() {
 
     const messagesRef = ref(database, `chats/${selectedSession}/messages`);
     const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+    console.log('🔥 Admin: Listening for messages at path:', `chats/${selectedSession}/messages`);
     
     const unsubscribe = onValue(messagesQuery, (snapshot) => {
       const data = snapshot.val();
+      console.log('🔥 Admin: Messages data received:', data);
       if (data) {
         const messageList: Message[] = Object.entries(data).map(([id, msg]: [string, any]) => ({
           id,
@@ -115,7 +119,7 @@ export default function AdminChatDashboard() {
           const sessionRef = ref(db, `chats/${selectedSession}`);
           const session = sessions.find(s => s.id === selectedSession);
           if (session) {
-            set(sessionRef, { ...session, unreadCount: 0 });
+            update(sessionRef, { unreadCount: 0 });
           }
         }
       }
@@ -164,8 +168,7 @@ export default function AdminChatDashboard() {
     const session = sessions.find(s => s.id === selectedSession);
     if (session) {
       const sessionRef = ref(database, `chats/${selectedSession}`);
-      await set(sessionRef, {
-        ...session,
+      await update(sessionRef, {
         lastMessage: replyText.trim(),
         lastMessageTime: Date.now(),
       });
@@ -183,7 +186,7 @@ export default function AdminChatDashboard() {
     
     // Mark session as resolved
     const sessionRef = ref(database, `chats/${sessionId}`);
-    await set(sessionRef, { ...session, status: "resolved" });
+    await update(sessionRef, { status: "resolved" });
   };
 
   if (loading) {
