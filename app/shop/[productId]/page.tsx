@@ -594,8 +594,37 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                   ))}
                 </div>
                 <p className="text-gray-700 text-sm leading-relaxed">{review.comment}</p>
+                
+                {/* Admin Response */}
+                {review.response && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex items-start gap-2">
+                      <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-xs font-semibold text-emerald-600 mb-1">Imbari Coffee Team</div>
+                        <p className="text-sm text-gray-600 leading-relaxed">{review.response}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+        )}
+        
+        {/* Write Review Button (for when there are existing reviews) */}
+        {reviews.length > 0 && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={handleWriteReview}
+              className="px-8 py-3 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition font-semibold"
+            >
+              Write Your Review
+            </button>
           </div>
         )}
       </div>

@@ -10,6 +10,9 @@ export interface Review {
   comment: string;
   verified: boolean;
   timestamp: number;
+  response?: string;
+  responseTimestamp?: number;
+  status?: 'pending' | 'responded';
 }
 
 /**
