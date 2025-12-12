@@ -24,7 +24,12 @@
       "$sessionId": {
         ".read": true,
         ".write": true,
+        ".indexOn": ["lastMessageTime"],
         "messages": {
+          "$messageId": {
+            ".read": true,
+            ".write": true
+          },
           ".indexOn": ["timestamp"]
         }
       }
@@ -34,29 +39,10 @@
         ".read": true,
         ".write": true,
         "$reviewId": {
-          ".validate": "newData.hasChildren(['name', 'email', 'rating', 'comment', 'productId', 'verified', 'timestamp'])",
-          "name": {
-            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
-          },
-          "email": {
-            ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/i)"
-          },
-          "rating": {
-            ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 5"
-          },
-          "comment": {
-            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 1000"
-          },
-          "productId": {
-            ".validate": "newData.isString() && newData.val().length > 0"
-          },
-          "verified": {
-            ".validate": "newData.isBoolean()"
-          },
-          "timestamp": {
-            ".validate": "newData.isNumber()"
-          }
-        }
+          ".read": true,
+          ".write": true
+        },
+        ".indexOn": ["timestamp"]
       }
     }
   }
