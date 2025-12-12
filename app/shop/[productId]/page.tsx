@@ -121,7 +121,10 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
     if (loginData.name && loginData.email) {
       reviewLogin(loginData.name, loginData.email);
       setShowLoginForm(false);
+      // Directly open review form after login
       setShowFeedbackForm(true);
+      // Clear login data
+      setLoginData({ name: '', email: '' });
     }
   };
 
@@ -129,6 +132,8 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
     if (isAuthenticated) {
       setShowFeedbackForm(true);
     } else {
+      // Clear any previous login data
+      setLoginData({ name: '', email: '' });
       setShowLoginForm(true);
     }
   };
