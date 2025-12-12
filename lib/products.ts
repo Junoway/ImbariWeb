@@ -153,7 +153,7 @@ export const PRODUCTS: Product[] = [
     type: "Concentrate",
     size: "250ml",
     price: 21.99,
-    image: withBasePath("/images/shop3.jpg"),
+    image: withBasePath("/images/conc.jpg"),
     description: "Concentrated coffee extract for instant iced or hot coffee.",
     longDescription: "Our Ultra Coffee Concentrate is a game-changer. Mix with water, milk, or ice for instant iced coffee, lattes, or hot coffee. One bottle makes 20+ servings. Perfect for summer or when you need coffee fast."
   },
