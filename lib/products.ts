@@ -302,7 +302,7 @@ export const PRODUCTS: Product[] = [
     type: "Gift",
     size: "Canvas",
     price: 25.00,
-    image: withBasePath("/images/shop2.jpg"),
+    image: withBasePath("/images/tote.jpg"),
     description: "Stylish canvas tote bag with safari-inspired Imbari design.",
     longDescription: "Eco-friendly canvas tote bag featuring our safari-inspired Imbari design. Perfect for grocery shopping, beach trips, or everyday use. Durable and washable."
   }
