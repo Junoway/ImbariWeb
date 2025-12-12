@@ -592,7 +592,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
               {(showAllReviews ? reviews : reviews.slice(0, 8)).map((review) => {
                 console.log('🔷 Rendering individual review:', review.id);
                 return (
-                <div key={review.id} className="bg-white rounded-lg p-6 shadow-md">
+                <div key={review.id} className="bg-red-100 border-4 border-red-500 rounded-lg p-6 shadow-md">{/* DEBUG: Made very visible */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
