@@ -8,6 +8,7 @@ import { notFound, useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/utils';
 import { useCart } from '@/components/CartContext';
 import { useAuth } from '@/components/AuthContext';
+import { useReviewAuth } from '@/components/ReviewAuthContext';
 import { useState, use, useEffect } from 'react';
 import { submitReview, getProductReviews, calculateAverageRating, type Review } from '@/lib/reviews';
 
@@ -17,14 +18,15 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   const product = getProductBySlug(productId);
   const { addItem } = useCart();
   const { user } = useAuth();
+  const { user: reviewUser, login: reviewLogin, logout: reviewLogout, isAuthenticated } = useReviewAuth();
   const router = useRouter();
   const [showGiftModal, setShowGiftModal] = useState(false);
   const [giftOption, setGiftOption] = useState<"single" | "monthly">("single");
   const [addedToCart, setAddedToCart] = useState(false);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [loginData, setLoginData] = useState({ name: '', email: '' });
   const [feedbackData, setFeedbackData] = useState({
-    name: '',
-    email: '',
     rating: 5,
     comment: ''
   });
@@ -85,19 +87,50 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
 
   const handleFeedbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!reviewUser) {
+      alert('Please login to submit a review');
+      return;
+    }
+    
     setIsSubmittingReview(true);
 
     try {
       await submitReview({
         productId: productId,
-        name: feedbackData.name,
-        email: feedbackData.email,
+        name: reviewUser.name,
+        email: reviewUser.email,
         rating: feedbackData.rating,
         comment: feedbackData.comment,
       });
 
       alert('Thank you for your review! It has been submitted successfully.');
       setShowFeedbackForm(false);
+      setFeedbackData({ rating: 5, comment: '' });
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Failed to submit review. Please try again.');
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (loginData.name && loginData.email) {
+      reviewLogin(loginData.name, loginData.email);
+      setShowLoginForm(false);
+      setShowFeedbackForm(true);
+    }
+  };
+
+  const handleWriteReview = () => {
+    if (isAuthenticated) {
+      setShowFeedbackForm(true);
+    } else {
+      setShowLoginForm(true);
+    }
+  };
       setFeedbackData({ name: '', email: '', rating: 5, comment: '' });
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -501,13 +534,26 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
 
       {/* Customer Reviews Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-gray-200">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Customer Reviews</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-900">Customer Reviews</h2>
+          {isAuthenticated && (
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">Logged in as: {reviewUser?.name}</span>
+              <button
+                onClick={reviewLogout}
+                className="text-sm text-gray-500 hover:text-gray-700 underline"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
         
         {reviews.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <p className="text-gray-500 mb-4">No reviews yet. Be the first to review this product!</p>
             <button
-              onClick={() => setShowFeedbackForm(true)}
+              onClick={handleWriteReview}
               className="px-6 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition"
             >
               Write a Review
@@ -554,14 +600,14 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
         )}
       </div>
 
-      {/* FEEDBACK FORM MODAL */}
-      {showFeedbackForm && (
+      {/* LOGIN FORM MODAL */}
+      {showLoginForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
+              <h2 className="text-2xl font-bold text-gray-900">Login to Review</h2>
               <button
-                onClick={() => setShowFeedbackForm(false)}
+                onClick={() => setShowLoginForm(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -570,7 +616,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
               </button>
             </div>
 
-            <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+            <form onSubmit={handleLoginSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Your Name *
@@ -578,8 +624,8 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                 <input
                   type="text"
                   required
-                  value={feedbackData.name}
-                  onChange={(e) => setFeedbackData({ ...feedbackData, name: e.target.value })}
+                  value={loginData.name}
+                  onChange={(e) => setLoginData({ ...loginData, name: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="John Doe"
                 />
@@ -592,14 +638,44 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                 <input
                   type="email"
                   required
-                  value={feedbackData.email}
-                  onChange={(e) => setFeedbackData({ ...feedbackData, email: e.target.value })}
+                  value={loginData.email}
+                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="john@example.com"
                 />
               </div>
 
+              <button
+                type="submit"
+                className="w-full py-3 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition"
+              >
+                Continue to Review
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* FEEDBACK FORM MODAL */}
+      {showFeedbackForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+            <div className="flex items-center justify-between mb-6">
               <div>
+                <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
+                <p className="text-sm text-gray-600 mt-1">Reviewing as: {reviewUser?.name}</p>
+              </div>
+              <button
+                onClick={() => setShowFeedbackForm(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleFeedbackSubmit} className="space-y-6">\n              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Rating *
                 </label>

@@ -6,6 +6,7 @@ import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { CartProvider } from "@/components/CartContext";
 import { AuthProvider } from "@/components/AuthContext";
+import { ReviewAuthProvider } from "@/components/ReviewAuthContext";
 import FAQSchema from "@/components/FAQSchema";
 
 const inter = Inter({
@@ -183,10 +184,11 @@ export default function RootLayout({
         <FAQSchema />
 
         <AuthProvider>
-          <CartProvider>
-            <Navbar />
-            <main className="flex-1 flex flex-col items-center justify-center w-full mx-auto overflow-hidden">
-              {children}
+          <ReviewAuthProvider>
+            <CartProvider>
+              <Navbar />
+              <main className="flex-1 flex flex-col items-center justify-center w-full mx-auto overflow-hidden">
+                {children}
               {/* Back to Top Button (Client Only) */}
               {typeof window !== 'undefined' && (
                 <button
@@ -200,6 +202,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </CartProvider>
+        </ReviewAuthProvider>
         </AuthProvider>
       </body>
     </html>
