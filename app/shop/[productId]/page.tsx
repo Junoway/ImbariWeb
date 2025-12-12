@@ -784,10 +784,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
             <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
-                <p className="text-sm text-gray-600 mt-1">Reviewing as: {reviewUser?.name}</p>
-              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
               <button
                 onClick={() => setShowFeedbackForm(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -798,7 +795,40 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
               </button>
             </div>
 
-            <form onSubmit={handleFeedbackSubmit} className="space-y-6">\n              <div>
+            <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+              {/* Name Field - Auto-filled if logged in */}
+              <div>
+                <label htmlFor="review-name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  id="review-name"
+                  name="name"
+                  required
+                  value={reviewUser?.name || ''}
+                  readOnly
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+                />
+              </div>
+
+              {/* Email Field - Auto-filled if logged in */}
+              <div>
+                <label htmlFor="review-email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  id="review-email"
+                  name="email"
+                  required
+                  value={reviewUser?.email || ''}
+                  readOnly
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+                />
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Rating *
                 </label>
