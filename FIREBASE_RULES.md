@@ -15,7 +15,7 @@
 
 ---
 
-## Security Rules (Copy & Paste)
+## Security Rules for IMBARI-COFFEE-CHAT (Chat Only)
 
 ```json
 {
@@ -24,7 +24,7 @@
       "$sessionId": {
         ".read": true,
         ".write": true,
-        ".indexOn": ["lastMessageTime"],
+        ".indexOn": ["lastMessageTime", "status"],
         "messages": {
           "$messageId": {
             ".read": true,
@@ -32,17 +32,6 @@
           },
           ".indexOn": ["timestamp"]
         }
-      }
-    },
-    "reviews": {
-      "$productId": {
-        ".read": true,
-        ".write": true,
-        "$reviewId": {
-          ".read": true,
-          ".write": true
-        },
-        ".indexOn": ["timestamp"]
       }
     }
   }
