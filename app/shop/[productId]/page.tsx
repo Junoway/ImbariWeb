@@ -570,7 +570,9 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                     </div>
                     <div>
                       <div className="font-semibold text-gray-900">{review.name}</div>
-                      <div className="text-xs text-gray-500">{formatReviewDate(review.timestamp)}</div>
+                      <div className="text-xs text-gray-500">
+                        {review.timestamp ? formatReviewDate(review.timestamp) : 'Recently'}
+                      </div>
                     </div>
                   </div>
                   {review.verified && (

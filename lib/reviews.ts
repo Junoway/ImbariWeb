@@ -9,7 +9,7 @@ export interface Review {
   rating: number;
   comment: string;
   verified: boolean;
-  timestamp: number;
+  timestamp?: number; // Optional for backward compatibility with old reviews
   response?: string;
   responseTimestamp?: number;
   status?: 'pending' | 'responded';
