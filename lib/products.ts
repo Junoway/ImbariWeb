@@ -291,7 +291,7 @@ export const PRODUCTS: Product[] = [
     type: "Gift",
     size: "12oz ceramic",
     price: 15.00,
-    image: withBasePath("/images/shop.jpg"),
+    image: withBasePath("/images/unitymug.jpg"),
     description: "Premium ceramic mug with Imbari Unity design.",
     longDescription: "Start your day with our beautifully designed Unity Mug. Dishwasher and microwave safe, 12oz capacity. Perfect for coffee, tea, or hot chocolate."
   },
