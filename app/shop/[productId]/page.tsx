@@ -39,7 +39,9 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
 
   // Load reviews from Firebase
   useEffect(() => {
+    console.log('🔍 Loading reviews for product:', productId);
     const unsubscribe = getProductReviews(productId, (loadedReviews) => {
+      console.log('✅ Reviews loaded:', loadedReviews.length, loadedReviews);
       setReviews(loadedReviews);
     });
 
@@ -647,30 +649,36 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
 
             <form onSubmit={handleLoginSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="login-name" className="block text-sm font-medium text-gray-700 mb-2">
                   Your Name *
                 </label>
                 <input
                   type="text"
+                  id="login-name"
+                  name="name"
                   required
                   value={loginData.name}
                   onChange={(e) => setLoginData({ ...loginData, name: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="John Doe"
+                  autoComplete="name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-2">
                   Email *
                 </label>
                 <input
                   type="email"
+                  id="login-email"
+                  name="email"
                   required
                   value={loginData.email}
                   onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="john@example.com"
+                  autoComplete="email"
                 />
               </div>
 
@@ -729,10 +737,12 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="review-comment" className="block text-sm font-medium text-gray-700 mb-2">
                   Your Review *
                 </label>
                 <textarea
+                  id="review-comment"
+                  name="comment"
                   required
                   value={feedbackData.comment}
                   onChange={(e) => setFeedbackData({ ...feedbackData, comment: e.target.value })}
