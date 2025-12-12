@@ -67,21 +67,16 @@ export function getProductReviews(
 
   const reviewsRef = ref(database, `reviews/${productId}`);
   const reviewsQuery = query(reviewsRef, orderByChild('timestamp'));
-  
-  console.log('🔥 Firebase: Listening for reviews at path:', `reviews/${productId}`);
 
   const handleValue = (snapshot: any) => {
-    console.log('🔥 Firebase: Reviews snapshot received:', snapshot.exists());
     const reviews: Review[] = [];
     snapshot.forEach((childSnapshot: any) => {
       const reviewData = childSnapshot.val();
-      console.log('🔥 Firebase: Review data:', childSnapshot.key, reviewData);
       reviews.push({
         id: childSnapshot.key,
         ...reviewData,
       });
     });
-    console.log('✅ Firebase: Total reviews parsed:', reviews.length);
     // Reverse to show newest first
     callback(reviews.reverse());
   };
