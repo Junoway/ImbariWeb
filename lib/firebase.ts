@@ -13,9 +13,15 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-const database = getDatabase(app);
-const auth = getAuth(app);
+// Initialize Firebase only if config is available (skip during build)
+let app;
+let database = null;
+let auth = null;
+
+if (firebaseConfig.apiKey && firebaseConfig.databaseURL) {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+  database = getDatabase(app);
+  auth = getAuth(app);
+}
 
 export { app, database, auth };
