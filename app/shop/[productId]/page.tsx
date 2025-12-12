@@ -43,10 +43,14 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
     const unsubscribe = getProductReviews(productId, (loadedReviews) => {
       console.log('✅ Reviews loaded:', loadedReviews.length, loadedReviews);
       setReviews(loadedReviews);
+      console.log('📊 State updated, reviews.length should be:', loadedReviews.length);
     });
 
     return () => unsubscribe();
   }, [productId]);
+
+  // Debug: Log reviews state at render time
+  console.log('🎨 RENDER: reviews.length =', reviews.length, 'reviews =', reviews);
 
   // 10% discount for subscribers
   const isSubscriber = user?.isSubscribed || false;
