@@ -133,14 +133,6 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
       setShowLoginForm(true);
     }
   };
-      setFeedbackData({ name: '', email: '', rating: 5, comment: '' });
-    } catch (error) {
-      console.error('Error submitting review:', error);
-      alert('Failed to submit review. Please try again.');
-    } finally {
-      setIsSubmittingReview(false);
-    }
-  };
 
   // Calculate review statistics from Firebase data
   const averageRating = reviews.length > 0 ? calculateAverageRating(reviews) : 0;
