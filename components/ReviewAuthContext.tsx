@@ -17,15 +17,20 @@ type ReviewAuthContextType = {
 const ReviewAuthContext = createContext<ReviewAuthContextType | undefined>(undefined);
 
 export function ReviewAuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<ReviewUser | null>(null);
-
-  useEffect(() => {
-    // Load user from localStorage on mount
-    const savedUser = localStorage.getItem('reviewUser');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+  // Initialize user from localStorage immediately to avoid flash
+  const [user, setUser] = useState<ReviewUser | null>(() => {
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('reviewUser');
+      if (savedUser) {
+        try {
+          return JSON.parse(savedUser);
+        } catch {
+          return null;
+        }
+      }
     }
-  }, []);
+    return null;
+  });
 
   const login = (name: string, email: string) => {
     const userData = { name, email };
