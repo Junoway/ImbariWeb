@@ -33,6 +33,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [pendingReview, setPendingReview] = useState<{ rating: number; comment: string } | null>(null);
 
   if (!product) {
     notFound();
@@ -90,7 +91,13 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
     e.preventDefault();
     
     if (!reviewUser) {
-      alert('Please login to submit a review');
+      // Save review data and show login form
+      setPendingReview({
+        rating: feedbackData.rating,
+        comment: feedbackData.comment,
+      });
+      setShowFeedbackForm(false);
+      setShowLoginForm(true);
       return;
     }
     
@@ -108,6 +115,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
       alert('Thank you for your review! It has been submitted successfully.');
       setShowFeedbackForm(false);
       setFeedbackData({ rating: 5, comment: '' });
+      setPendingReview(null);
     } catch (error) {
       console.error('Error submitting review:', error);
       alert('Failed to submit review. Please try again.');
@@ -116,13 +124,40 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
     }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loginData.name && loginData.email) {
       reviewLogin(loginData.name, loginData.email);
       setShowLoginForm(false);
-      // Directly open review form after login
-      setShowFeedbackForm(true);
+      
+      // If there's a pending review, submit it automatically
+      if (pendingReview) {
+        setIsSubmittingReview(true);
+        try {
+          await submitReview({
+            productId: productId,
+            name: loginData.name,
+            email: loginData.email,
+            rating: pendingReview.rating,
+            comment: pendingReview.comment,
+          });
+          
+          alert('Thank you for your review! It has been submitted successfully.');
+          setFeedbackData({ rating: 5, comment: '' });
+          setPendingReview(null);
+        } catch (error) {
+          console.error('Error submitting review:', error);
+          alert('Failed to submit review. Please try again.');
+          // Show review form again so they can retry
+          setShowFeedbackForm(true);
+        } finally {
+          setIsSubmittingReview(false);
+        }
+      } else {
+        // No pending review, just open the review form
+        setShowFeedbackForm(true);
+      }
+      
       // Clear login data
       setLoginData({ name: '', email: '' });
     }
