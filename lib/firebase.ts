@@ -1,7 +1,7 @@
 // Firebase configuration for real-time chat
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { getAuth } from 'firebase/auth';
+import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
+import { getDatabase, type Database } from 'firebase/database';
+import { getAuth, type Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,9 +14,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only if config is available (skip during build)
-let app;
-let database = null;
-let auth = null;
+let app: FirebaseApp | undefined;
+let database: Database | null = null;
+let auth: Auth | null = null;
 
 if (firebaseConfig.apiKey && firebaseConfig.databaseURL) {
   app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
