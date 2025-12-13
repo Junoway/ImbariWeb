@@ -311,17 +311,17 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
       {/* Header */}
-      <div className="bg-black/30 border-b border-white/10 px-6 py-4">
-        <div className="flex justify-between items-center max-w-7xl mx-auto">
+      <div className="bg-black/30 border-b border-white/10 px-4 md:px-6 py-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 max-w-7xl mx-auto">
           <div>
-            <h1 className="text-2xl font-bold text-emerald-400">Imbari Coffee Admin Dashboard</h1>
-            <p className="text-sm text-neutral-400">Manage Chats, Reviews & Analytics</p>
+            <h1 className="text-xl md:text-2xl font-bold text-emerald-400">Imbari Coffee Admin</h1>
+            <p className="text-xs md:text-sm text-neutral-400">Manage Chats, Reviews & Analytics</p>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-neutral-300">{user.email}</span>
+          <div className="flex items-center gap-3 md:gap-4">
+            <span className="text-sm md:text-base text-neutral-300 truncate">{user.email}</span>
             <button
               onClick={handleLogout}
-              className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition border border-red-500/30"
+              className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-3 md:px-4 py-2 rounded-lg transition border border-red-500/30 text-sm whitespace-nowrap"
             >
               Logout
             </button>
@@ -331,17 +331,17 @@ export default function AdminDashboard() {
 
       {/* Tabs */}
       <div className="bg-black/20 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-2">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex gap-1 md:gap-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab("chats")}
-              className={`px-6 py-3 font-semibold transition ${
+              className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "chats"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
                   : "text-neutral-400 hover:text-white"
               }`}
             >
-              💬 Live Chats
+              💬 <span className="hidden sm:inline">Live </span>Chats
               {sessions.filter(s => s.unreadCount > 0).length > 0 && (
                 <span className="ml-2 bg-emerald-500 text-black text-xs font-bold rounded-full px-2 py-0.5">
                   {sessions.filter(s => s.unreadCount > 0).length}
@@ -350,13 +350,13 @@ export default function AdminDashboard() {
             </button>
             <button
               onClick={() => setActiveTab("reviews")}
-              className={`px-6 py-3 font-semibold transition ${
+              className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "reviews"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
                   : "text-neutral-400 hover:text-white"
               }`}
             >
-              ⭐ Product Reviews
+              ⭐ <span className="hidden sm:inline">Product </span>Reviews
               {reviews.filter(r => r.status === 'pending').length > 0 && (
                 <span className="ml-2 bg-yellow-500 text-black text-xs font-bold rounded-full px-2 py-0.5">
                   {reviews.filter(r => r.status === 'pending').length}
@@ -369,11 +369,11 @@ export default function AdminDashboard() {
 
       {/* Content */}
       {activeTab === "chats" ? (
-        <div className="flex h-[calc(100vh-160px)]">
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-160px)] lg:h-[calc(100vh-160px)]">
           {/* Chat Sessions Sidebar */}
-          <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
-            <div className="p-4 border-b border-white/10">
-              <h2 className="text-lg font-bold text-white">Active Conversations</h2>
+          <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedSession ? 'hidden lg:block' : 'block'}`}>
+            <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
+              <h2 className="text-base md:text-lg font-bold text-white">Active Conversations</h2>
               <p className="text-xs text-neutral-400 mt-1">
                 {sessions.filter(s => s.status === "active").length} active chats
               </p>
@@ -383,25 +383,25 @@ export default function AdminDashboard() {
               <div
                 key={session.id}
                 onClick={() => setSelectedSession(session.id)}
-                className={`p-4 border-b border-white/5 cursor-pointer transition ${
+                className={`p-3 md:p-4 border-b border-white/5 cursor-pointer transition ${
                   selectedSession === session.id
                     ? "bg-emerald-500/20 border-l-4 border-l-emerald-400"
                     : "hover:bg-white/5"
                 }`}
               >
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-semibold text-white">{session.customerName}</h3>
+                  <h3 className="font-semibold text-white text-sm md:text-base">{session.customerName}</h3>
                   {session.unreadCount > 0 && (
-                    <span className="bg-emerald-500 text-black text-xs font-bold rounded-full px-2 py-0.5">
+                    <span className="bg-emerald-500 text-black text-xs font-bold rounded-full px-2 py-0.5 flex-shrink-0">
                       {session.unreadCount}
                     </span>
                   )}
                 </div>
                 <p className="text-xs text-neutral-400 truncate mb-1">{session.customerEmail}</p>
-                <p className="text-sm text-neutral-300 truncate">{session.lastMessage}</p>
+                <p className="text-xs md:text-sm text-neutral-300 truncate">{session.lastMessage}</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-neutral-500">
-                    {new Date(session.lastMessageTime).toLocaleTimeString()}
+                    {new Date(session.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {session.status === "resolved" && (
                     <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">
@@ -413,55 +413,65 @@ export default function AdminDashboard() {
             ))}
             
             {sessions.length === 0 && (
-              <div className="p-8 text-center text-neutral-400">
+              <div className="p-8 text-center text-neutral-400 text-sm">
                 No conversations yet
               </div>
             )}
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 flex flex-col">
+          <div className={`flex-1 flex flex-col ${selectedSession ? 'block' : 'hidden lg:flex'}`}>
             {selectedSession ? (
               <>
-                <div className="bg-black/20 border-b border-white/10 p-4">
+                <div className="bg-black/20 border-b border-white/10 p-3 md:p-4">
                   {(() => {
                     const session = sessions.find(s => s.id === selectedSession);
                     return session ? (
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h3 className="text-lg font-bold text-white">{session.customerName}</h3>
-                          <p className="text-sm text-neutral-400">{session.customerEmail}</p>
-                          {session.customerPhone && (
-                            <p className="text-sm text-emerald-400">📱 {session.customerPhone}</p>
-                          )}
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setSelectedSession(null)}
+                            className="lg:hidden bg-white/10 hover:bg-white/20 p-2 rounded-lg transition"
+                          >
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                          </button>
+                          <div>
+                            <h3 className="text-base md:text-lg font-bold text-white">{session.customerName}</h3>
+                            <p className="text-xs md:text-sm text-neutral-400">{session.customerEmail}</p>
+                            {session.customerPhone && (
+                              <p className="text-xs md:text-sm text-emerald-400">📱 {session.customerPhone}</p>
+                            )}
+                          </div>
                         </div>
                         <button
                           onClick={() => markChatAsResolved(selectedSession)}
-                          className="bg-green-500/20 hover:bg-green-500/30 text-green-400 px-4 py-2 rounded-lg transition border border-green-500/30"
+                          className="bg-green-500/20 hover:bg-green-500/30 text-green-400 px-3 md:px-4 py-2 rounded-lg transition border border-green-500/30 text-xs md:text-sm whitespace-nowrap"
                         >
-                          Mark as Resolved
+                          Mark Resolved
                         </button>
                       </div>
                     ) : null;
                   })()}
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4">
                   {messages.map((msg) => (
                     <div
                       key={msg.id}
                       className={`flex ${msg.from === "admin" ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`max-w-[70%] rounded-2xl px-4 py-3 ${
+                        className={`max-w-[85%] sm:max-w-[75%] lg:max-w-[70%] rounded-2xl px-3 md:px-4 py-2 md:py-3 ${
                           msg.from === "admin"
                             ? "bg-emerald-500 text-black"
                             : "bg-white/10 text-white"
                         }`}
                       >
-                        <p className="text-sm leading-relaxed">{msg.text}</p>
+                        <p className="text-sm leading-relaxed break-words">{msg.text}</p>
                         <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-neutral-400"}`}>
-                          {new Date(msg.timestamp).toLocaleTimeString()}
+                          {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                     </div>
@@ -469,18 +479,18 @@ export default function AdminDashboard() {
                   <div ref={messagesEndRef} />
                 </div>
 
-                <form onSubmit={sendChatReply} className="bg-black/20 border-t border-white/10 p-4">
-                  <div className="flex gap-3">
+                <form onSubmit={sendChatReply} className="bg-black/20 border-t border-white/10 p-3 md:p-4">
+                  <div className="flex gap-2 md:gap-3">
                     <input
                       type="text"
                       value={chatReply}
                       onChange={(e) => setChatReply(e.target.value)}
                       placeholder="Type your response..."
-                      className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                      className="flex-1 rounded-lg bg-white/10 border border-white/20 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                     />
                     <button
                       type="submit"
-                      className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-lg transition"
+                      className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg transition text-sm md:text-base whitespace-nowrap"
                     >
                       Send
                     </button>
@@ -488,18 +498,18 @@ export default function AdminDashboard() {
                 </form>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-neutral-400">
+              <div className="flex-1 hidden lg:flex items-center justify-center text-neutral-400 text-sm md:text-base px-4">
                 Select a conversation to start chatting
               </div>
             )}
           </div>
         </div>
       ) : (
-        <div className="flex h-[calc(100vh-160px)]">
+        <div className="flex flex-col lg:flex-row h-[calc(100vh-160px)] lg:h-[calc(100vh-160px)]">
           {/* Reviews List */}
-          <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
-            <div className="p-4 border-b border-white/10">
-              <h2 className="text-lg font-bold text-white">Product Reviews</h2>
+          <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedReview ? 'hidden lg:block' : 'block'}`}>
+            <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
+              <h2 className="text-base md:text-lg font-bold text-white">Product Reviews</h2>
               <p className="text-xs text-neutral-400 mt-1">
                 {reviews.filter(r => r.status === 'pending').length} pending responses
               </p>
@@ -509,25 +519,25 @@ export default function AdminDashboard() {
               <div
                 key={review.id}
                 onClick={() => setSelectedReview(review.id)}
-                className={`p-4 border-b border-white/5 cursor-pointer transition ${
+                className={`p-3 md:p-4 border-b border-white/5 cursor-pointer transition ${
                   selectedReview === review.id
                     ? "bg-emerald-500/20 border-l-4 border-l-emerald-400"
                     : "hover:bg-white/5"
                 }`}
               >
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-semibold text-white">{review.name}</h3>
-                  <div className="flex gap-0.5">
+                  <h3 className="font-semibold text-white text-sm md:text-base truncate flex-1">{review.name}</h3>
+                  <div className="flex gap-0.5 flex-shrink-0 ml-2">
                     {Array.from({ length: review.rating }).map((_, i) => (
                       <span key={i} className="text-yellow-400 text-xs">★</span>
                     ))}
                   </div>
                 </div>
                 <p className="text-xs text-neutral-400 truncate mb-1">Product: {review.productId}</p>
-                <p className="text-sm text-neutral-300 truncate mb-2">{review.comment}</p>
+                <p className="text-xs md:text-sm text-neutral-300 truncate mb-2">{review.comment}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-neutral-500">
-                    {new Date(review.timestamp).toLocaleDateString()}
+                    {new Date(review.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                   </span>
                   {review.status === 'responded' ? (
                     <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">
@@ -543,30 +553,40 @@ export default function AdminDashboard() {
             ))}
             
             {reviews.length === 0 && (
-              <div className="p-8 text-center text-neutral-400">
+              <div className="p-8 text-center text-neutral-400 text-sm">
                 No reviews yet
               </div>
             )}
           </div>
 
           {/* Review Details */}
-          <div className="flex-1 flex flex-col">
+          <div className={`flex-1 flex flex-col ${selectedReview ? 'block' : 'hidden lg:flex'}`}>
             {selectedReview ? (
               <>
                 {(() => {
                   const review = reviews.find(r => r.id === selectedReview);
                   return review ? (
                     <>
-                      <div className="bg-black/20 border-b border-white/10 p-6">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="text-xl font-bold text-white">{review.name}</h3>
-                            <p className="text-sm text-neutral-400">{review.email}</p>
-                            <p className="text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
+                      <div className="bg-black/20 border-b border-white/10 p-3 md:p-6">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                          <div className="flex items-start gap-3">
+                            <button
+                              onClick={() => setSelectedReview(null)}
+                              className="lg:hidden bg-white/10 hover:bg-white/20 p-2 rounded-lg transition flex-shrink-0"
+                            >
+                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                              </svg>
+                            </button>
+                            <div className="flex-1">
+                              <h3 className="text-lg md:text-xl font-bold text-white">{review.name}</h3>
+                              <p className="text-xs md:text-sm text-neutral-400 break-all">{review.email}</p>
+                              <p className="text-xs md:text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
+                            </div>
                           </div>
-                          <div className="flex gap-0.5">
+                          <div className="flex gap-0.5 flex-shrink-0">
                             {Array.from({ length: 5 }).map((_, i) => (
-                              <span key={i} className={`text-2xl ${i < review.rating ? 'text-yellow-400' : 'text-gray-600'}`}>
+                              <span key={i} className={`text-xl md:text-2xl ${i < review.rating ? 'text-yellow-400' : 'text-gray-600'}`}>
                                 ★
                               </span>
                             ))}
@@ -574,34 +594,44 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                        <div className="bg-white/10 rounded-2xl p-6">
+                      <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6">
+                        <div className="bg-white/10 rounded-2xl p-4 md:p-6">
                           <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-black font-bold">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-emerald-500 flex items-center justify-center text-black font-bold text-sm md:text-base flex-shrink-0">
                               {review.name.charAt(0).toUpperCase()}
                             </div>
-                            <div className="flex-1">
-                              <p className="text-white leading-relaxed">{review.comment}</p>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
                               <p className="text-xs text-neutral-400 mt-2">
-                                {new Date(review.timestamp).toLocaleString()}
+                                {new Date(review.timestamp).toLocaleString([], { 
+                                  month: 'short', 
+                                  day: 'numeric', 
+                                  hour: '2-digit', 
+                                  minute: '2-digit' 
+                                })}
                               </p>
                             </div>
                           </div>
                         </div>
 
                         {review.response && (
-                          <div className="bg-emerald-500/20 rounded-2xl p-6 border border-emerald-500/30">
+                          <div className="bg-emerald-500/20 rounded-2xl p-4 md:p-6 border border-emerald-500/30">
                             <div className="flex items-start gap-3">
-                              <div className="w-10 h-10 rounded-full bg-emerald-400 flex items-center justify-center">
-                                <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
+                              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-emerald-400 flex items-center justify-center flex-shrink-0">
+                                <svg className="w-4 h-4 md:w-6 md:h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
                                   <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                                 </svg>
                               </div>
-                              <div className="flex-1">
-                                <div className="text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
-                                <p className="text-white leading-relaxed">{review.response}</p>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-xs md:text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
+                                <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.response}</p>
                                 <p className="text-xs text-neutral-400 mt-2">
-                                  {new Date(review.responseTimestamp || Date.now()).toLocaleString()}
+                                  {new Date(review.responseTimestamp || Date.now()).toLocaleString([], { 
+                                    month: 'short', 
+                                    day: 'numeric', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit' 
+                                  })}
                                 </p>
                               </div>
                             </div>
@@ -609,20 +639,20 @@ export default function AdminDashboard() {
                         )}
                       </div>
 
-                      <form onSubmit={sendReviewResponse} className="bg-black/20 border-t border-white/10 p-6">
-                        <div className="flex gap-3">
+                      <form onSubmit={sendReviewResponse} className="bg-black/20 border-t border-white/10 p-3 md:p-6">
+                        <div className="flex gap-2 md:gap-3">
                           <input
                             type="text"
                             value={reviewReply}
                             onChange={(e) => setReviewReply(e.target.value)}
-                            placeholder={review.response ? "Update your response..." : "Type your response to this review..."}
-                            className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                            placeholder={review.response ? "Update response..." : "Type your response..."}
+                            className="flex-1 rounded-lg bg-white/10 border border-white/20 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                           />
                           <button
                             type="submit"
-                            className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-6 py-3 rounded-lg transition"
+                            className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg transition text-sm md:text-base whitespace-nowrap"
                           >
-                            {review.response ? 'Update' : 'Send'} Response
+                            {review.response ? 'Update' : 'Send'}
                           </button>
                         </div>
                       </form>
@@ -631,7 +661,7 @@ export default function AdminDashboard() {
                 })()}
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-neutral-400">
+              <div className="flex-1 hidden lg:flex items-center justify-center text-neutral-400 text-sm md:text-base px-4">
                 Select a review to view details and respond
               </div>
             )}
