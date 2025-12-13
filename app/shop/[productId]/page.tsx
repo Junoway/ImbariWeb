@@ -90,7 +90,8 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   const handleFeedbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!reviewUser) {
+    // STRICT ENFORCEMENT: User must be logged in
+    if (!reviewUser || !reviewUser.name || !reviewUser.email) {
       // Save review data and show login form
       setPendingReview({
         rating: feedbackData.rating,
@@ -780,7 +781,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
       )}
 
       {/* FEEDBACK FORM MODAL */}
-      {showFeedbackForm && (
+      {showFeedbackForm && reviewUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
             <div className="flex items-center justify-between mb-6">
