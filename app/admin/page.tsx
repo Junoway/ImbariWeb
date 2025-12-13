@@ -312,7 +312,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
       {/* Header */}
       <div className="bg-black/30 border-b border-white/10 px-4 md:px-6 py-4">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 lg:max-w-7xl lg:mx-auto">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-emerald-400">Imbari Coffee Admin</h1>
             <p className="text-xs md:text-sm text-neutral-400">Manage Chats, Reviews & Analytics</p>
@@ -331,7 +331,7 @@ export default function AdminDashboard() {
 
       {/* Tabs */}
       <div className="bg-black/20 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="lg:max-w-7xl lg:mx-auto px-4 md:px-6">
           <div className="flex gap-1 md:gap-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab("chats")}
