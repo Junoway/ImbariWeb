@@ -797,36 +797,48 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
             </div>
 
             <form onSubmit={handleFeedbackSubmit} className="space-y-6">
-              {/* Name Field - Auto-filled if logged in */}
+              {/* Name Field - Auto-filled from session, LOCKED */}
               <div>
                 <label htmlFor="review-name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Name *
+                  Your Name * <span className="text-xs text-gray-500">(from session)</span>
                 </label>
-                <input
-                  type="text"
-                  id="review-name"
-                  name="name"
-                  required
-                  value={reviewUser?.name || ''}
-                  readOnly
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="review-name"
+                    name="name"
+                    required
+                    value={reviewUser?.name || ''}
+                    readOnly
+                    disabled
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
+                  />
+                  <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </div>
 
-              {/* Email Field - Auto-filled if logged in */}
+              {/* Email Field - Auto-filled from session, LOCKED */}
               <div>
                 <label htmlFor="review-email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email *
+                  Email * <span className="text-xs text-gray-500">(from session)</span>
                 </label>
-                <input
-                  type="email"
-                  id="review-email"
-                  name="email"
-                  required
-                  value={reviewUser?.email || ''}
-                  readOnly
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
-                />
+                <div className="relative">
+                  <input
+                    type="email"
+                    id="review-email"
+                    name="email"
+                    required
+                    value={reviewUser?.email || ''}
+                    readOnly
+                    disabled
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
+                  />
+                  <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </div>
 
               <div>
