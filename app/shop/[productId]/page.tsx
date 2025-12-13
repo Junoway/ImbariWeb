@@ -165,13 +165,9 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   };
 
   const handleWriteReview = () => {
-    console.log('🔐 handleWriteReview called. isAuthenticated:', isAuthenticated, 'reviewUser:', reviewUser);
     if (isAuthenticated) {
-      console.log('✅ User is authenticated, opening review form');
       setShowFeedbackForm(true);
     } else {
-      console.log('❌ User not authenticated, showing login form');
-      // Clear any previous login data
       setLoginData({ name: '', email: '' });
       setShowLoginForm(true);
     }
