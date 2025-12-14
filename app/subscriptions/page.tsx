@@ -30,7 +30,7 @@ const FEATURED_PRODUCTS = [
     size: "Box of 24",
     price: 20.99,
     subscriberPrice: 18.89,
-    image: withBasePath("/images/shop2.jpg"),
+    image: withBasePath("/images/kcup.jpg"),
   },
   {
     id: 5,
