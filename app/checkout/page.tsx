@@ -73,22 +73,30 @@ export default function CheckoutPage() {
     if (items.length === 0) return;
     setPlacingOrder(true);
     try {
-      // Get backend URL from environment variable
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://your-backend.vercel.app';
+      // Get backend URL - use environment variable or deployed backend URL
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://imbari-coffee-backend.vercel.app';
       
       // Prepare checkout data
       const checkoutData = {
         items: items.map(item => ({
           id: item.id,
           name: item.name,
-          description: '',
+          description: item.size || '',
           price: item.price,
           quantity: item.quantity,
           image: item.image,
         })),
+        location: location,
+        shipping: shipping,
+        tax: tax,
         discountCode: discountApplied ? discountCode : undefined,
-        tipAmount: tip.toString(),
+        discountAmount: discount,
+        tipAmount: tip,
+        subtotal: subtotal,
+        total: parseFloat(total),
       };
+
+      console.log('Initiating checkout with:', checkoutData);
 
       // Call backend to create Stripe Checkout session
       const res = await fetch(`${apiUrl}/api/create-checkout-session`, {
@@ -105,6 +113,8 @@ export default function CheckoutPage() {
       }
 
       const data = await res.json();
+      console.log('Stripe session created:', data);
+      
       if (data.url) {
         // Redirect to Stripe Checkout
         window.location.assign(data.url);
