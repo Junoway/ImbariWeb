@@ -12,7 +12,7 @@ function CheckoutSuccessContent() {
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   useEffect(() => {
-    const session = searchParams.get("session_id");
+    const session = searchParams?.get("session_id") || null;
     if (session) {
       setSessionId(session);
       // Clear cart after successful payment
