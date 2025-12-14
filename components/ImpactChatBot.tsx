@@ -266,7 +266,7 @@ export default function ImpactChatBot() {
             <h2 className="text-lg font-extrabold text-emerald-300 tracking-wider uppercase mb-1 drop-shadow-lg">
               Imbari Impact Concierge
             </h2>
-            <p className="text-sm text-neutral-200 font-medium">
+            <p className="text-sm text-gray-100 font-medium">
               Talk to us about sourcing, impact, and partnerships.
             </p>
           </div>
@@ -274,7 +274,7 @@ export default function ImpactChatBot() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close chat"
-            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition text-neutral-100 text-xl font-bold shadow"
+            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition text-white text-xl font-bold shadow"
           >
             ✕
           </button>
@@ -295,7 +295,7 @@ export default function ImpactChatBot() {
                     ? "bg-emerald-500 text-black"
                     : m.from === "admin"
                     ? "bg-blue-500 text-white"
-                    : "bg-white/10 text-neutral-100"
+                    : "bg-white/10 text-white"
                 }`}
               >
                 {m.from === "admin" && (
@@ -324,11 +324,11 @@ export default function ImpactChatBot() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-neutral-200 font-semibold">
+                  <label className="text-xs text-gray-100 font-semibold">
                     Name *
                   </label>
                   <input
-                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
@@ -337,12 +337,12 @@ export default function ImpactChatBot() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-neutral-200 font-semibold">
+                  <label className="text-xs text-gray-100 font-semibold">
                     Email *
                   </label>
                   <input
                     type="email"
-                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                    className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
@@ -353,11 +353,11 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-200 font-semibold">
+                <label className="text-xs text-gray-100 font-semibold">
                   WhatsApp / Phone (optional)
                 </label>
                 <input
-                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+256..."
@@ -366,11 +366,11 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-200 font-semibold">
+                <label className="text-xs text-gray-100 font-semibold">
                   How can we help? (optional)
                 </label>
                 <select
-                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition"
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 >
@@ -384,11 +384,11 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-200 font-semibold">
+                <label className="text-xs text-gray-100 font-semibold">
                   Additional details (optional)
                 </label>
                 <textarea
-                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition resize-none placeholder:text-neutral-500"
+                  className="mt-1 w-full rounded-lg bg-black/70 border border-white/15 px-3 py-2 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition resize-none placeholder:text-neutral-500"
                   rows={3}
                   value={input && !QUICK_TOPICS.includes(input) ? input : ""}
                   onChange={(e) => setInput(e.target.value)}
@@ -411,7 +411,7 @@ export default function ImpactChatBot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 rounded-lg bg-black/70 border border-white/15 px-4 py-3 text-sm text-neutral-100 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
+                className="flex-1 rounded-lg bg-black/70 border border-white/15 px-4 py-3 text-sm text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 transition placeholder:text-neutral-500"
                 autoFocus
               />
               <button
@@ -468,4 +468,6 @@ export default function ImpactChatBot() {
     </>
   );
 }
+
+
 

@@ -33,7 +33,7 @@ export default function ImbariStoryPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             </div>
-            <div className="absolute bottom-4 left-4 max-w-xs text-xs sm:text-sm text-neutral-200 space-y-1">
+            <div className="absolute bottom-4 left-4 max-w-xs text-xs sm:text-sm text-gray-100 space-y-1">
               <p className="font-medium text-emerald-300"></p>
               <p>
                 From Mt. Elgon through the Eastern Rift — the cradle of coffee
@@ -54,24 +54,24 @@ export default function ImbariStoryPage() {
           </p>
           <div className="grid gap-8 md:grid-cols-2 w-full max-w-4xl mx-auto">
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 It is the ceremony through which men were ushered into unity,
                 brotherhood, and nationhood: through circumcision and the
                 exchanging of coffee seeds.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Coffee, in this tradition, was not a casual drink. It was a
                 sacred symbol of law and obligation, bond and loyalty, promise
                 and inheritance, shared identity and destiny.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 To drink together under Imbari was to enter a covenant — a
                 binding agreement that lived beyond documents, beyond signatures,
                 and beyond time.
               </p>
             </div>
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Every Imbari shipment and every Imbari cup is designed as a
                 living continuation of that ancient agreement.
               </p>
@@ -93,20 +93,20 @@ export default function ImbariStoryPage() {
           </p>
           <div className="grid gap-8 md:grid-cols-2 w-full max-w-4xl mx-auto">
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Two leaders would meet. They would cut themselves at the{" "}
                 <strong>navel</strong> — the ancient center of life. A coffee seed
                 was dipped into their blood, exchanged, and swallowed.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 This ritual formed an unbreakable bond known as Omukago — unity,
                 trust, peace, alliance, shared destiny.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 This wasn’t symbolic. It was binding, spiritual, and eternal — a
                 covenant recognized by clans, kingdoms, and generations.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 It mirrors the ancient <strong>Habiru (Hebrew)</strong> covenant
                 traditions — the blood bond God demanded when forming a nation.
                 Not by accident, but by memory: a shared spiritual pattern
@@ -114,7 +114,7 @@ export default function ImbariStoryPage() {
               </p>
             </div>
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 The people who kept these rites —{" "}
                 <strong>the People of Kisu (Cush), the Ba’Masaba (Sabaeans)</strong>
                 {" "}and other highland communities — form part of the ancestral
@@ -144,23 +144,23 @@ export default function ImbariStoryPage() {
           </p>
           <div className="grid gap-8 md:grid-cols-2 w-full max-w-4xl mx-auto">
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 The ancient culture of Imbari lived among the Ba’Masaba
                 (Bugisu), Sabaeans of Southern Ethiopia, People of Kisu
                 (Cushitic ancestors), highland clans of Mt. Elgon, and Eastern
                 Rift Mountains communities.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 These communities carried with them the knowledge of coffee, the
                 ceremony of covenant, the tradition of unity, and the sacred
                 exchange of the seed.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Across centuries, this ritual survived in Ethiopia, Uganda, Kenya,
                 Congo, Rwanda, Burundi, and Tanzania — the true coffee belt of
                 Africa.
               </p>
-              <p className="text-base text-neutral-200 font-medium">
+              <p className="text-base text-gray-100 font-medium">
                 Imbari is born from this heritage.
               </p>
             </div>
@@ -184,16 +184,16 @@ export default function ImbariStoryPage() {
           </p>
           <div className="grid gap-8 md:grid-cols-2 w-full max-w-4xl mx-auto">
             <div className="flex flex-col gap-6 items-center">
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Imbari is the revival of African brotherhood, unity, truth, ritual,
                 and heritage.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Imbari is the <strong>Cup of Covenant</strong>: a cup that unites, a
                 cup that reconciles, a cup that remembers who we were before the
                 world named us.
               </p>
-              <p className="text-base text-neutral-100">
+              <p className="text-base text-white">
                 Every cup of Imbari is a modern expression of an ancient promise:
               </p>
               <p className="text-lg font-semibold text-emerald-300">
@@ -208,7 +208,7 @@ export default function ImbariStoryPage() {
           <h2 className="section-heading text-2xl uppercase tracking-wider text-emerald-300 mb-2">
             Our Brand Purpose
           </h2>
-          <p className="text-base text-neutral-100 max-w-2xl mx-auto">
+          <p className="text-base text-white max-w-2xl mx-auto">
             We chose the name <strong>Imbari</strong> because we believe the cup
             can unite Africa again — not only through treaties, politics, or
             conferences, but{" "}
@@ -216,11 +216,11 @@ export default function ImbariStoryPage() {
               cup by cup, bond by bond, covenant by covenant.
             </span>
           </p>
-          <p className="text-base text-neutral-100 max-w-2xl mx-auto">
+          <p className="text-base text-white max-w-2xl mx-auto">
             Coffee began with us. The unity it once carried should return to us —
             and flow outwards again to the world.
           </p>
-          <p className="text-base text-neutral-200 max-w-2xl mx-auto">
+          <p className="text-base text-gray-100 max-w-2xl mx-auto">
             Imbari is the return of the unity cup of Africa.
           </p>
         </section>
@@ -232,12 +232,12 @@ export default function ImbariStoryPage() {
             <h2 className="section-heading text-2xl sm:text-3xl">
               Taste the Covenant. Partner with the Origin.
             </h2>
-            <p className="text-base text-neutral-100">
+            <p className="text-base text-white">
               Imbari Coffee carries this story from the highlands of Mt. Elgon and
               the Mountain Spine of Africa into every bag, every jar, every instant
               blend, and every roasted lot we ship.
             </p>
-            <p className="text-base text-neutral-200">
+            <p className="text-base text-gray-100">
               When you work with Imbari — as an importer, roaster, retailer,
               distributor, or brand — you are not just buying coffee. You are
               entering a covenant of quality, traceability, and African unity.
@@ -264,4 +264,6 @@ export default function ImbariStoryPage() {
     </main>
   );
 }
+
+
 

@@ -126,11 +126,11 @@ export default function AdminReviewsDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-          <p className="text-neutral-100 mb-6">Reviews Management Dashboard</p>
+          <p className="text-white mb-6">Reviews Management Dashboard</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-200 font-semibold">Email</label>
+              <label className="text-sm text-gray-100 font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
@@ -142,7 +142,7 @@ export default function AdminReviewsDashboard() {
             </div>
             
             <div>
-              <label className="text-sm text-neutral-200 font-semibold">Password</label>
+              <label className="text-sm text-gray-100 font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
@@ -172,10 +172,10 @@ export default function AdminReviewsDashboard() {
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-emerald-400">Imbari Reviews Management</h1>
-            <p className="text-sm text-neutral-200">Customer Product Reviews Dashboard</p>
+            <p className="text-sm text-gray-100">Customer Product Reviews Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-neutral-100">{user.email}</span>
+            <span className="text-white">{user.email}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition border border-red-500/30"
@@ -191,7 +191,7 @@ export default function AdminReviewsDashboard() {
         <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
           <div className="p-4 border-b border-white/10">
             <h2 className="text-lg font-bold text-white">Product Reviews</h2>
-            <p className="text-xs text-neutral-200 mt-1">
+            <p className="text-xs text-gray-100 mt-1">
               {reviews.filter(r => r.status === 'pending').length} pending responses
             </p>
           </div>
@@ -214,8 +214,8 @@ export default function AdminReviewsDashboard() {
                   ))}
                 </div>
               </div>
-              <p className="text-xs text-neutral-200 truncate mb-1">Product: {review.productId}</p>
-              <p className="text-sm text-neutral-100 truncate mb-2">{review.comment}</p>
+              <p className="text-xs text-gray-100 truncate mb-1">Product: {review.productId}</p>
+              <p className="text-sm text-white truncate mb-2">{review.comment}</p>
               <div className="flex justify-between items-center">
                 <span className="text-xs text-neutral-500">
                   {new Date(review.timestamp).toLocaleDateString()}
@@ -234,7 +234,7 @@ export default function AdminReviewsDashboard() {
           ))}
           
           {reviews.length === 0 && (
-            <div className="p-8 text-center text-neutral-200">
+            <div className="p-8 text-center text-gray-100">
               No reviews yet. Waiting for customer feedback...
             </div>
           )}
@@ -253,7 +253,7 @@ export default function AdminReviewsDashboard() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="text-xl font-bold text-white">{review.name}</h3>
-                          <p className="text-sm text-neutral-200">{review.email}</p>
+                          <p className="text-sm text-gray-100">{review.email}</p>
                           <p className="text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                         </div>
                         <div className="flex gap-0.5">
@@ -275,7 +275,7 @@ export default function AdminReviewsDashboard() {
                           </div>
                           <div className="flex-1">
                             <p className="text-white leading-relaxed">{review.comment}</p>
-                            <p className="text-xs text-neutral-200 mt-2">
+                            <p className="text-xs text-gray-100 mt-2">
                               {new Date(review.timestamp).toLocaleString()}
                             </p>
                           </div>
@@ -293,7 +293,7 @@ export default function AdminReviewsDashboard() {
                             <div className="flex-1">
                               <div className="text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
                               <p className="text-white leading-relaxed">{review.response}</p>
-                              <p className="text-xs text-neutral-200 mt-2">
+                              <p className="text-xs text-gray-100 mt-2">
                                 {new Date(review.responseTimestamp || Date.now()).toLocaleString()}
                               </p>
                             </div>
@@ -325,7 +325,7 @@ export default function AdminReviewsDashboard() {
               })()}
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-neutral-200">
+            <div className="flex-1 flex items-center justify-center text-gray-100">
               Select a review to view details and respond
             </div>
           )}
@@ -334,4 +334,6 @@ export default function AdminReviewsDashboard() {
     </div>
   );
 }
+
+
 

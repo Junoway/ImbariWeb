@@ -91,23 +91,23 @@ export default function ContactPage() {
         </header>
 
         <section className="grid gap-8 lg:grid-cols-2 w-full">
-          <article className="card p-6 sm:p-7 text-sm text-neutral-200 space-y-3 flex flex-col items-center text-center">
+          <article className="card p-6 sm:p-7 text-sm text-gray-100 space-y-3 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200">Direct Contact</h2>
-            <p className="text-xs text-neutral-100">
+            <p className="text-xs text-white">
               Email:{" "}
               <span className="font-mono">info@imbaricoffee.com</span>
             </p>
-            <p className="text-xs text-neutral-100">
+            <p className="text-xs text-white">
               Phone: <span className="font-mono">+256 779 344 984</span>
             </p>
-            <p className="text-xs text-neutral-100">
+            <p className="text-xs text-white">
               Office: 119199, Plot 29, Commercial Plaza, Kampala Rd, Uganda
               <br />
               Export Warehouse: (Add location when confirmed)
             </p>
           </article>
 
-          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-neutral-200 space-y-4 flex flex-col items-center text-center">
+          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-gray-100 space-y-4 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200 mb-1">
               Wholesale / Distribution Request Form
             </h2>
@@ -126,7 +126,7 @@ export default function ContactPage() {
             
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-100">Name *</label>
+                <label className="text-xs text-white">Name *</label>
                 <input
                   required
                   value={formData.name}
@@ -136,7 +136,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-100">Company *</label>
+                <label className="text-xs text-white">Company *</label>
                 <input
                   required
                   value={formData.company}
@@ -149,7 +149,7 @@ export default function ContactPage() {
 
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-100">Email *</label>
+                <label className="text-xs text-white">Email *</label>
                 <input
                   required
                   type="email"
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-100">Country *</label>
+                <label className="text-xs text-white">Country *</label>
                 <input
                   required
                   value={formData.country}
@@ -172,7 +172,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-100">Product Interest *</label>
+              <label className="text-xs text-white">Product Interest *</label>
               <select 
                 required
                 value={formData.productInterest}
@@ -188,7 +188,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-100">Expected Volumes</label>
+              <label className="text-xs text-white">Expected Volumes</label>
               <input
                 value={formData.volumes}
                 onChange={(e) => setFormData({ ...formData, volumes: e.target.value })}
@@ -198,7 +198,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-100">Additional Notes *</label>
+              <label className="text-xs text-white">Additional Notes *</label>
               <textarea
                 required
                 rows={4}
@@ -225,4 +225,6 @@ export default function ContactPage() {
     </main>
   );
 }
+
+
 

@@ -17,7 +17,7 @@ export default function Footer() {
               height={90}
               className="rounded-xl shadow-lg border border-white/10"
             />
-            <p className="text-sm text-neutral-200 leading-relaxed max-w-xs">
+            <p className="text-sm text-gray-100 leading-relaxed max-w-xs">
               <span className="font-semibold text-white">Imbari Coffee</span> —
               Africa’s Premium Coffee, Perfected.
               <br />
@@ -49,7 +49,7 @@ export default function Footer() {
             <h3 className="text-lg font-bold text-white mb-4 tracking-wide">
               Explore
             </h3>
-            <ul className="grid grid-cols-2 gap-2 text-sm text-neutral-100">
+            <ul className="grid grid-cols-2 gap-2 text-sm text-white">
               <li>
                 <Link
                   href="/"
@@ -226,7 +226,7 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="text-xs text-neutral-200">
+            <p className="text-xs text-gray-100">
               Follow us for updates, stories, and impact.
             </p>
           </div>
@@ -236,7 +236,7 @@ export default function Footer() {
             <h3 className="text-lg font-bold text-white mb-4 tracking-wide">
               Contact
             </h3>
-            <div className="space-y-2 text-sm text-neutral-100">
+            <div className="space-y-2 text-sm text-white">
               <div>
                 <span className="font-semibold text-white">
                   Imbari Coffee Inc.
@@ -291,7 +291,7 @@ export default function Footer() {
           <p className="text-center text-xs text-neutral-500">
             © {new Date().getFullYear()} Imbari Coffee. All Rights Reserved.
           </p>
-          <div className="mt-2 text-xs text-neutral-200 flex gap-4">
+          <div className="mt-2 text-xs text-gray-100 flex gap-4">
             <Link href="/legal" className="hover:text-emerald-300 underline transition">Legal</Link>
           </div>
         </div>
@@ -302,4 +302,6 @@ export default function Footer() {
     </>
   );
 }
+
+
 

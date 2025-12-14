@@ -88,7 +88,7 @@ export default function ValueChainPage() {
 				<h1 className="section-heading text-4xl font-extrabold text-white drop-shadow-lg mb-2 text-center">
 					Farmer → Mill → Roast → Export
 				</h1>
-				<p className="section-subtitle text-lg text-neutral-200 max-w-xl mx-auto text-center">
+				<p className="section-subtitle text-lg text-gray-100 max-w-xl mx-auto text-center">
 					Imbari Coffee operates a vertically integrated value chain that keeps
 					quality, traceability, and trust at the center of every process.
 				</p>
@@ -167,7 +167,7 @@ export default function ValueChainPage() {
 								{stage.points.map((point, i) => (
 									<div
 										key={point}
-										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-neutral-100 font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30 text-center`}
+										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-white font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30 text-center`}
 									>
 										{point}
 									</div>
@@ -188,7 +188,7 @@ export default function ValueChainPage() {
 					<h3 className="text-2xl font-bold text-green-300 mb-2 text-center">
 						Ready to Experience the Imbari Difference?
 					</h3>
-					<p className="text-neutral-200 mb-4 text-center">
+					<p className="text-gray-100 mb-4 text-center">
 						Contact us to learn more about our value chain, sourcing, and
 						partnership opportunities.
 					</p>
@@ -239,4 +239,6 @@ export default function ValueChainPage() {
 //   0% { opacity: 0; transform: translateY(32px); }
 //   100% { opacity: 1; transform: translateY(0); }
 // }
+
+
 
