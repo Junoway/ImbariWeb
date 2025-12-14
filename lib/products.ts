@@ -393,6 +393,28 @@ export const PRODUCTS: Product[] = [
     image: withBasePath("/images/tbag.jpg"),
     description: "Try our dark roast in convenient single-serve sachet.",
     longDescription: "Perfect for travelers, campers, or anyone who wants instant premium dark roast coffee on the go. Just add hot water and enjoy bold, rich Imbari flavor anywhere. Great for sampling before committing to larger quantities."
+  },
+  {
+    id: 39,
+    slug: "light-roast-keurig-k-cups",
+    name: "Light Roast Keurig K-Cups",
+    type: "Pods",
+    size: "Box of 24",
+    price: 20.99,
+    image: withBasePath("/images/kcup.jpg"),
+    description: "24 Light Roast Keurig-compatible K-Cup pods for bright, fruity single-serve brewing.",
+    longDescription: "Compatible with all Keurig machines. Our Light Roast K-Cups deliver bright acidity and delicate fruity notes in seconds. Perfect for morning coffee lovers who prefer lighter, more nuanced flavors."
+  },
+  {
+    id: 40,
+    slug: "36-pack-sachets-box",
+    name: "36-Pack Sachets Box",
+    type: "Instant",
+    size: "Box of 36",
+    price: 69.99,
+    image: withBasePath("/images/imbtea.jpg"),
+    description: "36 single-serve sachets for ultimate convenience and value.",
+    longDescription: "Our largest sachets box - 36 instant coffee sachets perfect for offices, travel, or stocking up. Premium instant coffee that delivers authentic Imbari flavor anywhere, anytime. Best value for bulk buyers!"
   }
 ];
 
