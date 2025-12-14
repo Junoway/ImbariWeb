@@ -305,6 +305,94 @@ export const PRODUCTS: Product[] = [
     image: withBasePath("/images/tote.jpg"),
     description: "Stylish canvas tote bag with safari-inspired Imbari design.",
     longDescription: "Eco-friendly canvas tote bag featuring our safari-inspired Imbari design. Perfect for grocery shopping, beach trips, or everyday use. Durable and washable."
+  },
+  {
+    id: 31,
+    slug: "imbari-gift-card-5",
+    name: "The Imbari Gift Card",
+    type: "Gift",
+    size: "$5",
+    price: 5.00,
+    image: withBasePath("/images/gcard.jpg"),
+    description: "Perfect gift for coffee lovers - $5 gift card.",
+    longDescription: "Share the gift of exceptional Ugandan coffee with our $5 Imbari Gift Card. Perfect for stocking stuffers, small gestures, or first-time customers. Can be used on any Imbari Coffee product."
+  },
+  {
+    id: 32,
+    slug: "imbari-gift-card-10",
+    name: "The Imbari Gift Card",
+    type: "Gift",
+    size: "$10",
+    price: 10.00,
+    image: withBasePath("/images/gcard.jpg"),
+    description: "Perfect gift for coffee lovers - $10 gift card.",
+    longDescription: "Share the gift of exceptional Ugandan coffee with our $10 Imbari Gift Card. Perfect for any occasion, redeemable on all Imbari Coffee products."
+  },
+  {
+    id: 33,
+    slug: "imbari-gift-card-25",
+    name: "The Imbari Gift Card",
+    type: "Gift",
+    size: "$25",
+    price: 25.00,
+    image: withBasePath("/images/gcard.jpg"),
+    description: "Perfect gift for coffee lovers - $25 gift card.",
+    longDescription: "Share the gift of exceptional Ugandan coffee with our $25 Imbari Gift Card. A generous gift for coffee enthusiasts, redeemable on all products."
+  },
+  {
+    id: 34,
+    slug: "imbari-gift-card-50",
+    name: "The Imbari Gift Card",
+    type: "Gift",
+    size: "$50",
+    price: 50.00,
+    image: withBasePath("/images/gcard.jpg"),
+    description: "Perfect gift for coffee lovers - $50 gift card.",
+    longDescription: "Share the gift of exceptional Ugandan coffee with our $50 Imbari Gift Card. The ultimate gift for serious coffee lovers, redeemable on all Imbari Coffee products."
+  },
+  {
+    id: 35,
+    slug: "imbari-coffee-logo-mug",
+    name: "Imbari Coffee Logo Mug",
+    type: "Gift",
+    size: "11oz ceramic",
+    price: 12.99,
+    image: withBasePath("/images/mug.jpg"),
+    description: "Classic ceramic mug with Imbari Coffee logo.",
+    longDescription: "Start your morning with our classic Imbari Coffee Logo Mug. 11oz ceramic construction, dishwasher and microwave safe. Features our signature logo design. Perfect for daily coffee rituals."
+  },
+  {
+    id: 36,
+    slug: "imbari-logo-tshirt",
+    name: "The Logo Tshirt",
+    type: "Gift",
+    size: "Unisex M/L/XL",
+    price: 19.99,
+    image: withBasePath("/images/tshirt.jpg"),
+    description: "Premium cotton t-shirt with Imbari logo.",
+    longDescription: "Represent Imbari Coffee with our premium 100% cotton t-shirt. Soft, comfortable, and stylish with our signature logo. Available in medium, large, and extra-large. Perfect for coffee lovers everywhere."
+  },
+  {
+    id: 37,
+    slug: "all-in-one-combo",
+    name: "All in One Combo",
+    type: "Gift",
+    size: "Gift Set",
+    price: 59.99,
+    image: withBasePath("/images/combo.jpg"),
+    description: "Complete Imbari experience - coffee, mug, and tote bag.",
+    longDescription: "The ultimate Imbari Coffee gift set! Includes 12oz Medium Roast Whole Beans, Imbari Coffee Logo Mug, and Safari Tote Bag. Perfect for introducing someone to the complete Imbari experience. Save over 20% compared to buying separately!"
+  },
+  {
+    id: 38,
+    slug: "sample-dark-roast-sachet",
+    name: "Sample Dark Roast Sachet",
+    type: "Instant",
+    size: "0.5oz (14.2g)",
+    price: 2.49,
+    image: withBasePath("/images/tbag.jpg"),
+    description: "Try our dark roast in convenient single-serve sachet.",
+    longDescription: "Perfect for travelers, campers, or anyone who wants instant premium dark roast coffee on the go. Just add hot water and enjoy bold, rich Imbari flavor anywhere. Great for sampling before committing to larger quantities."
   }
 ];
 
