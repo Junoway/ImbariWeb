@@ -94,6 +94,15 @@ h1, h2, h3, .section-heading {
   color: var(--imbari-teal);
 }
 
+/* Text color utilities for proper contrast */
+.text-on-light {
+  color: #374151; /* gray-700 - dark text for light backgrounds */
+}
+
+.text-on-dark {
+  color: #f3f4f6; /* gray-100 - light text for dark backgrounds */
+}
+
 a {
   color: var(--imbari-navy);
   text-decoration: none;

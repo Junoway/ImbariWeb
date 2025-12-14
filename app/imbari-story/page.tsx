@@ -16,7 +16,7 @@ export default function ImbariStoryPage() {
             <h1 className="text-5xl sm:text-6xl font-semibold leading-tight">
               "Cup of Unity"
             </h1>
-            <p className="text-lg text-neutral-100 max-w-2xl mx-auto lg:mx-0">
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto lg:mx-0">
               Imbari is not just a name. It is an ancient African covenant — a
               sacred rite that predates colonial distortions and the rewriting
               of our ancestral history. Coffee was more than a drink: it was
@@ -48,7 +48,7 @@ export default function ImbariStoryPage() {
           <h2 className="section-heading text-3xl mb-2">
             Imbari — More Than a Name
           </h2>
-          <p className="section-subtitle text-lg max-w-2xl mx-auto mb-4">
+          <p className="text-lg max-w-2xl mx-auto mb-4 text-emerald-300">
             Imbari is the etymological ancestor of the Hebrew word{" "}
             <strong>Berit</strong> — <em>covenant</em>.
           </p>
@@ -86,7 +86,7 @@ export default function ImbariStoryPage() {
         {/* COFFEE COVENANT / OMUKAGO */}
         <section className="card bg-[#050708] border border-white/10 rounded-3xl p-12 space-y-10 text-center flex flex-col items-center">
           <h2 className="section-heading text-3xl mb-2">Imbari — Omukago</h2>
-          <p className="section-subtitle text-lg max-w-2xl mx-auto mb-4">
+          <p className="text-lg max-w-2xl mx-auto mb-4 text-emerald-300">
             Before colonial borders, before the “Age of Discovery,” before foreign
             religions reinterpreted African traditions —{" "}
             <strong>kings made covenants with coffee.</strong>
@@ -138,7 +138,7 @@ export default function ImbariStoryPage() {
           <h2 className="section-heading text-3xl mb-2">
             Where the Covenant Lived — The Mountain People
           </h2>
-          <p className="section-subtitle text-lg max-w-2xl mx-auto mb-4">
+          <p className="text-lg max-w-2xl mx-auto mb-4 text-emerald-300">
             The culture of Imbari lived among highland peoples whose lives were
             intertwined with coffee, covenant, and ceremony.
           </p>
@@ -178,7 +178,7 @@ export default function ImbariStoryPage() {
         {/* IMBARI – THE UNITY CUP */}
         <section className="card bg-[#050708] border border-white/10 rounded-3xl p-12 space-y-10 text-center flex flex-col items-center">
           <h2 className="section-heading text-3xl mb-2">Imbari — Ubuntu</h2>
-          <p className="section-subtitle text-lg max-w-2xl mx-auto mb-4">
+          <p className="text-lg max-w-2xl mx-auto mb-4 text-emerald-300">
             Imbari is more than a beverage company. It is a restoration project — a
             return to Africa’s own story of coffee, covenant, and unity.
           </p>
