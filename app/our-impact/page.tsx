@@ -205,7 +205,7 @@ export default function OurImpactPage() {
             <h2 className="text-2xl font-semibold">
               Partner With Imbari on Impact
             </h2>
-            <p className="text-base text-imbari-coffee-brown">
+            <p className="text-base text-white">
               Whether you’re a roaster, retailer, hotel group, NGO, or foundation,
               we can design coffee programs that deliver measurable value to
               African farmers and communities while giving your customers
@@ -228,6 +228,7 @@ export default function OurImpactPage() {
     </main>
   );
 }
+
 
 
 
