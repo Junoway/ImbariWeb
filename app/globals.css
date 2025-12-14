@@ -14,10 +14,13 @@
   --imbari-peach: #fed7aa;
   --imbari-gold: #fbbf24;
   --imbari-black: #0f172a;
+  --imbari-coffee-brown: #3e2723;
+  --imbari-dark-chocolate: #4a2c2a;
   
   /* Semantic colors */
   --bg-main: var(--imbari-cream);
   --fg-main: var(--imbari-navy);
+  --text-body: var(--imbari-coffee-brown);
   --accent: var(--imbari-orange);
   --accent-secondary: var(--imbari-teal);
   --accent-soft: var(--imbari-coral);
@@ -101,6 +104,14 @@ h1, h2, h3, .section-heading {
 
 .text-on-dark {
   color: #f3f4f6; /* gray-100 - light text for dark backgrounds */
+}
+
+.text-coffee {
+  color: var(--imbari-coffee-brown);
+}
+
+.text-navy-dark {
+  color: var(--imbari-navy);
 }
 
 a {

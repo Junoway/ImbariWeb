@@ -202,7 +202,7 @@ export default function AdminChatDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-          <p className="text-white mb-6">Support Team Chat Dashboard</p>
+          <p className="text-imbari-coffee-brown mb-6">Support Team Chat Dashboard</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -248,7 +248,7 @@ export default function AdminChatDashboard() {
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-emerald-400">Imbari Impact Concierge</h1>
-            <p className="text-sm text-white">Support Team Dashboard</p>
+            <p className="text-sm text-imbari-coffee-brown">Support Team Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-white">{user.email}</span>
@@ -290,8 +290,8 @@ export default function AdminChatDashboard() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-white truncate mb-1">{session.customerEmail}</p>
-              <p className="text-sm text-white truncate">{session.lastMessage}</p>
+              <p className="text-xs text-imbari-coffee-brown truncate mb-1">{session.customerEmail}</p>
+              <p className="text-sm text-imbari-coffee-brown truncate">{session.lastMessage}</p>
               <div className="flex justify-between items-center mt-2">
                 <span className="text-xs text-neutral-500">
                   {new Date(session.lastMessageTime).toLocaleTimeString()}
@@ -324,7 +324,7 @@ export default function AdminChatDashboard() {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="text-lg font-bold text-white">{session.customerName}</h3>
-                        <p className="text-sm text-white">{session.customerEmail}</p>
+                        <p className="text-sm text-imbari-coffee-brown">{session.customerEmail}</p>
                         {session.customerPhone && (
                           <p className="text-sm text-emerald-400">📱 {session.customerPhone}</p>
                         )}
@@ -393,6 +393,7 @@ export default function AdminChatDashboard() {
     </div>
   );
 }
+
 
 
 

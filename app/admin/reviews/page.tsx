@@ -126,7 +126,7 @@ export default function AdminReviewsDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-          <p className="text-white mb-6">Reviews Management Dashboard</p>
+          <p className="text-imbari-coffee-brown mb-6">Reviews Management Dashboard</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -172,7 +172,7 @@ export default function AdminReviewsDashboard() {
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-emerald-400">Imbari Reviews Management</h1>
-            <p className="text-sm text-white">Customer Product Reviews Dashboard</p>
+            <p className="text-sm text-imbari-coffee-brown">Customer Product Reviews Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-white">{user.email}</span>
@@ -214,8 +214,8 @@ export default function AdminReviewsDashboard() {
                   ))}
                 </div>
               </div>
-              <p className="text-xs text-white truncate mb-1">Product: {review.productId}</p>
-              <p className="text-sm text-white truncate mb-2">{review.comment}</p>
+              <p className="text-xs text-imbari-coffee-brown truncate mb-1">Product: {review.productId}</p>
+              <p className="text-sm text-imbari-coffee-brown truncate mb-2">{review.comment}</p>
               <div className="flex justify-between items-center">
                 <span className="text-xs text-neutral-500">
                   {new Date(review.timestamp).toLocaleDateString()}
@@ -253,7 +253,7 @@ export default function AdminReviewsDashboard() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="text-xl font-bold text-white">{review.name}</h3>
-                          <p className="text-sm text-white">{review.email}</p>
+                          <p className="text-sm text-imbari-coffee-brown">{review.email}</p>
                           <p className="text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                         </div>
                         <div className="flex gap-0.5">
@@ -274,7 +274,7 @@ export default function AdminReviewsDashboard() {
                             {review.name.charAt(0).toUpperCase()}
                           </div>
                           <div className="flex-1">
-                            <p className="text-white leading-relaxed">{review.comment}</p>
+                            <p className="text-imbari-coffee-brown leading-relaxed">{review.comment}</p>
                             <p className="text-xs text-white mt-2">
                               {new Date(review.timestamp).toLocaleString()}
                             </p>
@@ -292,7 +292,7 @@ export default function AdminReviewsDashboard() {
                             </div>
                             <div className="flex-1">
                               <div className="text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
-                              <p className="text-white leading-relaxed">{review.response}</p>
+                              <p className="text-imbari-coffee-brown leading-relaxed">{review.response}</p>
                               <p className="text-xs text-white mt-2">
                                 {new Date(review.responseTimestamp || Date.now()).toLocaleString()}
                               </p>
@@ -334,6 +334,7 @@ export default function AdminReviewsDashboard() {
     </div>
   );
 }
+
 
 
 

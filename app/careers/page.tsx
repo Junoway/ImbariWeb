@@ -95,7 +95,7 @@ export default function CareersPage() {
               beans, instant coffee and sampling kits for Imbari Coffee and for
               other coffee startups and roasteries across Africa.
             </p>
-            <p className="text-base text-white">
+            <p className="text-base text-imbari-coffee-brown">
               By joining our rider team, you are not only delivering parcels —
               you are powering a shared supply chain that small coffee brands
               can plug into, helping Africa's coffee entrepreneurs reach
@@ -438,6 +438,7 @@ export default function CareersPage() {
     </main>
   );
 }
+
 
 
 

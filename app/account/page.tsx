@@ -156,7 +156,7 @@ export default function AccountPage() {
                   </div>
                   <button
                     onClick={toggleSubscription}
-                    className="w-full py-3 rounded-full bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition"
+                    className="w-full py-3 rounded-full bg-gray-200 text-imbari-navy font-semibold hover:bg-gray-300 transition"
                   >
                     Unsubscribe
                   </button>
@@ -272,4 +272,5 @@ export default function AccountPage() {
     </main>
   );
 }
+
 

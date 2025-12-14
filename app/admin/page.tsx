@@ -268,7 +268,7 @@ export default function AdminDashboard() {
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-            <p className="text-white">Unified Dashboard</p>
+            <p className="text-imbari-coffee-brown">Unified Dashboard</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-4">
@@ -315,7 +315,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 lg:max-w-7xl lg:mx-auto">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-emerald-400">Imbari Coffee Admin</h1>
-            <p className="text-xs md:text-sm text-white">Manage Chats, Reviews & Analytics</p>
+            <p className="text-xs md:text-sm text-imbari-coffee-brown">Manage Chats, Reviews & Analytics</p>
           </div>
           <div className="flex items-center gap-3 md:gap-4">
             <span className="text-sm md:text-base text-white truncate">{user.email}</span>
@@ -397,8 +397,8 @@ export default function AdminDashboard() {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-white truncate mb-1">{session.customerEmail}</p>
-                <p className="text-xs md:text-sm text-white truncate">{session.lastMessage}</p>
+                <p className="text-xs text-imbari-coffee-brown truncate mb-1">{session.customerEmail}</p>
+                <p className="text-xs md:text-sm text-imbari-coffee-brown truncate">{session.lastMessage}</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-neutral-500">
                     {new Date(session.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -439,7 +439,7 @@ export default function AdminDashboard() {
                           </button>
                           <div>
                             <h3 className="text-base md:text-lg font-bold text-white">{session.customerName}</h3>
-                            <p className="text-xs md:text-sm text-white">{session.customerEmail}</p>
+                            <p className="text-xs md:text-sm text-imbari-coffee-brown">{session.customerEmail}</p>
                             {session.customerPhone && (
                               <p className="text-xs md:text-sm text-emerald-400">📱 {session.customerPhone}</p>
                             )}
@@ -533,8 +533,8 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-white truncate mb-1">Product: {review.productId}</p>
-                <p className="text-xs md:text-sm text-white truncate mb-2">{review.comment}</p>
+                <p className="text-xs text-imbari-coffee-brown truncate mb-1">Product: {review.productId}</p>
+                <p className="text-xs md:text-sm text-imbari-coffee-brown truncate mb-2">{review.comment}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-neutral-500">
                     {new Date(review.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })}
@@ -580,7 +580,7 @@ export default function AdminDashboard() {
                             </button>
                             <div className="flex-1">
                               <h3 className="text-lg md:text-xl font-bold text-white">{review.name}</h3>
-                              <p className="text-xs md:text-sm text-white break-all">{review.email}</p>
+                              <p className="text-xs md:text-sm text-imbari-coffee-brown break-all">{review.email}</p>
                               <p className="text-xs md:text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                             </div>
                           </div>
@@ -601,7 +601,7 @@ export default function AdminDashboard() {
                               {review.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
+                              <p className="text-imbari-coffee-brown leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
                               <p className="text-xs text-white mt-2">
                                 {new Date(review.timestamp).toLocaleString([], { 
                                   month: 'short', 
@@ -624,7 +624,7 @@ export default function AdminDashboard() {
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-xs md:text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
-                                <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.response}</p>
+                                <p className="text-imbari-coffee-brown leading-relaxed text-sm md:text-base break-words">{review.response}</p>
                                 <p className="text-xs text-white mt-2">
                                   {new Date(review.responseTimestamp || Date.now()).toLocaleString([], { 
                                     month: 'short', 
@@ -671,6 +671,7 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
 
 
 

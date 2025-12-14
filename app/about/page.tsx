@@ -34,16 +34,16 @@ export default function AboutPage() {
             <div className="space-y-8 mt-6 w-full">
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">🌄 Mt. Elgon — Bugisu Arabica</h3>
-                <p className="text-base text-white">High-altitude Arabica grown on volcanic soils, hand-picked and traditionally sun-dried.</p>
-                <p className="text-base text-white mt-1"><span className="font-semibold">Notes:</span> floral, citrus, chocolate, winey acidity.</p>
+                <p className="text-base text-imbari-coffee-brown">High-altitude Arabica grown on volcanic soils, hand-picked and traditionally sun-dried.</p>
+                <p className="text-base text-imbari-coffee-brown mt-1"><span className="font-semibold">Notes:</span> floral, citrus, chocolate, winey acidity.</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">🏔️ Rwenzori Mountains — Fine Robusta</h3>
-                <p className="text-base text-white">Uganda’s legendary strong, clean Robusta known for crema, strength, and body.</p>
+                <p className="text-base text-imbari-coffee-brown">Uganda’s legendary strong, clean Robusta known for crema, strength, and body.</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">🌱 Victoria Basin — Microlot Farms</h3>
-                <p className="text-base text-white">Experimental washing stations and microlots enabling traceable, unique profiles that respond to the needs of specialty buyers.</p>
+                <p className="text-base text-imbari-coffee-brown">Experimental washing stations and microlots enabling traceable, unique profiles that respond to the needs of specialty buyers.</p>
               </div>
             </div>
           </div>
@@ -104,6 +104,8 @@ export default function AboutPage() {
     </main>
   );
 }
+
+
 
 
 

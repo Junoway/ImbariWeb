@@ -113,7 +113,7 @@ export default function OrderHistoryPage() {
       case "Processing":
         return "bg-yellow-100 text-yellow-700 border-yellow-300";
       default:
-        return "bg-gray-100 text-gray-700 border-gray-300";
+        return "bg-gray-100 text-imbari-navy border-gray-300";
     }
   };
 
@@ -254,4 +254,5 @@ export default function OrderHistoryPage() {
     </main>
   );
 }
+
 

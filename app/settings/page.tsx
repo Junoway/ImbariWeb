@@ -312,7 +312,7 @@ export default function SettingsPage() {
                     setConfirmPassword("");
                     setErrorMessage("");
                   }}
-                  className="flex-1 py-3 rounded-full bg-gray-300 text-gray-700 font-bold hover:bg-gray-400 transition"
+                  className="flex-1 py-3 rounded-full bg-gray-300 text-imbari-navy font-bold hover:bg-gray-400 transition"
                 >
                   Cancel
                 </button>
@@ -353,4 +353,5 @@ export default function SettingsPage() {
     </main>
   );
 }
+
 

@@ -372,7 +372,7 @@ export default function ShopPage() {
                   setShowGiftModal(false);
                   setSelectedProduct(null);
                 }}
-                className="flex-1 py-3 rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 transition"
+                className="flex-1 py-3 rounded-full bg-gray-200 text-imbari-navy font-bold hover:bg-gray-300 transition"
               >
                 Cancel
               </button>
@@ -442,4 +442,5 @@ export default function ShopPage() {
     </div>
   );
 }
+
 
