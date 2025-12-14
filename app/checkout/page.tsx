@@ -74,7 +74,7 @@ export default function CheckoutPage() {
     setPlacingOrder(true);
     try {
       // Get backend URL - use environment variable or deployed backend URL
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.imbaricoffee.com';
+      const API = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.imbaricoffee.com';
       
       // Prepare checkout data
       const checkoutData = {
@@ -99,7 +99,7 @@ export default function CheckoutPage() {
       console.log('Initiating checkout with:', checkoutData);
 
       // Call backend to create Stripe Checkout session
-      const res = await fetch(`${apiUrl}/api/create-checkout-session`, {
+      const res = await fetch(`${API}/api/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
