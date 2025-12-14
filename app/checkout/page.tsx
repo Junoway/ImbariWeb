@@ -74,7 +74,7 @@ export default function CheckoutPage() {
     setPlacingOrder(true);
     try {
       // Get backend URL - use environment variable or deployed backend URL
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://imbari-coffee-backend.vercel.app';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://imbari-coffee-backend-pa6tui6rg-imbaris-projects.vercel.app';
       
       // Prepare checkout data
       const checkoutData = {
