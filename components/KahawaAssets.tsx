@@ -17,3 +17,4 @@ export const KahawaMotif = () => (
     <rect width="1440" height="120" fill="url(#beans)" />
   </svg>
 );
+

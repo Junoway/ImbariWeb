@@ -274,7 +274,7 @@ export default function ImpactChatBot() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close chat"
-            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition text-neutral-300 text-xl font-bold shadow"
+            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition text-neutral-100 text-xl font-bold shadow"
           >
             ✕
           </button>
@@ -324,7 +324,7 @@ export default function ImpactChatBot() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-neutral-400 font-semibold">
+                  <label className="text-xs text-neutral-200 font-semibold">
                     Name *
                   </label>
                   <input
@@ -337,7 +337,7 @@ export default function ImpactChatBot() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-neutral-400 font-semibold">
+                  <label className="text-xs text-neutral-200 font-semibold">
                     Email *
                   </label>
                   <input
@@ -353,7 +353,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-400 font-semibold">
+                <label className="text-xs text-neutral-200 font-semibold">
                   WhatsApp / Phone (optional)
                 </label>
                 <input
@@ -366,7 +366,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-400 font-semibold">
+                <label className="text-xs text-neutral-200 font-semibold">
                   How can we help? (optional)
                 </label>
                 <select
@@ -384,7 +384,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-neutral-400 font-semibold">
+                <label className="text-xs text-neutral-200 font-semibold">
                   Additional details (optional)
                 </label>
                 <textarea
@@ -468,3 +468,4 @@ export default function ImpactChatBot() {
     </>
   );
 }
+

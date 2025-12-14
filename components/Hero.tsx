@@ -75,7 +75,7 @@ export default function Hero() {
 						Become a Distributor
 					</Link>
 				</div>
-				<p className="mt-4 text-xs text-neutral-300 max-w-md text-center drop-shadow">
+				<p className="mt-4 text-xs text-neutral-100 max-w-md text-center drop-shadow">
 					Serving importers, roasters, retailers, coffee brands, hotels, cafés,
 					and FMCG distributors across Africa, Europe, North America, China,
 					India, and the Middle East.
@@ -95,3 +95,4 @@ export default function Hero() {
 		</section>
 	);
 }
+

@@ -40,7 +40,7 @@ export default function DistributionPage() {
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Wholesale Distribution
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
+          <p className="text-xs text-neutral-100 max-w-xs mx-auto text-center">
             Tailored programs for supermarkets, cafés, hotels, retail chains, and
             food-service distributors across Africa.
           </p>
@@ -51,7 +51,7 @@ export default function DistributionPage() {
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Private Label Partnerships
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
+          <p className="text-xs text-neutral-100 max-w-xs mx-auto text-center">
             Contract manufacturing and brand development for partners expanding
             into African markets or exporting African coffee globally.
           </p>
@@ -62,7 +62,7 @@ export default function DistributionPage() {
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Cross-Border B2B Shipping
           </h2>
-          <p className="text-xs text-neutral-300 max-w-xs mx-auto text-center">
+          <p className="text-xs text-neutral-100 max-w-xs mx-auto text-center">
             Fast delivery across East, West, Central, North, and Southern Africa,
             leveraging strategic logistics partners and regional hubs.
           </p>
@@ -74,7 +74,7 @@ export default function DistributionPage() {
         <h2 className="font-semibold text-amber-200 text-lg text-center">
           Global Routes
         </h2>
-        <p className="text-xs text-neutral-300 max-w-md mx-auto text-center">
+        <p className="text-xs text-neutral-100 max-w-md mx-auto text-center">
           In addition to African markets, Imbari Coffee supports export routes to
           major global hubs — connecting African-origin coffee to the world.
         </p>
@@ -103,7 +103,7 @@ export default function DistributionPage() {
         <h2 className="font-semibold text-amber-200 text-lg text-center">
           Become a Distributor
         </h2>
-        <p className="text-xs text-neutral-300 max-w-md mx-auto text-center">
+        <p className="text-xs text-neutral-100 max-w-md mx-auto text-center">
           We partner with committed distributors who want to build long-term,
           premium African coffee portfolios in their markets.
         </p>
@@ -125,7 +125,7 @@ export default function DistributionPage() {
           ))}
         </div>
 
-        <p className="text-[11px] text-neutral-300 max-w-md mx-auto pt-2">
+        <p className="text-[11px] text-neutral-100 max-w-md mx-auto pt-2">
           Imbari Coffee is designed to be the backbone of African coffee
           distribution — from farm and factory to shelf, café, and cup.
         </p>
@@ -133,3 +133,4 @@ export default function DistributionPage() {
     </main>
   );
 }
+

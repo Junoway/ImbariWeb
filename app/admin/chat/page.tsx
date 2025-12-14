@@ -202,11 +202,11 @@ export default function AdminChatDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-          <p className="text-neutral-300 mb-6">Support Team Chat Dashboard</p>
+          <p className="text-neutral-100 mb-6">Support Team Chat Dashboard</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-neutral-400 font-semibold">Email</label>
+              <label className="text-sm text-neutral-200 font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
@@ -218,7 +218,7 @@ export default function AdminChatDashboard() {
             </div>
             
             <div>
-              <label className="text-sm text-neutral-400 font-semibold">Password</label>
+              <label className="text-sm text-neutral-200 font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
@@ -248,10 +248,10 @@ export default function AdminChatDashboard() {
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-emerald-400">Imbari Impact Concierge</h1>
-            <p className="text-sm text-neutral-400">Support Team Dashboard</p>
+            <p className="text-sm text-neutral-200">Support Team Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-neutral-300">{user.email}</span>
+            <span className="text-neutral-100">{user.email}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition border border-red-500/30"
@@ -267,7 +267,7 @@ export default function AdminChatDashboard() {
         <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
           <div className="p-4 border-b border-white/10">
             <h2 className="text-lg font-bold text-white">Active Conversations</h2>
-            <p className="text-xs text-neutral-400 mt-1">
+            <p className="text-xs text-neutral-200 mt-1">
               {sessions.filter(s => s.status === "active").length} active chats
             </p>
           </div>
@@ -290,8 +290,8 @@ export default function AdminChatDashboard() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-neutral-400 truncate mb-1">{session.customerEmail}</p>
-              <p className="text-sm text-neutral-300 truncate">{session.lastMessage}</p>
+              <p className="text-xs text-neutral-200 truncate mb-1">{session.customerEmail}</p>
+              <p className="text-sm text-neutral-100 truncate">{session.lastMessage}</p>
               <div className="flex justify-between items-center mt-2">
                 <span className="text-xs text-neutral-500">
                   {new Date(session.lastMessageTime).toLocaleTimeString()}
@@ -306,7 +306,7 @@ export default function AdminChatDashboard() {
           ))}
           
           {sessions.length === 0 && (
-            <div className="p-8 text-center text-neutral-400">
+            <div className="p-8 text-center text-neutral-200">
               No conversations yet. Waiting for customers...
             </div>
           )}
@@ -324,7 +324,7 @@ export default function AdminChatDashboard() {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="text-lg font-bold text-white">{session.customerName}</h3>
-                        <p className="text-sm text-neutral-400">{session.customerEmail}</p>
+                        <p className="text-sm text-neutral-200">{session.customerEmail}</p>
                         {session.customerPhone && (
                           <p className="text-sm text-emerald-400">📱 {session.customerPhone}</p>
                         )}
@@ -355,7 +355,7 @@ export default function AdminChatDashboard() {
                       }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.text}</p>
-                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-neutral-400"}`}>
+                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-neutral-200"}`}>
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
@@ -384,7 +384,7 @@ export default function AdminChatDashboard() {
               </form>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-neutral-400">
+            <div className="flex-1 flex items-center justify-center text-neutral-200">
               Select a conversation to start chatting
             </div>
           )}
@@ -393,3 +393,4 @@ export default function AdminChatDashboard() {
     </div>
   );
 }
+

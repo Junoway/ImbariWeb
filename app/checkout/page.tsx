@@ -245,7 +245,7 @@ export default function CheckoutPage() {
       {/* If cart is empty */}
       {items.length === 0 ? (
         <div className="card p-6 sm:p-8 text-center space-y-4">
-          <p className="text-sm sm:text-base text-neutral-300">
+          <p className="text-sm sm:text-base text-neutral-100">
             Your cart is empty.
           </p>
           <Link href="/shop" className="button-primary inline-block">
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
                   <h2 className="text-sm sm:text-base font-semibold">
                     {item.name}
                   </h2>
-                  <p className="text-[11px] sm:text-xs text-neutral-400">
+                  <p className="text-[11px] sm:text-xs text-neutral-200">
                     ${item.price.toFixed(2)} per unit
                   </p>
 
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                       </p>
                       <button
                         onClick={() => handleRemove(item.id)}
-                        className="text-[11px] text-neutral-400 hover:text-red-400"
+                        className="text-[11px] text-neutral-200 hover:text-red-400"
                       >
                         Remove
                       </button>
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
               <h2 className="text-base sm:text-lg font-semibold">
                 Order Summary
               </h2>
-              <p className="text-xs sm:text-sm text-neutral-400">
+              <p className="text-xs sm:text-sm text-neutral-200">
                 Confirm your location so we can apply the correct shipping.
                 Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
                 <strong>$2 flat</strong>.
@@ -365,15 +365,15 @@ export default function CheckoutPage() {
             </div>
 
             <div className="border-t border-white/10 pt-4 space-y-2 text-sm">
-              <div className="flex justify-between text-neutral-300">
+              <div className="flex justify-between text-neutral-100">
                 <span>Subtotal</span>
                 <span>${cartSubtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-neutral-300">
+              <div className="flex justify-between text-neutral-100">
                 <span>Shipping</span>
                 <span>${shipping.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-neutral-300">
+              <div className="flex justify-between text-neutral-100">
                 <span>Tax (10%)</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
@@ -440,3 +440,4 @@ export default function CheckoutPage() {
 // .loader { border: 4px solid #d1fae5; border-top: 4px solid #34d399; border-radius: 50%; width: 20px; height: 20px; }
 // .animate-spin { animation: spin 1s linear infinite; }
 // @keyframes spin { 100% { transform: rotate(360deg); } }
+

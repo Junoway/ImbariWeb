@@ -155,7 +155,7 @@ export default function ProductsPage() {
                 OEM/private label packaging (jars, sachets, pouches)
               </div>
             </div>
-            <p className="mt-4 text-xs text-neutral-400">
+            <p className="mt-4 text-xs text-neutral-200">
               As an{" "}
               <strong>African instant coffee manufacturer</strong>, Imbari Coffee
               supports both domestic and export-focused brands seeking reliable,
@@ -203,7 +203,7 @@ export default function ProductsPage() {
                 Bright acidity • Floral notes • Citrus, chocolate • Clean cup
               </div>
             </div>
-            <p className="mt-4 text-xs text-neutral-400">
+            <p className="mt-4 text-xs text-neutral-200">
               Ideal for roasters seeking{" "}
               <strong>Mt Elgon Arabica microlots</strong> and buyers focused on a
               long-term{" "}
@@ -230,7 +230,7 @@ export default function ProductsPage() {
             <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
               Fine Robusta — Rwenzori &amp; Victoria Basin
             </h2>
-            <p className="text-base text-neutral-300 mb-4">
+            <p className="text-base text-neutral-100 mb-4">
               Renowned for its strength, crema, and balance, our fine Robusta forms
               the backbone of powerful espresso blends and robust instant
               formulations.
@@ -254,7 +254,7 @@ export default function ProductsPage() {
                 Strength • Crema • Balance • Espresso blends
               </div>
             </div>
-            <p className="mt-4 text-xs text-neutral-400">
+            <p className="mt-4 text-xs text-neutral-200">
               Sourced from the{" "}
               <strong>Rwenzori Mountains</strong> and{" "}
               <strong>Victoria Basin</strong>, this fine Robusta maintains the
@@ -270,7 +270,7 @@ export default function ProductsPage() {
             <h2 className="font-semibold text-amber-200 mb-3 text-2xl">
               Private Label Manufacturing (White Label)
             </h2>
-            <p className="text-base text-neutral-300 mb-3">
+            <p className="text-base text-neutral-100 mb-3">
               Imbari Coffee partners with brands globally to design, produce, and
               deliver full coffee product lines under private labels.
             </p>
@@ -294,7 +294,7 @@ export default function ProductsPage() {
                 Bulk procurement options
               </div>
             </div>
-            <p className="mt-2 text-xs text-neutral-400">
+            <p className="mt-2 text-xs text-neutral-200">
               MOQ:{" "}
               <strong>Negotiable depending on product line.</strong> Imbari Coffee
               is your strategic partner for{" "}
@@ -307,3 +307,4 @@ export default function ProductsPage() {
     </main>
   );
 }
+

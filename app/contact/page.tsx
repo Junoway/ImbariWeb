@@ -93,14 +93,14 @@ export default function ContactPage() {
         <section className="grid gap-8 lg:grid-cols-2 w-full">
           <article className="card p-6 sm:p-7 text-sm text-neutral-200 space-y-3 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200">Direct Contact</h2>
-            <p className="text-xs text-neutral-300">
+            <p className="text-xs text-neutral-100">
               Email:{" "}
               <span className="font-mono">info@imbaricoffee.com</span>
             </p>
-            <p className="text-xs text-neutral-300">
+            <p className="text-xs text-neutral-100">
               Phone: <span className="font-mono">+256 779 344 984</span>
             </p>
-            <p className="text-xs text-neutral-300">
+            <p className="text-xs text-neutral-100">
               Office: 119199, Plot 29, Commercial Plaza, Kampala Rd, Uganda
               <br />
               Export Warehouse: (Add location when confirmed)
@@ -126,7 +126,7 @@ export default function ContactPage() {
             
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-300">Name *</label>
+                <label className="text-xs text-neutral-100">Name *</label>
                 <input
                   required
                   value={formData.name}
@@ -136,7 +136,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-300">Company *</label>
+                <label className="text-xs text-neutral-100">Company *</label>
                 <input
                   required
                   value={formData.company}
@@ -149,7 +149,7 @@ export default function ContactPage() {
 
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-300">Email *</label>
+                <label className="text-xs text-neutral-100">Email *</label>
                 <input
                   required
                   type="email"
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-neutral-300">Country *</label>
+                <label className="text-xs text-neutral-100">Country *</label>
                 <input
                   required
                   value={formData.country}
@@ -172,7 +172,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-300">Product Interest *</label>
+              <label className="text-xs text-neutral-100">Product Interest *</label>
               <select 
                 required
                 value={formData.productInterest}
@@ -188,7 +188,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-300">Expected Volumes</label>
+              <label className="text-xs text-neutral-100">Expected Volumes</label>
               <input
                 value={formData.volumes}
                 onChange={(e) => setFormData({ ...formData, volumes: e.target.value })}
@@ -198,7 +198,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-neutral-300">Additional Notes *</label>
+              <label className="text-xs text-neutral-100">Additional Notes *</label>
               <textarea
                 required
                 rows={4}
@@ -225,3 +225,4 @@ export default function ContactPage() {
     </main>
   );
 }
+

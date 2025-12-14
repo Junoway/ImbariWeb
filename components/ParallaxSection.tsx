@@ -61,3 +61,4 @@ export default function ParallaxSection({
 }
 
 // Usage: See page files for examples. Add data-parallax to enable JS transform effect.
+

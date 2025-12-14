@@ -89,13 +89,13 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Imbari Distribution Hub – Built for Africa’s Coffee Startups
             </h2>
-            <p className="text-base sm:text-lg text-neutral-300">
+            <p className="text-base sm:text-lg text-neutral-100">
               Our distribution hub operates a fleet of branded Imbari delivery
               motorcycles. These bikes are used to move green coffee, roasted
               beans, instant coffee and sampling kits for Imbari Coffee and for
               other coffee startups and roasteries across Africa.
             </p>
-            <p className="text-base text-neutral-300">
+            <p className="text-base text-neutral-100">
               By joining our rider team, you are not only delivering parcels —
               you are powering a shared supply chain that small coffee brands
               can plug into, helping Africa's coffee entrepreneurs reach
@@ -114,7 +114,7 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Motorcycle Delivery Rider – Imbari Distribution Hub
             </h2>
-            <p className="text-base text-neutral-300 max-w-2xl mx-auto">
+            <p className="text-base text-neutral-100 max-w-2xl mx-auto">
               Location: Kampala (with planned rollout to other major African
               cities)
             </p>
@@ -227,7 +227,7 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Apply to Ride with Imbari
             </h2>
-            <p className="text-base text-neutral-300 max-w-2xl mx-auto">
+            <p className="text-base text-neutral-100 max-w-2xl mx-auto">
               Submit your details below and our team will contact shortlisted
               candidates for interviews and background verification.
             </p>
@@ -236,7 +236,7 @@ export default function CareersPage() {
           {/* Note: form is frontend-only for now; connect to backend or email later */}
           <form className="grid gap-5 md:grid-cols-2 text-base">
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 Full Name
               </label>
               <input
@@ -247,7 +247,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 Phone / WhatsApp
               </label>
               <input
@@ -258,7 +258,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 Email
               </label>
               <input
@@ -269,7 +269,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 City / Area
               </label>
               <input
@@ -280,7 +280,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 Years of Riding Experience
               </label>
               <input
@@ -292,7 +292,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 License Number / Class
               </label>
               <input
@@ -303,7 +303,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-400">
+              <label className="block text-xs uppercase tracking-[0.18em] text-neutral-200">
                 Tell Us About Yourself
               </label>
               <textarea
@@ -313,7 +313,7 @@ export default function CareersPage() {
             </div>
 
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <p className="text-[11px] text-neutral-400 max-w-md">
+              <p className="text-[11px] text-neutral-200 max-w-md">
                 By submitting this form you confirm that the information provided
                 is true and that you are willing to undergo a background check
                 as part of our safety policy.
@@ -425,7 +425,7 @@ export default function CareersPage() {
         </section>
 
         {/* BACK TO OTHER PAGES */}
-        <div className="flex justify-center gap-4 text-xs text-neutral-400 pt-8">
+        <div className="flex justify-center gap-4 text-xs text-neutral-200 pt-8">
           <Link href="/products" className="hover:text-emerald-300">
             Explore Imbari Products
           </Link>
@@ -438,3 +438,4 @@ export default function CareersPage() {
     </main>
   );
 }
+
