@@ -33,7 +33,7 @@ jobs:
       - name: Build with Next.js
         env:
           NEXT_PUBLIC_BASE_PATH: /ImbariWeb
-          NEXT_PUBLIC_API_URL: https://imbari-coffee-backend-ddyqfm2wd-imbaris-projects.vercel.app
+          NEXT_PUBLIC_API_URL: https://imbari-coffee-backend-pa6tui6rg-imbaris-projects.vercel.app
           NEXT_PUBLIC_STRIPE_PUBLIC_KEY: pk_live_51Rcf3NAWSyFQk6egldZxTjRaDTt8Zb775VCp4NDmgTn3hG0uTtyaO5qpVmYX9EL33VQfBCnI5hHvA8goTNlmIRBN00lAQ1FosM
         run: npm run build
 
