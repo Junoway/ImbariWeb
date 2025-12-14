@@ -266,7 +266,7 @@ export default function ImpactChatBot() {
             <h2 className="text-lg font-extrabold text-emerald-300 tracking-wider uppercase mb-1 drop-shadow-lg">
               Imbari Impact Concierge
             </h2>
-            <p className="text-sm text-gray-100 font-medium">
+            <p className="text-sm text-white font-medium">
               Talk to us about sourcing, impact, and partnerships.
             </p>
           </div>
@@ -324,7 +324,7 @@ export default function ImpactChatBot() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-gray-100 font-semibold">
+                  <label className="text-xs text-white font-semibold">
                     Name *
                   </label>
                   <input
@@ -337,7 +337,7 @@ export default function ImpactChatBot() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-100 font-semibold">
+                  <label className="text-xs text-white font-semibold">
                     Email *
                   </label>
                   <input
@@ -353,7 +353,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-100 font-semibold">
+                <label className="text-xs text-white font-semibold">
                   WhatsApp / Phone (optional)
                 </label>
                 <input
@@ -366,7 +366,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-100 font-semibold">
+                <label className="text-xs text-white font-semibold">
                   How can we help? (optional)
                 </label>
                 <select
@@ -384,7 +384,7 @@ export default function ImpactChatBot() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-100 font-semibold">
+                <label className="text-xs text-white font-semibold">
                   Additional details (optional)
                 </label>
                 <textarea
@@ -468,6 +468,7 @@ export default function ImpactChatBot() {
     </>
   );
 }
+
 
 
 

@@ -91,7 +91,7 @@ export default function ContactPage() {
         </header>
 
         <section className="grid gap-8 lg:grid-cols-2 w-full">
-          <article className="card p-6 sm:p-7 text-sm text-gray-100 space-y-3 flex flex-col items-center text-center">
+          <article className="card p-6 sm:p-7 text-sm text-white space-y-3 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200">Direct Contact</h2>
             <p className="text-xs text-white">
               Email:{" "}
@@ -107,7 +107,7 @@ export default function ContactPage() {
             </p>
           </article>
 
-          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-gray-100 space-y-4 flex flex-col items-center text-center">
+          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-white space-y-4 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200 mb-1">
               Wholesale / Distribution Request Form
             </h2>
@@ -225,6 +225,7 @@ export default function ContactPage() {
     </main>
   );
 }
+
 
 
 

@@ -206,7 +206,7 @@ export default function AdminChatDashboard() {
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-gray-100 font-semibold">Email</label>
+              <label className="text-sm text-white font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
@@ -218,7 +218,7 @@ export default function AdminChatDashboard() {
             </div>
             
             <div>
-              <label className="text-sm text-gray-100 font-semibold">Password</label>
+              <label className="text-sm text-white font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
@@ -248,7 +248,7 @@ export default function AdminChatDashboard() {
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-emerald-400">Imbari Impact Concierge</h1>
-            <p className="text-sm text-gray-100">Support Team Dashboard</p>
+            <p className="text-sm text-white">Support Team Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-white">{user.email}</span>
@@ -267,7 +267,7 @@ export default function AdminChatDashboard() {
         <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
           <div className="p-4 border-b border-white/10">
             <h2 className="text-lg font-bold text-white">Active Conversations</h2>
-            <p className="text-xs text-gray-100 mt-1">
+            <p className="text-xs text-white mt-1">
               {sessions.filter(s => s.status === "active").length} active chats
             </p>
           </div>
@@ -290,7 +290,7 @@ export default function AdminChatDashboard() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-gray-100 truncate mb-1">{session.customerEmail}</p>
+              <p className="text-xs text-white truncate mb-1">{session.customerEmail}</p>
               <p className="text-sm text-white truncate">{session.lastMessage}</p>
               <div className="flex justify-between items-center mt-2">
                 <span className="text-xs text-neutral-500">
@@ -306,7 +306,7 @@ export default function AdminChatDashboard() {
           ))}
           
           {sessions.length === 0 && (
-            <div className="p-8 text-center text-gray-100">
+            <div className="p-8 text-center text-white">
               No conversations yet. Waiting for customers...
             </div>
           )}
@@ -324,7 +324,7 @@ export default function AdminChatDashboard() {
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="text-lg font-bold text-white">{session.customerName}</h3>
-                        <p className="text-sm text-gray-100">{session.customerEmail}</p>
+                        <p className="text-sm text-white">{session.customerEmail}</p>
                         {session.customerPhone && (
                           <p className="text-sm text-emerald-400">📱 {session.customerPhone}</p>
                         )}
@@ -355,7 +355,7 @@ export default function AdminChatDashboard() {
                       }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.text}</p>
-                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-gray-100"}`}>
+                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-white"}`}>
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
@@ -384,7 +384,7 @@ export default function AdminChatDashboard() {
               </form>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-gray-100">
+            <div className="flex-1 flex items-center justify-center text-white">
               Select a conversation to start chatting
             </div>
           )}
@@ -393,6 +393,7 @@ export default function AdminChatDashboard() {
     </div>
   );
 }
+
 
 
 

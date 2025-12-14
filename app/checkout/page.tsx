@@ -275,7 +275,7 @@ export default function CheckoutPage() {
                   <h2 className="text-sm sm:text-base font-semibold">
                     {item.name}
                   </h2>
-                  <p className="text-[11px] sm:text-xs text-gray-100">
+                  <p className="text-[11px] sm:text-xs text-white">
                     ${item.price.toFixed(2)} per unit
                   </p>
 
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                       </p>
                       <button
                         onClick={() => handleRemove(item.id)}
-                        className="text-[11px] text-gray-100 hover:text-red-400"
+                        className="text-[11px] text-white hover:text-red-400"
                       >
                         Remove
                       </button>
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
               <h2 className="text-base sm:text-lg font-semibold">
                 Order Summary
               </h2>
-              <p className="text-xs sm:text-sm text-gray-100">
+              <p className="text-xs sm:text-sm text-white">
                 Confirm your location so we can apply the correct shipping.
                 Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
                 <strong>$2 flat</strong>.
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-xs sm:text-sm font-semibold text-gray-100">
+              <p className="text-xs sm:text-sm font-semibold text-white">
                 Delivery Location
               </p>
               <div className="flex flex-col gap-2 text-xs sm:text-sm">
@@ -440,6 +440,7 @@ export default function CheckoutPage() {
 // .loader { border: 4px solid #d1fae5; border-top: 4px solid #34d399; border-radius: 50%; width: 20px; height: 20px; }
 // .animate-spin { animation: spin 1s linear infinite; }
 // @keyframes spin { 100% { transform: rotate(360deg); } }
+
 
 
 

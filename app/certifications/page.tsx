@@ -11,7 +11,7 @@ export default function CertificationsPage() {
         <h1 className="section-heading text-4xl font-extrabold text-emerald-300 drop-shadow-lg">
           Compliance, Quality & Sustainability
         </h1>
-        <p className="section-subtitle max-w-2xl mx-auto text-gray-100 text-lg">
+        <p className="section-subtitle max-w-2xl mx-auto text-white text-lg">
           Imbari Coffee is built for global trade. Our value chain is designed to
           comply with evolving regulatory frameworks while protecting farmers,
           buyers, and the environment.
@@ -94,6 +94,7 @@ export default function CertificationsPage() {
     </main>
   );
 }
+
 
 
 

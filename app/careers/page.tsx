@@ -122,7 +122,7 @@ export default function CareersPage() {
 
           <div className="grid gap-8 lg:grid-cols-2">
             {/* Responsibilities */}
-            <div className="space-y-3 text-base text-gray-100">
+            <div className="space-y-3 text-base text-white">
               <h3 className="font-semibold text-lg text-white">
                 Key Responsibilities
               </h3>
@@ -151,7 +151,7 @@ export default function CareersPage() {
             </div>
 
             {/* Requirements */}
-            <div className="space-y-3 text-base text-gray-100">
+            <div className="space-y-3 text-base text-white">
               <h3 className="font-semibold text-lg text-white">
                 Minimum Requirements
               </h3>
@@ -181,7 +181,7 @@ export default function CareersPage() {
           </div>
 
           {/* Safety & Culture */}
-          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-base text-gray-100">
+          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-base text-white">
             <div className="space-y-2">
               <h3 className="font-semibold text-lg text-white">
                 Safety First – Always
@@ -236,7 +236,7 @@ export default function CareersPage() {
           {/* Note: form is frontend-only for now; connect to backend or email later */}
           <form className="grid gap-5 md:grid-cols-2 text-base">
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 Full Name
               </label>
               <input
@@ -247,7 +247,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 Phone / WhatsApp
               </label>
               <input
@@ -258,7 +258,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 Email
               </label>
               <input
@@ -269,7 +269,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 City / Area
               </label>
               <input
@@ -280,7 +280,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 Years of Riding Experience
               </label>
               <input
@@ -292,7 +292,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 License Number / Class
               </label>
               <input
@@ -303,7 +303,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="block text-xs uppercase tracking-[0.18em] text-gray-100">
+              <label className="block text-xs uppercase tracking-[0.18em] text-white">
                 Tell Us About Yourself
               </label>
               <textarea
@@ -313,7 +313,7 @@ export default function CareersPage() {
             </div>
 
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <p className="text-[11px] text-gray-100 max-w-md">
+              <p className="text-[11px] text-white max-w-md">
                 By submitting this form you confirm that the information provided
                 is true and that you are willing to undergo a background check
                 as part of our safety policy.
@@ -425,7 +425,7 @@ export default function CareersPage() {
         </section>
 
         {/* BACK TO OTHER PAGES */}
-        <div className="flex justify-center gap-4 text-xs text-gray-100 pt-8">
+        <div className="flex justify-center gap-4 text-xs text-white pt-8">
           <Link href="/products" className="hover:text-emerald-300">
             Explore Imbari Products
           </Link>
@@ -438,6 +438,7 @@ export default function CareersPage() {
     </main>
   );
 }
+
 
 
 

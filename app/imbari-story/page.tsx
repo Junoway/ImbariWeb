@@ -33,7 +33,7 @@ export default function ImbariStoryPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             </div>
-            <div className="absolute bottom-4 left-4 max-w-xs text-xs sm:text-sm text-gray-100 space-y-1">
+            <div className="absolute bottom-4 left-4 max-w-xs text-xs sm:text-sm text-white space-y-1">
               <p className="font-medium text-emerald-300"></p>
               <p>
                 From Mt. Elgon through the Eastern Rift — the cradle of coffee
@@ -160,7 +160,7 @@ export default function ImbariStoryPage() {
                 Congo, Rwanda, Burundi, and Tanzania — the true coffee belt of
                 Africa.
               </p>
-              <p className="text-base text-gray-100 font-medium">
+              <p className="text-base text-white font-medium">
                 Imbari is born from this heritage.
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function ImbariStoryPage() {
             Coffee began with us. The unity it once carried should return to us —
             and flow outwards again to the world.
           </p>
-          <p className="text-base text-gray-100 max-w-2xl mx-auto">
+          <p className="text-base text-white max-w-2xl mx-auto">
             Imbari is the return of the unity cup of Africa.
           </p>
         </section>
@@ -237,7 +237,7 @@ export default function ImbariStoryPage() {
               the Mountain Spine of Africa into every bag, every jar, every instant
               blend, and every roasted lot we ship.
             </p>
-            <p className="text-base text-gray-100">
+            <p className="text-base text-white">
               When you work with Imbari — as an importer, roaster, retailer,
               distributor, or brand — you are not just buying coffee. You are
               entering a covenant of quality, traceability, and African unity.
@@ -264,6 +264,7 @@ export default function ImbariStoryPage() {
     </main>
   );
 }
+
 
 
 

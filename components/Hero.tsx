@@ -55,7 +55,7 @@ export default function Hero() {
 					<br />
 					<span className="text-emerald-300">Perfected.</span>
 				</h1>
-				<p className="mt-5 text-base sm:text-lg text-gray-100 max-w-2xl text-center drop-shadow">
+				<p className="mt-5 text-base sm:text-lg text-white max-w-2xl text-center drop-shadow">
 					From the volcanic slopes of Mt. Elgon and the Rwenzori Mountains,
 					Imbari Coffee produces and exports world-class Arabica, fine Robusta,
 					and next-generation instant coffees — sustainably grown, expertly
@@ -95,6 +95,7 @@ export default function Hero() {
 		</section>
 	);
 }
+
 
 
 

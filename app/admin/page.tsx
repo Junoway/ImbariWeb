@@ -273,7 +273,7 @@ export default function AdminDashboard() {
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-gray-100 font-semibold">Email</label>
+              <label className="text-sm text-white font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
@@ -285,7 +285,7 @@ export default function AdminDashboard() {
             </div>
             
             <div>
-              <label className="text-sm text-gray-100 font-semibold">Password</label>
+              <label className="text-sm text-white font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
@@ -315,7 +315,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 lg:max-w-7xl lg:mx-auto">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-emerald-400">Imbari Coffee Admin</h1>
-            <p className="text-xs md:text-sm text-gray-100">Manage Chats, Reviews & Analytics</p>
+            <p className="text-xs md:text-sm text-white">Manage Chats, Reviews & Analytics</p>
           </div>
           <div className="flex items-center gap-3 md:gap-4">
             <span className="text-sm md:text-base text-white truncate">{user.email}</span>
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
               className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "chats"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
-                  : "text-gray-100 hover:text-white"
+                  : "text-white hover:text-white"
               }`}
             >
               💬 <span className="hidden sm:inline">Live </span>Chats
@@ -353,7 +353,7 @@ export default function AdminDashboard() {
               className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "reviews"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
-                  : "text-gray-100 hover:text-white"
+                  : "text-white hover:text-white"
               }`}
             >
               ⭐ <span className="hidden sm:inline">Product </span>Reviews
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
           <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedSession ? 'hidden lg:block' : 'block'}`}>
             <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
               <h2 className="text-base md:text-lg font-bold text-white">Active Conversations</h2>
-              <p className="text-xs text-gray-100 mt-1">
+              <p className="text-xs text-white mt-1">
                 {sessions.filter(s => s.status === "active").length} active chats
               </p>
             </div>
@@ -397,7 +397,7 @@ export default function AdminDashboard() {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-100 truncate mb-1">{session.customerEmail}</p>
+                <p className="text-xs text-white truncate mb-1">{session.customerEmail}</p>
                 <p className="text-xs md:text-sm text-white truncate">{session.lastMessage}</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-neutral-500">
@@ -413,7 +413,7 @@ export default function AdminDashboard() {
             ))}
             
             {sessions.length === 0 && (
-              <div className="p-8 text-center text-gray-100 text-sm">
+              <div className="p-8 text-center text-white text-sm">
                 No conversations yet
               </div>
             )}
@@ -439,7 +439,7 @@ export default function AdminDashboard() {
                           </button>
                           <div>
                             <h3 className="text-base md:text-lg font-bold text-white">{session.customerName}</h3>
-                            <p className="text-xs md:text-sm text-gray-100">{session.customerEmail}</p>
+                            <p className="text-xs md:text-sm text-white">{session.customerEmail}</p>
                             {session.customerPhone && (
                               <p className="text-xs md:text-sm text-emerald-400">📱 {session.customerPhone}</p>
                             )}
@@ -470,7 +470,7 @@ export default function AdminDashboard() {
                         }`}
                       >
                         <p className="text-sm leading-relaxed break-words">{msg.text}</p>
-                        <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-gray-100"}`}>
+                        <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-white"}`}>
                           {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
@@ -498,7 +498,7 @@ export default function AdminDashboard() {
                 </form>
               </>
             ) : (
-              <div className="flex-1 hidden lg:flex items-center justify-center text-gray-100 text-sm md:text-base px-4">
+              <div className="flex-1 hidden lg:flex items-center justify-center text-white text-sm md:text-base px-4">
                 Select a conversation to start chatting
               </div>
             )}
@@ -510,7 +510,7 @@ export default function AdminDashboard() {
           <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedReview ? 'hidden lg:block' : 'block'}`}>
             <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
               <h2 className="text-base md:text-lg font-bold text-white">Product Reviews</h2>
-              <p className="text-xs text-gray-100 mt-1">
+              <p className="text-xs text-white mt-1">
                 {reviews.filter(r => r.status === 'pending').length} pending responses
               </p>
             </div>
@@ -533,7 +533,7 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-gray-100 truncate mb-1">Product: {review.productId}</p>
+                <p className="text-xs text-white truncate mb-1">Product: {review.productId}</p>
                 <p className="text-xs md:text-sm text-white truncate mb-2">{review.comment}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-neutral-500">
@@ -553,7 +553,7 @@ export default function AdminDashboard() {
             ))}
             
             {reviews.length === 0 && (
-              <div className="p-8 text-center text-gray-100 text-sm">
+              <div className="p-8 text-center text-white text-sm">
                 No reviews yet
               </div>
             )}
@@ -580,7 +580,7 @@ export default function AdminDashboard() {
                             </button>
                             <div className="flex-1">
                               <h3 className="text-lg md:text-xl font-bold text-white">{review.name}</h3>
-                              <p className="text-xs md:text-sm text-gray-100 break-all">{review.email}</p>
+                              <p className="text-xs md:text-sm text-white break-all">{review.email}</p>
                               <p className="text-xs md:text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                             </div>
                           </div>
@@ -602,7 +602,7 @@ export default function AdminDashboard() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
-                              <p className="text-xs text-gray-100 mt-2">
+                              <p className="text-xs text-white mt-2">
                                 {new Date(review.timestamp).toLocaleString([], { 
                                   month: 'short', 
                                   day: 'numeric', 
@@ -625,7 +625,7 @@ export default function AdminDashboard() {
                               <div className="flex-1 min-w-0">
                                 <div className="text-xs md:text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
                                 <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.response}</p>
-                                <p className="text-xs text-gray-100 mt-2">
+                                <p className="text-xs text-white mt-2">
                                   {new Date(review.responseTimestamp || Date.now()).toLocaleString([], { 
                                     month: 'short', 
                                     day: 'numeric', 
@@ -661,7 +661,7 @@ export default function AdminDashboard() {
                 })()}
               </>
             ) : (
-              <div className="flex-1 hidden lg:flex items-center justify-center text-gray-100 text-sm md:text-base px-4">
+              <div className="flex-1 hidden lg:flex items-center justify-center text-white text-sm md:text-base px-4">
                 Select a review to view details and respond
               </div>
             )}
@@ -671,6 +671,7 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
 
 
 

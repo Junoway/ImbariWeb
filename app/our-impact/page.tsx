@@ -54,16 +54,16 @@ export default function OurImpactPage() {
                 financial rewards. Imbari is changing that.
               </p>
               <div className="grid gap-4 w-full">
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Prioritizing women-led cooperatives in sourcing
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Training programs in agronomy, quality, and finance
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Contracts that name and recognize women producers
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Story-first branding that celebrates African women in coffee
                 </div>
               </div>
@@ -78,16 +78,16 @@ export default function OurImpactPage() {
                 that smallholder farmers can actually plan, invest, and grow.
               </p>
               <div className="grid gap-4 w-full">
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Performance-based premiums for quality microlots
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Transparent cupping feedback and grading
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Multi-season purchasing commitments
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Direct introductions to foreign buyers where possible
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function OurImpactPage() {
                 className="object-cover"
               />
             </div>
-            <p className="text-xs text-gray-100 max-w-md text-center">
+            <p className="text-xs text-white max-w-md text-center">
               Imbari partners with smallholder communities across Mt. Elgon,
               Rwenzori, and Victoria basin coffee belts — focusing on women,
               youth, and underrepresented farming groups.
@@ -161,16 +161,16 @@ export default function OurImpactPage() {
                 contracts to reinvest directly into:
               </p>
               <div className="grid gap-4 w-full">
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Farmer training and capacity-building programs
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Women and youth entrepreneurship in coffee
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Community infrastructure in key coffee regions
                 </div>
-                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-gray-100 font-medium shadow-lg">
+                <div className="bg-white/5 rounded-xl px-8 py-5 text-base text-white font-medium shadow-lg">
                   Cross-border initiatives that link African markets
                 </div>
               </div>
@@ -228,6 +228,7 @@ export default function OurImpactPage() {
     </main>
   );
 }
+
 
 
 

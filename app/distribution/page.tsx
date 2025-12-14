@@ -35,7 +35,7 @@ export default function DistributionPage() {
 
       {/* TOP 3 PILLARS */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center items-center justify-center">
-        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-gray-100">
+        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-white">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Wholesale Distribution
@@ -46,7 +46,7 @@ export default function DistributionPage() {
           </p>
         </article>
 
-        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-gray-100">
+        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-white">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Private Label Partnerships
@@ -57,7 +57,7 @@ export default function DistributionPage() {
           </p>
         </article>
 
-        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-gray-100">
+        <article className="card relative overflow-hidden p-6 sm:p-7 text-sm text-white">
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-500" />
           <h2 className="font-semibold text-amber-200 mb-2 text-center">
             Cross-Border B2B Shipping
@@ -70,7 +70,7 @@ export default function DistributionPage() {
       </section>
 
       {/* GLOBAL ROUTES */}
-      <section className="card p-6 sm:p-8 text-sm text-gray-100 space-y-4 text-center">
+      <section className="card p-6 sm:p-8 text-sm text-white space-y-4 text-center">
         <h2 className="font-semibold text-amber-200 text-lg text-center">
           Global Routes
         </h2>
@@ -99,7 +99,7 @@ export default function DistributionPage() {
       </section>
 
       {/* BECOME A DISTRIBUTOR */}
-      <section className="card p-6 sm:p-8 text-sm text-gray-100 space-y-4 text-center">
+      <section className="card p-6 sm:p-8 text-sm text-white space-y-4 text-center">
         <h2 className="font-semibold text-amber-200 text-lg text-center">
           Become a Distributor
         </h2>
@@ -133,6 +133,7 @@ export default function DistributionPage() {
     </main>
   );
 }
+
 
 
 
