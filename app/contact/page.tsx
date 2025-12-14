@@ -71,7 +71,7 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
         <p className="mb-8 text-lg text-center">We'd love to hear from you.</p>
         <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full justify-center items-center">
-          <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200">
+          <button className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200">
             Send Message
           </button>
           <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
@@ -91,23 +91,23 @@ export default function ContactPage() {
         </header>
 
         <section className="grid gap-8 lg:grid-cols-2 w-full">
-          <article className="card p-6 sm:p-7 text-sm text-white space-y-3 flex flex-col items-center text-center">
+          <article className="card p-6 sm:p-7 text-sm text-imbari-very-dark-brown space-y-3 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200">Direct Contact</h2>
-            <p className="text-xs text-white">
+            <p className="text-xs text-imbari-very-dark-brown">
               Email:{" "}
               <span className="font-mono">info@imbaricoffee.com</span>
             </p>
-            <p className="text-xs text-white">
+            <p className="text-xs text-imbari-very-dark-brown">
               Phone: <span className="font-mono">+256 779 344 984</span>
             </p>
-            <p className="text-xs text-white">
+            <p className="text-xs text-imbari-very-dark-brown">
               Office: 119199, Plot 29, Commercial Plaza, Kampala Rd, Uganda
               <br />
               Export Warehouse: (Add location when confirmed)
             </p>
           </article>
 
-          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-white space-y-4 flex flex-col items-center text-center">
+          <form onSubmit={handleSubmit} className="card p-6 sm:p-7 text-sm text-imbari-very-dark-brown space-y-4 flex flex-col items-center text-center">
             <h2 className="font-semibold text-amber-200 mb-1">
               Wholesale / Distribution Request Form
             </h2>
@@ -126,7 +126,7 @@ export default function ContactPage() {
             
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-white">Name *</label>
+                <label className="text-xs text-imbari-very-dark-brown">Name *</label>
                 <input
                   required
                   value={formData.name}
@@ -136,7 +136,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-white">Company *</label>
+                <label className="text-xs text-imbari-very-dark-brown">Company *</label>
                 <input
                   required
                   value={formData.company}
@@ -149,7 +149,7 @@ export default function ContactPage() {
 
             <div className="grid gap-3 sm:grid-cols-2 w-full">
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-white">Email *</label>
+                <label className="text-xs text-imbari-very-dark-brown">Email *</label>
                 <input
                   required
                   type="email"
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-1 flex flex-col items-center text-center">
-                <label className="text-xs text-white">Country *</label>
+                <label className="text-xs text-imbari-very-dark-brown">Country *</label>
                 <input
                   required
                   value={formData.country}
@@ -172,7 +172,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-white">Product Interest *</label>
+              <label className="text-xs text-imbari-very-dark-brown">Product Interest *</label>
               <select 
                 required
                 value={formData.productInterest}
@@ -188,7 +188,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-white">Expected Volumes</label>
+              <label className="text-xs text-imbari-very-dark-brown">Expected Volumes</label>
               <input
                 value={formData.volumes}
                 onChange={(e) => setFormData({ ...formData, volumes: e.target.value })}
@@ -198,7 +198,7 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1 w-full flex flex-col items-center text-center">
-              <label className="text-xs text-white">Additional Notes *</label>
+              <label className="text-xs text-imbari-very-dark-brown">Additional Notes *</label>
               <textarea
                 required
                 rows={4}
@@ -225,6 +225,7 @@ export default function ContactPage() {
     </main>
   );
 }
+
 
 
 

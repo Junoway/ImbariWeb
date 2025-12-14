@@ -16,7 +16,8 @@ const config: Config = {
           accent: "#ff6b35", // vibrant orange
           brown: "#3e2723",  // dark coffee brown
           chocolate: "#4a2c2a", // dark chocolate brown
-          cream: "#f5e6d3"   // coffee cream for dark backgrounds
+          cream: "#f5e6d3",   // coffee cream for dark backgrounds
+          'very-dark': "#2d1b13" // very dark brown
         },
         imbari: {
           orange: "#ff6b35",
@@ -30,7 +31,8 @@ const config: Config = {
           gold: "#fbbf24",
           'coffee-brown': "#3e2723",
           'dark-chocolate': "#4a2c2a",
-          'coffee-cream': "#f5e6d3"
+          'coffee-cream': "#f5e6d3",
+          'very-dark-brown': "#2d1b13"
         }
       },
       boxShadow: {

@@ -17,8 +17,8 @@ export default function Footer() {
               height={90}
               className="rounded-xl shadow-lg border border-white/10"
             />
-            <p className="text-sm text-white leading-relaxed max-w-xs">
-              <span className="font-semibold text-white">Imbari Coffee</span> —
+            <p className="text-sm text-imbari-very-dark-brown leading-relaxed max-w-xs">
+              <span className="font-semibold text-imbari-very-dark-brown">Imbari Coffee</span> —
               Africa’s Premium Coffee, Perfected.
               <br />
               Specialty Arabica, Fine Robusta & Instant Coffee manufactured and
@@ -46,10 +46,10 @@ export default function Footer() {
 
           {/* NAVIGATION */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-wide">
+            <h3 className="text-lg font-bold text-imbari-very-dark-brown mb-4 tracking-wide">
               Explore
             </h3>
-            <ul className="grid grid-cols-2 gap-2 text-sm text-white">
+            <ul className="grid grid-cols-2 gap-2 text-sm text-imbari-very-dark-brown">
               <li>
                 <Link
                   href="/"
@@ -159,7 +159,7 @@ export default function Footer() {
 
           {/* SOCIAL MEDIA */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-wide">
+            <h3 className="text-lg font-bold text-imbari-very-dark-brown mb-4 tracking-wide">
               Connect
             </h3>
             <div className="flex gap-3 mb-4">
@@ -226,19 +226,19 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-            <p className="text-xs text-white">
+            <p className="text-xs text-imbari-very-dark-brown">
               Follow us for updates, stories, and impact.
             </p>
           </div>
 
           {/* CONTACT BLOCK */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-wide">
+            <h3 className="text-lg font-bold text-imbari-very-dark-brown mb-4 tracking-wide">
               Contact
             </h3>
-            <div className="space-y-2 text-sm text-white">
+            <div className="space-y-2 text-sm text-imbari-very-dark-brown">
               <div>
-                <span className="font-semibold text-white">
+                <span className="font-semibold text-imbari-very-dark-brown">
                   Imbari Coffee Inc.
                 </span>
                 <br />
@@ -291,7 +291,7 @@ export default function Footer() {
           <p className="text-center text-xs text-neutral-500">
             © {new Date().getFullYear()} Imbari Coffee. All Rights Reserved.
           </p>
-          <div className="mt-2 text-xs text-white flex gap-4">
+          <div className="mt-2 text-xs text-imbari-very-dark-brown flex gap-4">
             <Link href="/legal" className="hover:text-emerald-300 underline transition">Legal</Link>
           </div>
         </div>
@@ -302,6 +302,7 @@ export default function Footer() {
     </>
   );
 }
+
 
 
 

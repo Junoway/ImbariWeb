@@ -95,7 +95,7 @@ export default function ProductsPage() {
         <h1 className="text-4xl font-bold">Our Products</h1>
         <p className="mb-2 text-lg">Explore our premium coffee selection.</p>
         <div className="flex gap-4">
-          <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+          <button className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
             View Products
           </button>
           <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
@@ -134,28 +134,28 @@ export default function ProductsPage() {
                 className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
+            <h2 className="font-bold text-imbari-very-dark-brown drop-shadow-lg mb-2 text-2xl relative z-10">
               Instant Coffee Collection
             </h2>
-            <p className="text-base text-white/95 mb-4 font-medium drop-shadow relative z-10">
+            <p className="text-base text-imbari-very-dark-brown/95 mb-4 font-medium drop-shadow relative z-10">
               Export-grade instant coffee ideal for FMCGs, cafés, hotels,
               supermarkets, and private-label brands.
             </p>
             <div className="grid gap-3 w-full">
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Freeze-dried premium instant coffee
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Spray-dried instant coffee
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 3-in-1 / 2-in-1 blends (custom formulation)
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 OEM/private label packaging (jars, sachets, pouches)
               </div>
             </div>
-            <p className="mt-4 text-xs text-white">
+            <p className="mt-4 text-xs text-imbari-very-dark-brown">
               As an{" "}
               <strong>African instant coffee manufacturer</strong>, Imbari Coffee
               supports both domestic and export-focused brands seeking reliable,
@@ -179,22 +179,22 @@ export default function ProductsPage() {
                 className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
+            <h2 className="font-bold text-imbari-very-dark-brown drop-shadow-lg mb-2 text-2xl relative z-10">
               Specialty Arabica — Mt Elgon
             </h2>
-            <p className="text-base text-white/95 mb-4 font-medium drop-shadow relative z-10">
+            <p className="text-base text-imbari-very-dark-brown/95 mb-4 font-medium drop-shadow relative z-10">
               High-grown Arabica between{" "}
               <strong>1,600–2,300m</strong> on the slopes of Mt. Elgon, offering
               layered complexity and clean cups.
             </p>
             <div className="grid gap-3 w-full">
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Green beans (washed, natural, honey)
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Roasted whole beans
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Roasted ground (espresso, filter, Turkish, capsule-ready)
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function ProductsPage() {
                 Bright acidity • Floral notes • Citrus, chocolate • Clean cup
               </div>
             </div>
-            <p className="mt-4 text-xs text-white">
+            <p className="mt-4 text-xs text-imbari-very-dark-brown">
               Ideal for roasters seeking{" "}
               <strong>Mt Elgon Arabica microlots</strong> and buyers focused on a
               long-term{" "}
@@ -227,25 +227,25 @@ export default function ProductsPage() {
                 className="object-contain w-auto h-full mx-auto drop-shadow-2xl"
               />
             </div>
-            <h2 className="font-bold text-white drop-shadow-lg mb-2 text-2xl relative z-10">
+            <h2 className="font-bold text-imbari-very-dark-brown drop-shadow-lg mb-2 text-2xl relative z-10">
               Fine Robusta — Rwenzori &amp; Victoria Basin
             </h2>
-            <p className="text-base text-white mb-4">
+            <p className="text-base text-imbari-very-dark-brown mb-4">
               Renowned for its strength, crema, and balance, our fine Robusta forms
               the backbone of powerful espresso blends and robust instant
               formulations.
             </p>
             <div className="grid gap-3 w-full">
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Green beans
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Roasted whole bean
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Roast &amp; grind
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Special blends for espresso
               </div>
             </div>
@@ -254,7 +254,7 @@ export default function ProductsPage() {
                 Strength • Crema • Balance • Espresso blends
               </div>
             </div>
-            <p className="mt-4 text-xs text-white">
+            <p className="mt-4 text-xs text-imbari-very-dark-brown">
               Sourced from the{" "}
               <strong>Rwenzori Mountains</strong> and{" "}
               <strong>Victoria Basin</strong>, this fine Robusta maintains the
@@ -270,31 +270,31 @@ export default function ProductsPage() {
             <h2 className="font-semibold text-amber-200 mb-3 text-2xl">
               Private Label Manufacturing (White Label)
             </h2>
-            <p className="text-base text-white mb-3">
+            <p className="text-base text-imbari-very-dark-brown mb-3">
               Imbari Coffee partners with brands globally to design, produce, and
               deliver full coffee product lines under private labels.
             </p>
             <div className="grid gap-3 w-full mb-4">
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Instant coffee manufacturing
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Custom blends
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Packaging design
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 OEM / contract manufacturing
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Export logistics
               </div>
-              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-white font-medium shadow">
+              <div className="bg-white/5 rounded-xl px-6 py-3 text-sm text-imbari-very-dark-brown font-medium shadow">
                 Bulk procurement options
               </div>
             </div>
-            <p className="mt-2 text-xs text-white">
+            <p className="mt-2 text-xs text-imbari-very-dark-brown">
               MOQ:{" "}
               <strong>Negotiable depending on product line.</strong> Imbari Coffee
               is your strategic partner for{" "}
@@ -307,6 +307,7 @@ export default function ProductsPage() {
     </main>
   );
 }
+
 
 
 

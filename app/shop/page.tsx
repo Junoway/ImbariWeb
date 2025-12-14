@@ -63,7 +63,7 @@ export default function ShopPage() {
         
         {/* SUBSCRIBER BADGE */}
         {isSubscriber && (
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-white font-bold shadow-lg border-2 border-orange-600">
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-imbari-very-dark-brown font-bold shadow-lg border-2 border-orange-600">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
@@ -81,7 +81,7 @@ export default function ShopPage() {
             </span>
             <button
               onClick={() => router.push('/checkout')}
-              className="px-4 py-1.5 rounded-full bg-emerald-500 text-white font-bold hover:bg-emerald-400 transition shadow"
+              className="px-4 py-1.5 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold hover:bg-emerald-400 transition shadow"
             >
               Go to Checkout
             </button>
@@ -119,7 +119,7 @@ export default function ShopPage() {
               </p>
               <button
                 onClick={() => setActiveFilter("Gift")}
-                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-imbari-very-dark-brown font-bold shadow-lg hover:shadow-xl transition"
               >
                 View Gifts
               </button>
@@ -135,7 +135,7 @@ export default function ShopPage() {
               </p>
               <button
                 onClick={() => router.push('/subscriptions')}
-                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition"
+                className="mt-4 w-full px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold shadow-lg hover:shadow-xl transition"
               >
                 Subscribe Now
               </button>
@@ -234,7 +234,7 @@ export default function ShopPage() {
                         price: user ? getDiscountedPrice(product.price) : product.price,
                         image: product.image,
                       }, 1)}
-                      className={`px-3 py-1.5 rounded-full bg-emerald-500 text-white font-bold shadow text-[10px] flex items-center gap-1 hover:bg-emerald-400 transition ${
+                      className={`px-3 py-1.5 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold shadow text-[10px] flex items-center gap-1 hover:bg-emerald-400 transition ${
                         isInCart ? "opacity-95" : ""
                       }`}
                     >
@@ -262,7 +262,7 @@ export default function ShopPage() {
                       setSelectedProduct(product);
                       setShowGiftModal(true);
                     }}
-                    className="w-full py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold shadow text-[10px] flex items-center justify-center gap-1 hover:from-yellow-500 hover:to-orange-500 transition"
+                    className="w-full py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold shadow text-[10px] flex items-center justify-center gap-1 hover:from-yellow-500 hover:to-orange-500 transition"
                   >
                     <span>🎁</span>
                     <span>Send as Gift</span>
@@ -390,7 +390,7 @@ export default function ShopPage() {
                   setShowGiftModal(false);
                   setSelectedProduct(null);
                 }}
-                className="flex-1 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-white font-bold shadow-lg hover:shadow-xl transition border-2 border-yellow-300"
+                className="flex-1 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-imbari-very-dark-brown font-bold shadow-lg hover:shadow-xl transition border-2 border-yellow-300"
               >
                 Add to Cart
               </button>
@@ -442,5 +442,6 @@ export default function ShopPage() {
     </div>
   );
 }
+
 
 

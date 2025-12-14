@@ -11,7 +11,7 @@ export default function CertificationsPage() {
         <h1 className="section-heading text-4xl font-extrabold text-emerald-300 drop-shadow-lg">
           Compliance, Quality & Sustainability
         </h1>
-        <p className="section-subtitle max-w-2xl mx-auto text-white text-lg">
+        <p className="section-subtitle max-w-2xl mx-auto text-imbari-very-dark-brown text-lg">
           Imbari Coffee is built for global trade. Our value chain is designed to
           comply with evolving regulatory frameworks while protecting farmers,
           buyers, and the environment.
@@ -25,7 +25,7 @@ export default function CertificationsPage() {
           <h2 className="font-bold text-lg text-emerald-400 mb-1">
             EUDR Ready
           </h2>
-          <p className="text-sm text-white">
+          <p className="text-sm text-imbari-very-dark-brown">
             Transparent, traceable value chain aligned with European
             Deforestation Regulation for deforestation-free sourcing.
           </p>
@@ -36,7 +36,7 @@ export default function CertificationsPage() {
           <h2 className="font-bold text-lg text-emerald-400 mb-1">
             UCDA Certified Exporter
           </h2>
-          <p className="text-sm text-white">
+          <p className="text-sm text-imbari-very-dark-brown">
             Registered with Uganda Coffee Development Authority, fully compliant
             with export standards, grading, and documentation.
           </p>
@@ -47,7 +47,7 @@ export default function CertificationsPage() {
           <h2 className="font-bold text-lg text-emerald-400 mb-1">
             SCA-Aligned Quality
           </h2>
-          <p className="text-sm text-white">
+          <p className="text-sm text-imbari-very-dark-brown">
             Cupping, grading, and processing protocols meet global Specialty
             Coffee Association criteria for specialty buyers.
           </p>
@@ -61,31 +61,31 @@ export default function CertificationsPage() {
         <div className="grid gap-4 md:grid-cols-2 w-full max-w-2xl mx-auto">
           <div className="flex items-center gap-3 justify-center">
             <span className="text-emerald-400 text-xl">✔</span>
-            <span className="text-white text-base font-medium">
+            <span className="text-imbari-very-dark-brown text-base font-medium">
               Fair farmer pricing & long-term contracts
             </span>
           </div>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-emerald-400 text-xl">✔</span>
-            <span className="text-white text-base font-medium">
+            <span className="text-imbari-very-dark-brown text-base font-medium">
               Women-led cooperative support
             </span>
           </div>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-emerald-400 text-xl">✔</span>
-            <span className="text-white text-base font-medium">
+            <span className="text-imbari-very-dark-brown text-base font-medium">
               Regenerative agricultural practices
             </span>
           </div>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-emerald-400 text-xl">✔</span>
-            <span className="text-white text-base font-medium">
+            <span className="text-imbari-very-dark-brown text-base font-medium">
               Zero child-labor guarantee
             </span>
           </div>
           <div className="flex items-center gap-3 justify-center md:col-span-2">
             <span className="text-emerald-400 text-xl">✔</span>
-            <span className="text-white text-base font-medium">
+            <span className="text-imbari-very-dark-brown text-base font-medium">
               Clean water & soil stewardship in coffee-growing communities
             </span>
           </div>
@@ -94,6 +94,7 @@ export default function CertificationsPage() {
     </main>
   );
 }
+
 
 
 

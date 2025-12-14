@@ -103,7 +103,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6 animate-fade-in">
             <Link
               href="/contact"
-              className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-xl transition-all duration-200 text-lg tracking-wide"
+              className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700 text-imbari-very-dark-brown font-bold py-3 px-8 rounded-full shadow-xl transition-all duration-200 text-lg tracking-wide"
             >
               Request Wholesale Pricing
             </Link>
@@ -172,8 +172,8 @@ export default function Home() {
                   className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Instant Coffee</h3>
-              <p className="text-sm text-white font-medium drop-shadow z-10">
+              <h3 className="font-bold text-imbari-very-dark-brown text-xl drop-shadow-lg z-10">Instant Coffee</h3>
+              <p className="text-sm text-imbari-very-dark-brown font-medium drop-shadow z-10">
                 Premium freeze-dried and spray-dried instant coffee, export ready for FMCG brands, supermarkets, hotels, cafés.
               </p>
               <span className="text-3xl z-10">🐒</span>
@@ -190,8 +190,8 @@ export default function Home() {
                   className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Specialty Arabica — Mt. Elgon</h3>
-              <p className="text-sm text-white font-medium drop-shadow z-10">
+              <h3 className="font-bold text-imbari-very-dark-brown text-xl drop-shadow-lg z-10">Specialty Arabica — Mt. Elgon</h3>
+              <p className="text-sm text-imbari-very-dark-brown font-medium drop-shadow z-10">
                 High-altitude Arabica on volcanic soils, processed with care for clean, expressive cups.
               </p>
               <span className="text-3xl z-10">🐒</span>
@@ -208,8 +208,8 @@ export default function Home() {
                   className="object-cover rounded-xl shadow-lg"
                 />
               </div>
-              <h3 className="font-bold text-white text-xl drop-shadow-lg z-10">Fine Robusta — Rwenzori & Victoria Basin</h3>
-              <p className="text-sm text-white font-medium drop-shadow z-10">
+              <h3 className="font-bold text-imbari-very-dark-brown text-xl drop-shadow-lg z-10">Fine Robusta — Rwenzori & Victoria Basin</h3>
+              <p className="text-sm text-imbari-very-dark-brown font-medium drop-shadow z-10">
                 Strong, bold Robusta ideal for espresso, blends, and instant formulations.
               </p>
               <span className="text-3xl z-10">🐒</span>
@@ -222,4 +222,5 @@ export default function Home() {
     </main>
   );
 }
+
 

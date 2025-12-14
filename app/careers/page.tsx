@@ -10,7 +10,7 @@ export default function CareersPage() {
     <main className="bg-white min-h-screen">
       <h1 className="text-4xl font-bold mb-6">Careers</h1>
       <p className="mb-8 text-lg">Join our passionate team.</p>
-      <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
+      <button className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
         View Openings
       </button>
       <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
@@ -89,7 +89,7 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Imbari Distribution Hub – Built for Africa’s Coffee Startups
             </h2>
-            <p className="text-base sm:text-lg text-white">
+            <p className="text-base sm:text-lg text-imbari-very-dark-brown">
               Our distribution hub operates a fleet of branded Imbari delivery
               motorcycles. These bikes are used to move green coffee, roasted
               beans, instant coffee and sampling kits for Imbari Coffee and for
@@ -114,7 +114,7 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Motorcycle Delivery Rider – Imbari Distribution Hub
             </h2>
-            <p className="text-base text-white max-w-2xl mx-auto">
+            <p className="text-base text-imbari-very-dark-brown max-w-2xl mx-auto">
               Location: Kampala (with planned rollout to other major African
               cities)
             </p>
@@ -122,8 +122,8 @@ export default function CareersPage() {
 
           <div className="grid gap-8 lg:grid-cols-2">
             {/* Responsibilities */}
-            <div className="space-y-3 text-base text-white">
-              <h3 className="font-semibold text-lg text-white">
+            <div className="space-y-3 text-base text-imbari-very-dark-brown">
+              <h3 className="font-semibold text-lg text-imbari-very-dark-brown">
                 Key Responsibilities
               </h3>
               <ul className="list-disc pl-5 space-y-2">
@@ -151,8 +151,8 @@ export default function CareersPage() {
             </div>
 
             {/* Requirements */}
-            <div className="space-y-3 text-base text-white">
-              <h3 className="font-semibold text-lg text-white">
+            <div className="space-y-3 text-base text-imbari-very-dark-brown">
+              <h3 className="font-semibold text-lg text-imbari-very-dark-brown">
                 Minimum Requirements
               </h3>
               <ul className="list-disc pl-5 space-y-2">
@@ -181,9 +181,9 @@ export default function CareersPage() {
           </div>
 
           {/* Safety & Culture */}
-          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-base text-white">
+          <div className="border-t border-white/10 pt-6 grid gap-8 lg:grid-cols-2 text-base text-imbari-very-dark-brown">
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-white">
+              <h3 className="font-semibold text-lg text-imbari-very-dark-brown">
                 Safety First – Always
               </h3>
               <p>
@@ -200,7 +200,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-semibold text-lg text-white">
+              <h3 className="font-semibold text-lg text-imbari-very-dark-brown">
                 A Platform for Growth
               </h3>
               <p>
@@ -227,7 +227,7 @@ export default function CareersPage() {
             <h2 className="section-heading text-2xl sm:text-3xl font-bold text-emerald-200">
               Apply to Ride with Imbari
             </h2>
-            <p className="text-base text-white max-w-2xl mx-auto">
+            <p className="text-base text-imbari-very-dark-brown max-w-2xl mx-auto">
               Submit your details below and our team will contact shortlisted
               candidates for interviews and background verification.
             </p>
@@ -236,7 +236,7 @@ export default function CareersPage() {
           {/* Note: form is frontend-only for now; connect to backend or email later */}
           <form className="grid gap-5 md:grid-cols-2 text-base">
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 Full Name
               </label>
               <input
@@ -247,7 +247,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 Phone / WhatsApp
               </label>
               <input
@@ -258,7 +258,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 Email
               </label>
               <input
@@ -269,7 +269,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 City / Area
               </label>
               <input
@@ -280,7 +280,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 Years of Riding Experience
               </label>
               <input
@@ -292,7 +292,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-1">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 License Number / Class
               </label>
               <input
@@ -303,7 +303,7 @@ export default function CareersPage() {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label className="block text-xs uppercase tracking-[0.18em] text-white">
+              <label className="block text-xs uppercase tracking-[0.18em] text-imbari-very-dark-brown">
                 Tell Us About Yourself
               </label>
               <textarea
@@ -313,7 +313,7 @@ export default function CareersPage() {
             </div>
 
             <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <p className="text-[11px] text-white max-w-md">
+              <p className="text-[11px] text-imbari-very-dark-brown max-w-md">
                 By submitting this form you confirm that the information provided
                 is true and that you are willing to undergo a background check
                 as part of our safety policy.
@@ -425,7 +425,7 @@ export default function CareersPage() {
         </section>
 
         {/* BACK TO OTHER PAGES */}
-        <div className="flex justify-center gap-4 text-xs text-white pt-8">
+        <div className="flex justify-center gap-4 text-xs text-imbari-very-dark-brown pt-8">
           <Link href="/products" className="hover:text-emerald-300">
             Explore Imbari Products
           </Link>
@@ -438,6 +438,7 @@ export default function CareersPage() {
     </main>
   );
 }
+
 
 
 

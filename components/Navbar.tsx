@@ -29,7 +29,7 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-white flex-1 justify-center">
+        <nav className="hidden md:flex items-center gap-6 text-sm text-imbari-very-dark-brown flex-1 justify-center">
           <Link href="/about" className="hover:text-emerald-300 transition">About</Link>
           <Link href="/our-impact" className="hover:text-emerald-300 transition">Our Impact</Link>
           <Link href="/imbari-story" className="hover:text-emerald-300 transition">Imbari Story</Link>
@@ -77,7 +77,7 @@ export default function Navbar() {
             </svg>
 
             {totalQuantity > 0 && (
-              <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 shadow-lg">
+              <span className="absolute -top-1 -right-1 bg-emerald-500 text-imbari-very-dark-brown text-xs font-bold rounded-full px-1.5 py-0.5 shadow-lg">
                 {totalQuantity}
               </span>
             )}
@@ -85,7 +85,7 @@ export default function Navbar() {
 
           {/* MOBILE MENU DROPDOWN */}
           {open && (
-            <div className="absolute right-0 top-[60px] z-40 w-72 rounded-2xl border border-emerald-300 bg-gradient-to-br from-[#050403] via-emerald-900 to-emerald-700 shadow-2xl backdrop-blur-xl py-4 text-base text-white animate-fade-in">
+            <div className="absolute right-0 top-[60px] z-40 w-72 rounded-2xl border border-emerald-300 bg-gradient-to-br from-[#050403] via-emerald-900 to-emerald-700 shadow-2xl backdrop-blur-xl py-4 text-base text-imbari-very-dark-brown animate-fade-in">
               <div className="px-6 py-3 border-b border-emerald-400 flex items-center gap-3 animate-slide-down">
                 <Image
                   src={withBasePath("/images/logo-main.jpg")}
@@ -151,5 +151,6 @@ function MobileItem({ href, children, onClick }: any) {
     </Link>
   );
 }
+
 
 

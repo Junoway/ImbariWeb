@@ -154,7 +154,7 @@ export default function OrderHistoryPage() {
             <p className="text-emerald-600 mb-6">Start shopping to see your order history here</p>
             <button
               onClick={() => router.push("/shop")}
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700"
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700"
             >
               Browse Products
             </button>
@@ -240,7 +240,7 @@ export default function OrderHistoryPage() {
                         // In production, add all items to cart
                         router.push("/shop");
                       }}
-                      className="px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
+                      className="px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
                     >
                       Reorder These Items
                     </button>
@@ -254,5 +254,6 @@ export default function OrderHistoryPage() {
     </main>
   );
 }
+
 
 

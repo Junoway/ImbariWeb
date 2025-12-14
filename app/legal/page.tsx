@@ -7,7 +7,7 @@ export default function LegalPage() {
     <main className="bg-white min-h-screen">
       <h1 className="text-4xl font-bold mb-6">Legal</h1>
       <p className="mb-8 text-lg">Terms of Use & Privacy Policy</p>
-      <button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
+      <button className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4">
         View Terms
       </button>
       <button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200">
@@ -20,7 +20,7 @@ export default function LegalPage() {
       <section className="card bg-[#050708] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8 shadow-lg max-w-3xl mx-auto">
         <h2 className="text-2xl font-bold text-emerald-200 mb-2">TERMS OF USE — IMBARI COFFEE</h2>
         <p className="text-xs text-imbari-coffee-brown mb-2">Last Updated: April 2025</p>
-        <div className="space-y-4 text-sm text-white">
+        <div className="space-y-4 text-sm text-imbari-very-dark-brown">
           <p>Welcome to Imbari Coffee. By accessing, browsing, or using this website (the “Site”), you acknowledge that you have read, understood, and agree to be bound by the following Terms of Use. If you do not agree to these terms, you must not use this Site.</p>
           <ol className="list-decimal pl-5 space-y-2">
             <li>
@@ -60,7 +60,7 @@ export default function LegalPage() {
         <hr className="my-8 border-emerald-900/30" />
         <h2 className="text-2xl font-bold text-emerald-200 mb-2">PRIVACY POLICY — IMBARI COFFEE</h2>
         <p className="text-xs text-imbari-coffee-brown mb-2">Last Updated: April 2025</p>
-        <div className="space-y-4 text-sm text-white">
+        <div className="space-y-4 text-sm text-imbari-very-dark-brown">
           <p>This Privacy Policy explains how Imbari Coffee (“we,” “our,” “us”) collects, uses, protects, and manages your information when you visit our website or communicate with us. Imbari Coffee is committed to transparency, respect, and safeguarding your privacy in compliance with international best practices.</p>
           <ol className="list-decimal pl-5 space-y-2">
             <li>
@@ -109,6 +109,7 @@ export default function LegalPage() {
     </main>
   );
 }
+
 
 
 

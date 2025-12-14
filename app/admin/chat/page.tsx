@@ -192,7 +192,7 @@ export default function AdminChatDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-imbari-very-dark-brown text-xl">Loading...</div>
       </div>
     );
   }
@@ -206,24 +206,24 @@ export default function AdminChatDashboard() {
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-white font-semibold">Email</label>
+              <label className="text-sm text-imbari-very-dark-brown font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                 placeholder="admin@imbaricoffee.com"
                 required
               />
             </div>
             
             <div>
-              <label className="text-sm text-white font-semibold">Password</label>
+              <label className="text-sm text-imbari-very-dark-brown font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                 placeholder="••••••••"
                 required
               />
@@ -251,7 +251,7 @@ export default function AdminChatDashboard() {
             <p className="text-sm text-imbari-coffee-brown">Support Team Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-white">{user.email}</span>
+            <span className="text-imbari-very-dark-brown">{user.email}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition border border-red-500/30"
@@ -266,8 +266,8 @@ export default function AdminChatDashboard() {
         {/* Chat Sessions Sidebar */}
         <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
           <div className="p-4 border-b border-white/10">
-            <h2 className="text-lg font-bold text-white">Active Conversations</h2>
-            <p className="text-xs text-white mt-1">
+            <h2 className="text-lg font-bold text-imbari-very-dark-brown">Active Conversations</h2>
+            <p className="text-xs text-imbari-very-dark-brown mt-1">
               {sessions.filter(s => s.status === "active").length} active chats
             </p>
           </div>
@@ -283,7 +283,7 @@ export default function AdminChatDashboard() {
               }`}
             >
               <div className="flex justify-between items-start mb-1">
-                <h3 className="font-semibold text-white">{session.customerName}</h3>
+                <h3 className="font-semibold text-imbari-very-dark-brown">{session.customerName}</h3>
                 {session.unreadCount > 0 && (
                   <span className="bg-emerald-500 text-black text-xs font-bold rounded-full px-2 py-0.5">
                     {session.unreadCount}
@@ -306,7 +306,7 @@ export default function AdminChatDashboard() {
           ))}
           
           {sessions.length === 0 && (
-            <div className="p-8 text-center text-white">
+            <div className="p-8 text-center text-imbari-very-dark-brown">
               No conversations yet. Waiting for customers...
             </div>
           )}
@@ -323,7 +323,7 @@ export default function AdminChatDashboard() {
                   return session ? (
                     <div className="flex justify-between items-center">
                       <div>
-                        <h3 className="text-lg font-bold text-white">{session.customerName}</h3>
+                        <h3 className="text-lg font-bold text-imbari-very-dark-brown">{session.customerName}</h3>
                         <p className="text-sm text-imbari-coffee-brown">{session.customerEmail}</p>
                         {session.customerPhone && (
                           <p className="text-sm text-emerald-400">📱 {session.customerPhone}</p>
@@ -351,11 +351,11 @@ export default function AdminChatDashboard() {
                       className={`max-w-[70%] rounded-2xl px-4 py-3 ${
                         msg.from === "admin"
                           ? "bg-emerald-500 text-black"
-                          : "bg-white/10 text-white"
+                          : "bg-white/10 text-imbari-very-dark-brown"
                       }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.text}</p>
-                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-white"}`}>
+                      <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-imbari-very-dark-brown"}`}>
                         {new Date(msg.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
@@ -372,7 +372,7 @@ export default function AdminChatDashboard() {
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Type your response..."
-                    className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                    className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                   />
                   <button
                     type="submit"
@@ -384,7 +384,7 @@ export default function AdminChatDashboard() {
               </form>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-white">
+            <div className="flex-1 flex items-center justify-center text-imbari-very-dark-brown">
               Select a conversation to start chatting
             </div>
           )}
@@ -393,6 +393,7 @@ export default function AdminChatDashboard() {
     </div>
   );
 }
+
 
 
 

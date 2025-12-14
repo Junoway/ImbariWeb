@@ -50,12 +50,12 @@ export default function Hero() {
 				<p className="badge mb-4 text-center">
 					Uganda Specialty Coffee Exporter
 				</p>
-				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-center text-white drop-shadow-lg">
+				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-center text-imbari-very-dark-brown drop-shadow-lg">
 					Africa’s Premium Coffee,
 					<br />
 					<span className="text-emerald-300">Perfected.</span>
 				</h1>
-				<p className="mt-5 text-base sm:text-lg text-white max-w-2xl text-center drop-shadow">
+				<p className="mt-5 text-base sm:text-lg text-imbari-very-dark-brown max-w-2xl text-center drop-shadow">
 					From the volcanic slopes of Mt. Elgon and the Rwenzori Mountains,
 					Imbari Coffee produces and exports world-class Arabica, fine Robusta,
 					and next-generation instant coffees — sustainably grown, expertly
@@ -75,7 +75,7 @@ export default function Hero() {
 						Become a Distributor
 					</Link>
 				</div>
-				<p className="mt-4 text-xs text-white max-w-md text-center drop-shadow">
+				<p className="mt-4 text-xs text-imbari-very-dark-brown max-w-md text-center drop-shadow">
 					Serving importers, roasters, retailers, coffee brands, hotels, cafés,
 					and FMCG distributors across Africa, Europe, North America, China,
 					India, and the Middle East.
@@ -95,6 +95,7 @@ export default function Hero() {
 		</section>
 	);
 }
+
 
 
 

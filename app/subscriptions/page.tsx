@@ -50,7 +50,7 @@ export default function SubscriptionsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-emerald-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-700 to-green-600 text-white py-20 px-4">
+      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-700 to-green-600 text-imbari-very-dark-brown py-20 px-4">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[url('/images/farm.jpg')] bg-cover bg-center"></div>
         </div>
@@ -215,7 +215,7 @@ export default function SubscriptionsPage() {
                       image: product.image,
                     }, 1);
                   }}
-                  className="w-full py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all"
+                  className="w-full py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-imbari-very-dark-brown font-bold text-sm shadow-md hover:shadow-lg transition-all"
                 >
                   Add to Cart
                 </button>
@@ -226,7 +226,7 @@ export default function SubscriptionsPage() {
           <div className="text-center mt-10">
             <button
               onClick={() => router.push("/shop")}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all border-4 border-emerald-700"
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-xl hover:shadow-2xl transition-all border-4 border-emerald-700"
             >
               Browse All Products →
             </button>
@@ -236,7 +236,7 @@ export default function SubscriptionsPage() {
 
       {/* CTA Section - Only show to non-logged-in users */}
       {!user && (
-        <section className="py-20 px-4 bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-700 text-white">
+        <section className="py-20 px-4 bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-700 text-imbari-very-dark-brown">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Ready to Experience Africa's Finest Coffee?
@@ -253,7 +253,7 @@ export default function SubscriptionsPage() {
               </button>
               <button
                 onClick={() => router.push("/shop")}
-                className="px-10 py-5 rounded-full bg-white/10 backdrop-blur text-white font-bold text-xl shadow-xl hover:bg-white/20 transition-all border-4 border-white/30"
+                className="px-10 py-5 rounded-full bg-white/10 backdrop-blur text-imbari-very-dark-brown font-bold text-xl shadow-xl hover:bg-white/20 transition-all border-4 border-white/30"
               >
                 Shop Without Subscription
               </button>
@@ -267,4 +267,5 @@ export default function SubscriptionsPage() {
     </main>
   );
 }
+
 

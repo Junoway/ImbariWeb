@@ -80,7 +80,7 @@ export default function VerifyEmailPage() {
             <button
               type="submit"
               disabled={loading || code.length !== 6}
-              className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 border-4 border-emerald-700"
+              className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 border-4 border-emerald-700"
             >
               {loading ? "Verifying..." : "Verify Email"}
             </button>
@@ -98,4 +98,5 @@ export default function VerifyEmailPage() {
     </main>
   );
 }
+
 

@@ -141,7 +141,7 @@ export default function CheckoutPage() {
       {/* Toast notification */}
       {toast && (
         <div className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-full shadow-2xl font-bold text-sm animate-fade-in border-4 ${
-          toast.type === "success" ? "bg-emerald-500 text-white border-green-600" : "bg-red-500 text-white border-red-700"
+          toast.type === "success" ? "bg-emerald-500 text-imbari-very-dark-brown border-green-600" : "bg-red-500 text-imbari-very-dark-brown border-red-700"
         }`}>
           {toast.message}
         </div>
@@ -182,7 +182,7 @@ export default function CheckoutPage() {
                     setDiscountApplied(false);
                   }
                 }}
-                className="px-4 py-2 rounded-full bg-emerald-500 text-white font-bold hover:bg-emerald-400 transition shadow"
+                className="px-4 py-2 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold hover:bg-emerald-400 transition shadow"
               >
                 Apply
               </button>
@@ -231,7 +231,7 @@ export default function CheckoutPage() {
             {/* Checkout Button */}
             <button
               onClick={() => {/* Stripe checkout logic here */}}
-              className="mt-6 px-8 py-3 rounded-full bg-emerald-500 text-white font-bold text-lg shadow-lg hover:bg-emerald-600 transition"
+              className="mt-6 px-8 py-3 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:bg-emerald-600 transition"
             >
               Checkout &rarr;
             </button>
@@ -245,7 +245,7 @@ export default function CheckoutPage() {
       {/* If cart is empty */}
       {items.length === 0 ? (
         <div className="card p-6 sm:p-8 text-center space-y-4">
-          <p className="text-sm sm:text-base text-white">
+          <p className="text-sm sm:text-base text-imbari-very-dark-brown">
             Your cart is empty.
           </p>
           <Link href="/shop" className="button-primary inline-block">
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
                   <h2 className="text-sm sm:text-base font-semibold">
                     {item.name}
                   </h2>
-                  <p className="text-[11px] sm:text-xs text-white">
+                  <p className="text-[11px] sm:text-xs text-imbari-very-dark-brown">
                     ${item.price.toFixed(2)} per unit
                   </p>
 
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                       </p>
                       <button
                         onClick={() => handleRemove(item.id)}
-                        className="text-[11px] text-white hover:text-red-400"
+                        className="text-[11px] text-imbari-very-dark-brown hover:text-red-400"
                       >
                         Remove
                       </button>
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
               <h2 className="text-base sm:text-lg font-semibold">
                 Order Summary
               </h2>
-              <p className="text-xs sm:text-sm text-white">
+              <p className="text-xs sm:text-sm text-imbari-very-dark-brown">
                 Confirm your location so we can apply the correct shipping.
                 Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
                 <strong>$2 flat</strong>.
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-xs sm:text-sm font-semibold text-white">
+              <p className="text-xs sm:text-sm font-semibold text-imbari-very-dark-brown">
                 Delivery Location
               </p>
               <div className="flex flex-col gap-2 text-xs sm:text-sm">
@@ -365,15 +365,15 @@ export default function CheckoutPage() {
             </div>
 
             <div className="border-t border-white/10 pt-4 space-y-2 text-sm">
-              <div className="flex justify-between text-white">
+              <div className="flex justify-between text-imbari-very-dark-brown">
                 <span>Subtotal</span>
                 <span>${cartSubtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-white">
+              <div className="flex justify-between text-imbari-very-dark-brown">
                 <span>Shipping</span>
                 <span>${shipping.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-white">
+              <div className="flex justify-between text-imbari-very-dark-brown">
                 <span>Tax (10%)</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
@@ -386,7 +386,7 @@ export default function CheckoutPage() {
             <button
               onClick={handleStripeCheckout}
               disabled={placingOrder || items.length === 0}
-              className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4 w-full flex items-center justify-center"
+              className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4 w-full flex items-center justify-center"
             >
               {placingOrder ? (
                 <span className="flex items-center gap-2"><span className="loader border-t-emerald-400 border-4 w-5 h-5 rounded-full animate-spin"></span> Placing Order...</span>
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
 
       {/* Toast notification */}
       {toast && (
-        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-white font-bold ${toast.type === "success" ? "bg-emerald-500" : "bg-red-500"} animate-fade-in`}>
+        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-imbari-very-dark-brown font-bold ${toast.type === "success" ? "bg-emerald-500" : "bg-red-500"} animate-fade-in`}>
           {toast.message}
         </div>
       )}
@@ -422,7 +422,7 @@ export default function CheckoutPage() {
             <h3 className="text-lg font-bold mb-2 text-emerald-700">Remove Item?</h3>
             <p className="text-sm text-neutral-700 mb-4">Are you sure you want to remove this item from your cart?</p>
             <div className="flex gap-4 justify-center">
-              <button onClick={confirmRemove} className="px-4 py-2 rounded bg-emerald-500 text-white font-bold hover:bg-emerald-400">Yes, Remove</button>
+              <button onClick={confirmRemove} className="px-4 py-2 rounded bg-emerald-500 text-imbari-very-dark-brown font-bold hover:bg-emerald-400">Yes, Remove</button>
               <button onClick={cancelRemove} className="px-4 py-2 rounded bg-neutral-200 text-neutral-700 font-bold hover:bg-neutral-300">Cancel</button>
             </div>
           </div>
@@ -440,6 +440,7 @@ export default function CheckoutPage() {
 // .loader { border: 4px solid #d1fae5; border-top: 4px solid #34d399; border-radius: 50%; width: 20px; height: 20px; }
 // .animate-spin { animation: spin 1s linear infinite; }
 // @keyframes spin { 100% { transform: rotate(360deg); } }
+
 
 
 

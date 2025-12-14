@@ -194,7 +194,7 @@ export default function SettingsPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 border-4 border-emerald-700"
+              className="w-full py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 border-4 border-emerald-700"
             >
               {loading ? "Saving..." : "Save Profile"}
             </button>
@@ -219,7 +219,7 @@ export default function SettingsPage() {
                 </div>
                 <button
                   onClick={() => alert("Subscription management coming soon!")}
-                  className="px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
+                  className="px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
                 >
                   Manage
                 </button>
@@ -234,7 +234,7 @@ export default function SettingsPage() {
                 </div>
                 <button
                   onClick={() => router.push("/shop")}
-                  className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-white font-bold shadow-md hover:shadow-lg transition-all border-2 border-orange-600"
+                  className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 text-imbari-very-dark-brown font-bold shadow-md hover:shadow-lg transition-all border-2 border-orange-600"
                 >
                   Subscribe
                 </button>
@@ -255,7 +255,7 @@ export default function SettingsPage() {
           {!showPasswordSection ? (
             <button
               onClick={() => setShowPasswordSection(true)}
-              className="w-full py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
+              className="w-full py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold shadow-md hover:shadow-lg transition-all border-2 border-emerald-600"
             >
               Change Password
             </button>
@@ -319,7 +319,7 @@ export default function SettingsPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 border-2 border-emerald-600"
+                  className="flex-1 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 border-2 border-emerald-600"
                 >
                   {loading ? "Changing..." : "Update Password"}
                 </button>
@@ -343,7 +343,7 @@ export default function SettingsPage() {
             </p>
             <button
               onClick={handleDeleteAccount}
-              className="px-6 py-3 rounded-full bg-red-500 text-white font-bold hover:bg-red-600 transition shadow-md border-2 border-red-700"
+              className="px-6 py-3 rounded-full bg-red-500 text-imbari-very-dark-brown font-bold hover:bg-red-600 transition shadow-md border-2 border-red-700"
             >
               Delete Account
             </button>
@@ -353,5 +353,6 @@ export default function SettingsPage() {
     </main>
   );
 }
+
 
 

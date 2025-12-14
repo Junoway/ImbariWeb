@@ -116,7 +116,7 @@ export default function AdminReviewsDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-imbari-very-dark-brown text-xl">Loading...</div>
       </div>
     );
   }
@@ -130,24 +130,24 @@ export default function AdminReviewsDashboard() {
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="text-sm text-white font-semibold">Email</label>
+              <label className="text-sm text-imbari-very-dark-brown font-semibold">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                 placeholder="admin@imbaricoffee.com"
                 required
               />
             </div>
             
             <div>
-              <label className="text-sm text-white font-semibold">Password</label>
+              <label className="text-sm text-imbari-very-dark-brown font-semibold">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                className="mt-1 w-full rounded-lg bg-black/30 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                 placeholder="••••••••"
                 required
               />
@@ -175,7 +175,7 @@ export default function AdminReviewsDashboard() {
             <p className="text-sm text-imbari-coffee-brown">Customer Product Reviews Dashboard</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-white">{user.email}</span>
+            <span className="text-imbari-very-dark-brown">{user.email}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition border border-red-500/30"
@@ -190,8 +190,8 @@ export default function AdminReviewsDashboard() {
         {/* Reviews List */}
         <div className="w-80 bg-black/20 border-r border-white/10 overflow-y-auto">
           <div className="p-4 border-b border-white/10">
-            <h2 className="text-lg font-bold text-white">Product Reviews</h2>
-            <p className="text-xs text-white mt-1">
+            <h2 className="text-lg font-bold text-imbari-very-dark-brown">Product Reviews</h2>
+            <p className="text-xs text-imbari-very-dark-brown mt-1">
               {reviews.filter(r => r.status === 'pending').length} pending responses
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function AdminReviewsDashboard() {
               }`}
             >
               <div className="flex justify-between items-start mb-1">
-                <h3 className="font-semibold text-white">{review.name}</h3>
+                <h3 className="font-semibold text-imbari-very-dark-brown">{review.name}</h3>
                 <div className="flex gap-0.5">
                   {Array.from({ length: review.rating }).map((_, i) => (
                     <span key={i} className="text-yellow-400 text-xs">★</span>
@@ -234,7 +234,7 @@ export default function AdminReviewsDashboard() {
           ))}
           
           {reviews.length === 0 && (
-            <div className="p-8 text-center text-white">
+            <div className="p-8 text-center text-imbari-very-dark-brown">
               No reviews yet. Waiting for customer feedback...
             </div>
           )}
@@ -252,7 +252,7 @@ export default function AdminReviewsDashboard() {
                     <div className="bg-black/20 border-b border-white/10 p-6">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="text-xl font-bold text-white">{review.name}</h3>
+                          <h3 className="text-xl font-bold text-imbari-very-dark-brown">{review.name}</h3>
                           <p className="text-sm text-imbari-coffee-brown">{review.email}</p>
                           <p className="text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                         </div>
@@ -275,7 +275,7 @@ export default function AdminReviewsDashboard() {
                           </div>
                           <div className="flex-1">
                             <p className="text-imbari-coffee-brown leading-relaxed">{review.comment}</p>
-                            <p className="text-xs text-white mt-2">
+                            <p className="text-xs text-imbari-very-dark-brown mt-2">
                               {new Date(review.timestamp).toLocaleString()}
                             </p>
                           </div>
@@ -293,7 +293,7 @@ export default function AdminReviewsDashboard() {
                             <div className="flex-1">
                               <div className="text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
                               <p className="text-imbari-coffee-brown leading-relaxed">{review.response}</p>
-                              <p className="text-xs text-white mt-2">
+                              <p className="text-xs text-imbari-very-dark-brown mt-2">
                                 {new Date(review.responseTimestamp || Date.now()).toLocaleString()}
                               </p>
                             </div>
@@ -310,7 +310,7 @@ export default function AdminReviewsDashboard() {
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder={review.response ? "Update your response..." : "Type your response to this review..."}
-                          className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                          className="flex-1 rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                         />
                         <button
                           type="submit"
@@ -325,7 +325,7 @@ export default function AdminReviewsDashboard() {
               })()}
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-white">
+            <div className="flex-1 flex items-center justify-center text-imbari-very-dark-brown">
               Select a review to view details and respond
             </div>
           )}
@@ -334,6 +334,7 @@ export default function AdminReviewsDashboard() {
     </div>
   );
 }
+
 
 
 

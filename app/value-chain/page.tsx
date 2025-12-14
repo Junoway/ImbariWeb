@@ -53,7 +53,7 @@ const stages = [
 	},
 	{
 		title: "Export & Logistics",
-		icon: <FaShippingFast className="text-white text-5xl animate-bounce" aria-label="Export" />,
+		icon: <FaShippingFast className="text-imbari-very-dark-brown text-5xl animate-bounce" aria-label="Export" />,
 		image: "/images/globe.svg",
 		color: "from-black via-green-900 to-green-500",
 		points: [
@@ -72,7 +72,7 @@ export default function ValueChainPage() {
 				<h1 className="text-4xl font-bold">Value Chain</h1>
 				<p className="mb-2 text-lg">From farm to cup.</p>
 				<div className="flex gap-4">
-					<button className="bg-[#10b981] hover:bg-[#22c55e] text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
+					<button className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-0">
 						Explore Value Chain
 					</button>
 					<button className="bg-white border-2 border-[#10b981] text-[#10b981] font-semibold py-3 px-8 rounded-full shadow hover:bg-[#f0fdf4] transition-all duration-200 mb-0">
@@ -82,13 +82,13 @@ export default function ValueChainPage() {
 			</div>
 
 			<header className="text-center animate-fade-in-up">
-				<p className="inline-block badge mb-3 bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg text-center">
+				<p className="inline-block badge mb-3 bg-gradient-to-r from-green-500 to-emerald-400 text-imbari-very-dark-brown shadow-lg text-center">
 					Our Value Chain
 				</p>
-				<h1 className="section-heading text-4xl font-extrabold text-white drop-shadow-lg mb-2 text-center">
+				<h1 className="section-heading text-4xl font-extrabold text-imbari-very-dark-brown drop-shadow-lg mb-2 text-center">
 					Farmer → Mill → Roast → Export
 				</h1>
-				<p className="section-subtitle text-lg text-white max-w-xl mx-auto text-center">
+				<p className="section-subtitle text-lg text-imbari-very-dark-brown max-w-xl mx-auto text-center">
 					Imbari Coffee operates a vertically integrated value chain that keeps
 					quality, traceability, and trust at the center of every process.
 				</p>
@@ -167,7 +167,7 @@ export default function ValueChainPage() {
 								{stage.points.map((point, i) => (
 									<div
 										key={point}
-										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-white font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30 text-center`}
+										className={`process-step px-4 py-2 rounded-lg bg-white/10 backdrop-blur-md text-imbari-very-dark-brown font-medium shadow-md transition-all duration-500 animate-slide-in-up delay-[${i * 120}ms] group-hover:bg-emerald-700/30 text-center`}
 									>
 										{point}
 									</div>
@@ -188,13 +188,13 @@ export default function ValueChainPage() {
 					<h3 className="text-2xl font-bold text-green-300 mb-2 text-center">
 						Ready to Experience the Imbari Difference?
 					</h3>
-					<p className="text-white mb-4 text-center">
+					<p className="text-imbari-very-dark-brown mb-4 text-center">
 						Contact us to learn more about our value chain, sourcing, and
 						partnership opportunities.
 					</p>
 					<a
 						href="/contact"
-						className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-400 text-white font-semibold shadow-lg hover:scale-105 transition-transform focus:outline-emerald-400 text-center"
+						className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-400 text-imbari-very-dark-brown font-semibold shadow-lg hover:scale-105 transition-transform focus:outline-emerald-400 text-center"
 					>
 						Get in Touch
 					</a>
@@ -239,6 +239,7 @@ export default function ValueChainPage() {
 //   0% { opacity: 0; transform: translateY(32px); }
 //   100% { opacity: 1; transform: translateY(0); }
 // }
+
 
 
 

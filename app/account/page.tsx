@@ -81,7 +81,7 @@ export default function AccountPage() {
             <nav className="space-y-2">
               <Link
                 href="/account"
-                className="block px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold transition"
+                className="block px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold transition"
               >
                 SUBSCRIPTIONS
               </Link>
@@ -113,7 +113,7 @@ export default function AccountPage() {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-emerald-800">Subscription Status</h2>
                 {user.isSubscribed && (
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold shadow-lg">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold shadow-lg">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
@@ -174,7 +174,7 @@ export default function AccountPage() {
                   </div>
                   <button
                     onClick={toggleSubscription}
-                    className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700"
+                    className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700"
                   >
                     Subscribe Now & Save 10%
                   </button>
@@ -246,7 +246,7 @@ export default function AccountPage() {
                               price: discountedPrice,
                               image: product.image,
                             }, 1)}
-                            className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-orange-600"
+                            className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-orange-600"
                           >
                             Add to Cart
                           </button>
@@ -260,7 +260,7 @@ export default function AccountPage() {
               <div className="text-center mt-8">
                 <Link
                   href="/shop"
-                  className="inline-block px-10 py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all border-4 border-emerald-700"
+                  className="inline-block px-10 py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-xl hover:shadow-2xl transition-all border-4 border-emerald-700"
                 >
                   Browse All Products →
                 </Link>
@@ -272,5 +272,6 @@ export default function AccountPage() {
     </main>
   );
 }
+
 
 
