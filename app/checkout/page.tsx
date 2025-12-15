@@ -8,12 +8,17 @@ import { useState, useMemo, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 
-const STRIPE_PUBLIC_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "pk_test_123"; // Replace with your real key
+const STRIPE_PUBLIC_KEY =
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "pk_test_123"; // Replace with your real key
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 const TAX_RATE = 0.10;
 
+// helper: keep currency values clean
+const round2 = (n: number) => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+
 export default function CheckoutPage() {
-  const { items, updateQuantity, removeItem, clearCart, subtotal: cartSubtotal } = useCart();
+  const { items, updateQuantity, removeItem, clearCart, subtotal: cartSubtotal } =
+    useCart();
   const [location, setLocation] = useState<"kampala" | "outside">("kampala");
   const [placingOrder, setPlacingOrder] = useState(false);
   const [showTip, setShowTip] = useState(false);
@@ -25,10 +30,16 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   // Toast notification state
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   // Modal state for remove confirmation
-  const [removeModal, setRemoveModal] = useState<{ open: boolean; itemId: string | number | null }>({ open: false, itemId: null });
+  const [removeModal, setRemoveModal] = useState<{
+    open: boolean;
+    itemId: string | number | null;
+  }>({ open: false, itemId: null });
 
   useEffect(() => {
     if (toast) {
@@ -48,18 +59,23 @@ export default function CheckoutPage() {
     return location === "kampala" ? 0 : 2;
   }, [location, items.length]);
 
-  const tax = cartSubtotal * TAX_RATE;
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = useMemo(
+    () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    [items]
+  );
+
+  const tax = round2(subtotal * TAX_RATE);
   const originalPrice = subtotal > 0 ? subtotal.toFixed(2) : "0.00";
-  const discountedSubtotal = subtotal - discount;
-  const total = (discountedSubtotal + tip + shipping).toFixed(2);
+  const discountedSubtotal = round2(subtotal - discount);
+
+  // IMPORTANT: include tax in total so your UI and backend match
+  const totalNumber = round2(discountedSubtotal + tip + shipping + tax);
+  const total = totalNumber.toFixed(2);
 
   const handlePlaceOrder = () => {
     if (items.length === 0) return;
     setPlacingOrder(true);
 
-    // Here you’d call your backend / payment integration.
-    // For now, just simulate and clear cart.
     setTimeout(() => {
       setPlacingOrder(false);
       clearCart();
@@ -71,61 +87,60 @@ export default function CheckoutPage() {
 
   async function handleStripeCheckout() {
     if (items.length === 0) return;
+
     setPlacingOrder(true);
+
     try {
-      // Get backend URL - use environment variable or deployed backend URL
-      const API = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.imbaricoffee.com';
-      
+      const API =
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.imbaricoffee.com";
+
       // Prepare checkout data
       const checkoutData = {
-        items: items.map(item => ({
+        items: items.map((item) => ({
           id: item.id,
           name: item.name,
-          description: '',
-          price: item.price,
+          // DO NOT send empty description; Stripe rejects empty strings
+          // description: "",
+          price: round2(item.price),
           quantity: item.quantity,
           image: item.image,
         })),
-        location: location,
-        shipping: shipping,
-        tax: tax,
-        discountCode: discountApplied ? discountCode : undefined,
-        discountAmount: discount,
-        tipAmount: tip,
-        subtotal: subtotal,
-        total: parseFloat(total),
+        location,
+        shipping: round2(shipping),
+        tax: round2(tax),
+        discountCode: discountApplied ? discountCode.trim() : undefined,
+        discountAmount: round2(discount),
+        tipAmount: round2(tip),
+        subtotal: round2(subtotal),
+        total: round2(totalNumber),
       };
 
-      console.log('Initiating checkout with:', checkoutData);
+      console.log("Initiating checkout with:", checkoutData);
 
-      // Call backend to create Stripe Checkout session
       const res = await fetch(`${API}/api/create-checkout-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(checkoutData),
       });
 
       if (!res.ok) {
-        const error = await res.json().catch(() => ({ error: 'Unknown error' }));
-        throw new Error(error.error || 'Failed to create checkout session');
+        const error = await res.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(error.error || "Failed to create checkout session");
       }
 
       const data = await res.json();
-      console.log('Stripe session created:', data);
-      
+      console.log("Stripe session created:", data);
+
       if (data.url) {
-        // Redirect to Stripe Checkout
         window.location.assign(data.url);
       } else {
-        throw new Error('No checkout URL returned');
+        throw new Error("No checkout URL returned");
       }
     } catch (error) {
-      console.error('Checkout error:', error);
-      setToast({ 
-        message: error instanceof Error ? error.message : 'Failed to start checkout', 
-        type: 'error' 
+      console.error("Checkout error:", error);
+      setToast({
+        message: error instanceof Error ? error.message : "Failed to start checkout",
+        type: "error",
       });
       setPlacingOrder(false);
     }
@@ -137,7 +152,7 @@ export default function CheckoutPage() {
   }
   function confirmRemove() {
     if (removeModal.itemId != null) {
-      removeItem(String(removeModal.itemId)); // Ensure ID is a string
+      removeItem(String(removeModal.itemId));
       setToast({ message: "Item removed from cart", type: "success" });
     }
     setRemoveModal({ open: false, itemId: null });
@@ -150,12 +165,17 @@ export default function CheckoutPage() {
     <div className="bg-gradient-to-br from-yellow-100 via-orange-50 to-emerald-100 min-h-screen">
       {/* Toast notification */}
       {toast && (
-        <div className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-full shadow-2xl font-bold text-sm animate-fade-in border-4 ${
-          toast.type === "success" ? "bg-emerald-500 text-imbari-very-dark-brown border-green-600" : "bg-red-500 text-imbari-very-dark-brown border-red-700"
-        }`}>
+        <div
+          className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-full shadow-2xl font-bold text-sm animate-fade-in border-4 ${
+            toast.type === "success"
+              ? "bg-emerald-500 text-imbari-very-dark-brown border-green-600"
+              : "bg-red-500 text-imbari-very-dark-brown border-red-700"
+          }`}
+        >
           {toast.message}
         </div>
       )}
+
       {/* Cart Controls */}
       <div className="main-container pt-8 pb-4 flex flex-col gap-2">
         {cartOpen && (
@@ -169,23 +189,25 @@ export default function CheckoutPage() {
             Close Cart
           </button>
         )}
+
         {cartOpen && (
           <>
             {/* Discount Code */}
             <div className="flex flex-col sm:flex-row items-center gap-2 mt-2">
-              <label htmlFor="discount" className="font-semibold text-emerald-700">Discount Code</label>
+              <label htmlFor="discount" className="font-semibold text-emerald-700">
+                Discount Code
+              </label>
               <input
                 id="discount"
                 value={discountCode}
-                onChange={e => setDiscountCode(e.target.value)}
+                onChange={(e) => setDiscountCode(e.target.value)}
                 placeholder="Enter code"
                 className="px-4 py-2 rounded-full border border-emerald-300 bg-emerald-50 text-sm shadow-sm focus:border-emerald-500"
               />
               <button
                 onClick={() => {
-                  // Apply a 25% discount for code 'UBUNTU88', otherwise no discount
                   if (discountCode.trim().toUpperCase() === "UBUNTU88") {
-                    setDiscount(Number((subtotal * 0.25).toFixed(2)));
+                    setDiscount(round2(subtotal * 0.25));
                     setDiscountApplied(true);
                   } else {
                     setDiscount(0);
@@ -196,8 +218,13 @@ export default function CheckoutPage() {
               >
                 Apply
               </button>
-              {discountApplied && <span className="ml-2 text-green-600 font-semibold">25% Discount Applied!</span>}
+              {discountApplied && (
+                <span className="ml-2 text-green-600 font-semibold">
+                  25% Discount Applied!
+                </span>
+              )}
             </div>
+
             {/* Support our Farmers / Add a Tip */}
             <div className="flex flex-col sm:flex-row items-center gap-2 mt-4">
               <span className="font-semibold text-emerald-700">Support our Farmers</span>
@@ -213,37 +240,55 @@ export default function CheckoutPage() {
                   min={0}
                   step={0.5}
                   value={tip}
-                  onChange={e => setTip(Number(e.target.value))}
+                  onChange={(e) => setTip(Number(e.target.value))}
                   className="ml-2 px-4 py-2 rounded-full border border-yellow-400 bg-yellow-50 text-sm shadow-sm focus:border-yellow-600 w-24"
                   placeholder="$2.00"
                 />
               )}
             </div>
-            {/* Shipping & taxes */}
-            <div className="mt-4 text-sm text-emerald-700">Shipping & taxes collected at checkout</div>
+
+            <div className="mt-4 text-sm text-emerald-700">
+              Shipping & taxes collected at checkout
+            </div>
+
             {/* Subtotal and Final Price */}
             <div className="mt-4 flex flex-col gap-1 text-right">
-              <div className="text-xs text-emerald-700">Subtotal ({items.length} item{items.length !== 1 ? "s" : ""})</div>
+              <div className="text-xs text-emerald-700">
+                Subtotal ({items.length} item{items.length !== 1 ? "s" : ""})
+              </div>
               <div className="text-lg font-bold text-emerald-900">
                 Cart subtotal: ${subtotal.toFixed(2)}
               </div>
               {discount > 0 && (
-                <div className="text-sm text-green-600">Discount: -${discount.toFixed(2)}</div>
+                <div className="text-sm text-green-600">
+                  Discount: -${discount.toFixed(2)}
+                </div>
               )}
               {tip > 0 && (
                 <div className="text-sm text-yellow-700">Tip: +${tip.toFixed(2)}</div>
               )}
+              <div className="text-sm text-emerald-700">Tax: +${tax.toFixed(2)}</div>
               <div className="text-lg font-bold text-emerald-900">
-                Final price: {discount > 0 && (<span className="line-through text-red-400 mr-2">${originalPrice}</span>)} ${total}
+                Final price:{" "}
+                {discount > 0 && (
+                  <span className="line-through text-red-400 mr-2">
+                    ${originalPrice}
+                  </span>
+                )}{" "}
+                ${total}
               </div>
-              <div className="text-xs text-emerald-700 mt-1">(Includes all discounts and tips)</div>
+              <div className="text-xs text-emerald-700 mt-1">
+                (Includes discounts, tips, shipping, and tax)
+              </div>
             </div>
-            {/* Checkout Button */}
+
+            {/* Checkout Button (now actually works) */}
             <button
-              onClick={() => {/* Stripe checkout logic here */}}
-              className="mt-6 px-8 py-3 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:bg-emerald-600 transition"
+              onClick={handleStripeCheckout}
+              disabled={placingOrder || items.length === 0}
+              className="mt-6 px-8 py-3 rounded-full bg-emerald-500 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:bg-emerald-600 transition disabled:opacity-60"
             >
-              Checkout &rarr;
+              {placingOrder ? "Starting Checkout..." : "Checkout →"}
             </button>
           </>
         )}
@@ -282,9 +327,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex-1 space-y-1">
-                  <h2 className="text-sm sm:text-base font-semibold">
-                    {item.name}
-                  </h2>
+                  <h2 className="text-sm sm:text-base font-semibold">{item.name}</h2>
                   <p className="text-[11px] sm:text-xs text-imbari-very-dark-brown">
                     ${item.price.toFixed(2)} per unit
                   </p>
@@ -334,13 +377,10 @@ export default function CheckoutPage() {
           {/* SUMMARY & LOCATION */}
           <aside className="card p-6 sm:p-7 space-y-6 lg:sticky lg:top-24">
             <div className="space-y-2">
-              <h2 className="text-base sm:text-lg font-semibold">
-                Order Summary
-              </h2>
+              <h2 className="text-base sm:text-lg font-semibold">Order Summary</h2>
               <p className="text-xs sm:text-sm text-imbari-very-dark-brown">
-                Confirm your location so we can apply the correct shipping.
-                Inside Kampala: <strong>free</strong>. Outside Kampala:{" "}
-                <strong>$2 flat</strong>.
+                Confirm your location so we can apply the correct shipping. Inside
+                Kampala: <strong>free</strong>. Outside Kampala: <strong>$2 flat</strong>.
               </p>
             </div>
 
@@ -377,7 +417,7 @@ export default function CheckoutPage() {
             <div className="border-t border-white/10 pt-4 space-y-2 text-sm">
               <div className="flex justify-between text-imbari-very-dark-brown">
                 <span>Subtotal</span>
-                <span>${cartSubtotal.toFixed(2)}</span>
+                <span>${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-imbari-very-dark-brown">
                 <span>Shipping</span>
@@ -396,10 +436,13 @@ export default function CheckoutPage() {
             <button
               onClick={handleStripeCheckout}
               disabled={placingOrder || items.length === 0}
-              className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4 w-full flex items-center justify-center"
+              className="bg-[#10b981] hover:bg-[#22c55e] text-imbari-very-dark-brown font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-200 mb-4 w-full flex items-center justify-center disabled:opacity-60"
             >
               {placingOrder ? (
-                <span className="flex items-center gap-2"><span className="loader border-t-emerald-400 border-4 w-5 h-5 rounded-full animate-spin"></span> Placing Order...</span>
+                <span className="flex items-center gap-2">
+                  <span className="loader border-t-emerald-400 border-4 w-5 h-5 rounded-full animate-spin"></span>
+                  Placing Order...
+                </span>
               ) : (
                 `Place Order & Pay $${total}`
               )}
@@ -410,19 +453,12 @@ export default function CheckoutPage() {
             </button>
 
             <p className="text-[11px] text-neutral-500">
-              After you place your order, our team will contact you to confirm
-              delivery address, payment method (mobile money, card, or bank),
-              and any wholesale or export details.
+              After you place your order, our team will contact you to confirm delivery
+              address, payment method (mobile money, card, or bank), and any wholesale
+              or export details.
             </p>
           </aside>
         </section>
-      )}
-
-      {/* Toast notification */}
-      {toast && (
-        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-imbari-very-dark-brown font-bold ${toast.type === "success" ? "bg-emerald-500" : "bg-red-500"} animate-fade-in`}>
-          {toast.message}
-        </div>
       )}
 
       {/* Remove confirmation modal */}
@@ -430,10 +466,22 @@ export default function CheckoutPage() {
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center animate-fade-in">
           <div className="bg-white rounded-xl p-8 shadow-xl text-center max-w-xs">
             <h3 className="text-lg font-bold mb-2 text-emerald-700">Remove Item?</h3>
-            <p className="text-sm text-neutral-700 mb-4">Are you sure you want to remove this item from your cart?</p>
+            <p className="text-sm text-neutral-700 mb-4">
+              Are you sure you want to remove this item from your cart?
+            </p>
             <div className="flex gap-4 justify-center">
-              <button onClick={confirmRemove} className="px-4 py-2 rounded bg-emerald-500 text-imbari-very-dark-brown font-bold hover:bg-emerald-400">Yes, Remove</button>
-              <button onClick={cancelRemove} className="px-4 py-2 rounded bg-neutral-200 text-neutral-700 font-bold hover:bg-neutral-300">Cancel</button>
+              <button
+                onClick={confirmRemove}
+                className="px-4 py-2 rounded bg-emerald-500 text-imbari-very-dark-brown font-bold hover:bg-emerald-400"
+              >
+                Yes, Remove
+              </button>
+              <button
+                onClick={cancelRemove}
+                className="px-4 py-2 rounded bg-neutral-200 text-neutral-700 font-bold hover:bg-neutral-300"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -441,17 +489,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-
-// Add to global CSS or Tailwind config:
-// .animate-fade-in { animation: fadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
-// @keyframes fadeIn { 0% { opacity: 0; transform: translateY(24px); } 100% { opacity: 1; transform: translateY(0); } }
-// .animate-bounce-in { animation: bounceIn 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
-// @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.7); } 100% { opacity: 1; transform: scale(1); } }
-// .loader { border: 4px solid #d1fae5; border-top: 4px solid #34d399; border-radius: 50%; width: 20px; height: 20px; }
-// .animate-spin { animation: spin 1s linear infinite; }
-// @keyframes spin { 100% { transform: rotate(360deg); } }
-
-
-
-
-
