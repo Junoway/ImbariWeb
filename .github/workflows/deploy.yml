@@ -1,54 +1,52 @@
-name: Deploy Next.js site to GitHub Pages
+name: Deploy Monorepo to Vercel
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - name: Setup Node
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: 'npm'
+          node-version: '20.x'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies (frontend)
+        run: |
+          cd apps/ImbariWeb
+          npm install
 
-      - name: Build with Next.js
-        env:
-          NEXT_PUBLIC_BASE_PATH: /ImbariWeb
-          NEXT_PUBLIC_API_URL: https://imbari-coffee-backend-imbaris-projects.vercel.app
-          NEXT_PUBLIC_STRIPE_PUBLIC_KEY: pk_live_51Rcf3NAWSyFQk6egldZxTjRaDTt8Zb775VCp4NDmgTn3hG0uTtyaO5qpVmYX9EL33VQfBCnI5hHvA8goTNlmIRBN00lAQ1FosM
-        run: npm run build
+      - name: Install dependencies (backend)
+        run: |
+          cd apps/ImbariWeb-Backend
+          npm install
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # Optionally run tests here
+      # - name: Run tests
+      #   run: |
+      #     cd apps/ImbariWeb
+      #     npm test
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
-          path: ./out
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: .
+          prod: true
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
