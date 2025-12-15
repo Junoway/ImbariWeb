@@ -88,7 +88,7 @@ function CheckoutSuccessContent() {
             Continue Shopping
           </Link>
           <Link
-            href="/account/order-history"
+            href="/order-history"
             className="px-8 py-3 bg-white border-2 border-emerald-600 text-emerald-600 font-semibold rounded-full shadow hover:bg-emerald-50 transition-all duration-200"
           >
             View Order History
