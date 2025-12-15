@@ -187,7 +187,8 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (activeTab === "sales") {
       setSalesLoading(true);
-      fetch("/api/orders-api.js?admin=true")
+      const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.imbaricoffee.com";
+      fetch(`${API_BASE}/api/orders?admin=true`)
         .then((res) => res.json())
         .then((data) => {
           setSales(data.orders || []);
@@ -275,7 +276,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 flex items-center justify-center">
-        <div className="text-imbari-very-dark-brown text-xl">Loading...</div>
+        <div className="text-white text-xl">Loading...</div>
       </div>
     );
   }
@@ -286,7 +287,7 @@ export default function AdminDashboard() {
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-emerald-400 mb-2">Imbari Admin</h1>
-            <p className="text-imbari-coffee-brown">Unified Dashboard</p>
+              <p className="text-white">Unified Dashboard</p>
           </div>
           
           <form onSubmit={handleLogin} className="space-y-4">
@@ -333,10 +334,10 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 lg:max-w-7xl lg:mx-auto">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-emerald-400">Imbari Coffee Admin</h1>
-            <p className="text-xs md:text-sm text-imbari-coffee-brown">Manage Chats, Reviews & Analytics</p>
+              <p className="text-xs md:text-sm text-white">Manage Chats, Reviews & Analytics</p>
           </div>
           <div className="flex items-center gap-3 md:gap-4">
-            <span className="text-sm md:text-base text-imbari-very-dark-brown truncate">{user.email}</span>
+              <span className="text-sm md:text-base text-white truncate">{user.email}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-3 md:px-4 py-2 rounded-lg transition border border-red-500/30 text-sm whitespace-nowrap"
@@ -356,7 +357,7 @@ export default function AdminDashboard() {
               className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "chats"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
-                  : "text-imbari-very-dark-brown hover:text-imbari-very-dark-brown"
+                  : "text-white hover:text-white"
               }`}
             >
               💬 <span className="hidden sm:inline">Live </span>Chats
@@ -371,7 +372,7 @@ export default function AdminDashboard() {
               className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "reviews"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
-                  : "text-imbari-very-dark-brown hover:text-imbari-very-dark-brown"
+                  : "text-white hover:text-white"
               }`}
             >
               ⭐ <span className="hidden sm:inline">Product </span>Reviews
@@ -386,7 +387,7 @@ export default function AdminDashboard() {
               className={`px-4 md:px-6 py-3 font-semibold transition whitespace-nowrap text-sm md:text-base ${
                 activeTab === "sales"
                   ? "text-emerald-400 border-b-2 border-emerald-400"
-                  : "text-imbari-very-dark-brown hover:text-imbari-very-dark-brown"
+                  : "text-white hover:text-white"
               }`}
             >
               💰 <span className="hidden sm:inline">Sales </span>Analytics
@@ -401,7 +402,7 @@ export default function AdminDashboard() {
           {/* Chat Sessions Sidebar */}
           <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedSession ? 'hidden lg:block' : 'block'}`}>
             <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
-              <h2 className="text-base md:text-lg font-bold text-imbari-very-dark-brown">Active Conversations</h2>
+              <h2 className="text-base md:text-lg font-bold text-white">Active Conversations</h2>
               <p className="text-xs text-imbari-very-dark-brown mt-1">
                 {sessions.filter(s => s.status === "active").length} active chats
               </p>
@@ -537,7 +538,7 @@ export default function AdminDashboard() {
           {/* Reviews List */}
           <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedReview ? 'hidden lg:block' : 'block'}`}>
             <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
-              <h2 className="text-base md:text-lg font-bold text-imbari-very-dark-brown">Product Reviews</h2>
+              <h2 className="text-base md:text-lg font-bold text-white">Product Reviews</h2>
               <p className="text-xs text-imbari-very-dark-brown mt-1">
                 {reviews.filter(r => r.status === 'pending').length} pending responses
               </p>
@@ -554,15 +555,15 @@ export default function AdminDashboard() {
                 }`}
               >
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-semibold text-imbari-very-dark-brown text-sm md:text-base truncate flex-1">{review.name}</h3>
+                  <h3 className="font-semibold text-white text-sm md:text-base truncate flex-1">{review.name}</h3>
                   <div className="flex gap-0.5 flex-shrink-0 ml-2">
                     {Array.from({ length: review.rating }).map((_, i) => (
                       <span key={i} className="text-yellow-400 text-xs">★</span>
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-imbari-coffee-brown truncate mb-1">Product: {review.productId}</p>
-                <p className="text-xs md:text-sm text-imbari-coffee-brown truncate mb-2">{review.comment}</p>
+                <p className="text-xs text-white truncate mb-1">Product: {review.productId}</p>
+                <p className="text-xs md:text-sm text-white truncate mb-2">{review.comment}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-neutral-500">
                     {new Date(review.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })}
@@ -581,7 +582,7 @@ export default function AdminDashboard() {
             ))}
             
             {reviews.length === 0 && (
-              <div className="p-8 text-center text-imbari-very-dark-brown text-sm">
+              <div className="p-8 text-center text-white text-sm">
                 No reviews yet
               </div>
             )}
@@ -602,7 +603,7 @@ export default function AdminDashboard() {
                               onClick={() => setSelectedReview(null)}
                               className="lg:hidden bg-white/10 hover:bg-white/20 p-2 rounded-lg transition flex-shrink-0"
                             >
-                              <svg className="w-5 h-5 text-imbari-very-dark-brown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                             </button>
@@ -700,7 +701,7 @@ export default function AdminDashboard() {
           {/* Sales Analytics */}
           <div className={`w-full lg:w-80 bg-black/20 border-b lg:border-b-0 lg:border-r border-white/10 overflow-y-auto ${selectedReview ? 'hidden lg:block' : 'block'}`}>
             <div className="p-4 border-b border-white/10 sticky top-0 bg-black/30 backdrop-blur">
-              <h2 className="text-base md:text-lg font-bold text-imbari-very-dark-brown">Sales Analytics</h2>
+              <h2 className="text-base md:text-lg font-bold text-white">Sales Analytics</h2>
             </div>
             
             {salesLoading ? (
@@ -755,8 +756,8 @@ export default function AdminDashboard() {
                             </svg>
                             </button>
                             <div className="flex-1">
-                              <h3 className="text-lg md:text-xl font-bold text-imbari-very-dark-brown">{review.name}</h3>
-                              <p className="text-xs md:text-sm text-imbari-coffee-brown break-all">{review.email}</p>
+                              <h3 className="text-lg md:text-xl font-bold text-white">{review.name}</h3>
+                              <p className="text-xs md:text-sm text-white break-all">{review.email}</p>
                               <p className="text-xs md:text-sm text-emerald-400 mt-1">Product: {review.productId}</p>
                             </div>
                           </div>
@@ -777,8 +778,8 @@ export default function AdminDashboard() {
                               {review.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-imbari-coffee-brown leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
-                              <p className="text-xs text-imbari-very-dark-brown mt-2">
+                              <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.comment}</p>
+                              <p className="text-xs text-white mt-2">
                                 {new Date(review.timestamp).toLocaleString([], { 
                                   month: 'short', 
                                   day: 'numeric', 
@@ -800,8 +801,8 @@ export default function AdminDashboard() {
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-xs md:text-sm font-semibold text-emerald-400 mb-1">Imbari Team Response</div>
-                                <p className="text-imbari-coffee-brown leading-relaxed text-sm md:text-base break-words">{review.response}</p>
-                                <p className="text-xs text-imbari-very-dark-brown mt-2">
+                                <p className="text-white leading-relaxed text-sm md:text-base break-words">{review.response}</p>
+                                <p className="text-xs text-white mt-2">
                                   {new Date(review.responseTimestamp || Date.now()).toLocaleString([], { 
                                     month: 'short', 
                                     day: 'numeric', 
@@ -822,7 +823,7 @@ export default function AdminDashboard() {
                             value={reviewReply}
                             onChange={(e) => setReviewReply(e.target.value)}
                             placeholder={review.response ? "Update response..." : "Type your response..."}
-                            className="flex-1 rounded-lg bg-white/10 border border-white/20 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
+                            className="flex-1 rounded-lg bg-white/10 border border-white/20 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
                           />
                           <button
                             type="submit"
