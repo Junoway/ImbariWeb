@@ -721,7 +721,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="text-xs text-gray-500 mb-1">{order.timestamp && new Date(order.timestamp).toLocaleString()}</div>
                     <div className="flex flex-wrap gap-2 mb-1">
-                      {order.items && order.items.map((item, i) => (
+                      {order.items?.map((item: { name: string; quantity: number }, i: number) => (
                         <span key={i}>{item.name} x{item.quantity}</span>
                       ))}
                     </div>
