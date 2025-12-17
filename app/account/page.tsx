@@ -1,7 +1,7 @@
 // app/account/page.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,7 +16,7 @@ const RECOMMENDED_PRODUCTS = [
     size: "12oz (340g)",
     price: 17.99,
     image: withBasePath("/images/arabica.jpg"),
-    description: "Single-origin Mt. Elgon Arabica beans"
+    description: "Single-origin Mt. Elgon Arabica beans",
   },
   {
     id: 6,
@@ -24,7 +24,7 @@ const RECOMMENDED_PRODUCTS = [
     size: "12oz (340g)",
     price: 17.99,
     image: withBasePath("/images/shop.jpg"),
-    description: "Smooth grind for pour-over and French press"
+    description: "Smooth grind for pour-over and French press",
   },
   {
     id: 18,
@@ -32,7 +32,7 @@ const RECOMMENDED_PRODUCTS = [
     size: "Box of 24",
     price: 20.99,
     image: withBasePath("/images/shop2.jpg"),
-    description: "Keurig-compatible K-Cup pods"
+    description: "Keurig-compatible K-Cup pods",
   },
   {
     id: 5,
@@ -40,14 +40,31 @@ const RECOMMENDED_PRODUCTS = [
     size: "2lb (907g)",
     price: 44.99,
     image: withBasePath("/images/robusta.jpg"),
-    description: "Crafted for espresso machines with thick crema"
+    description: "Crafted for espresso machines with thick crema",
   },
 ];
 
+// IMPORTANT:
+// Your frontend and backend are separate repos, so locally you need a base URL.
+// In production you likely use https://api.imbaricoffee.com
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://api.imbaricoffee.com";
+
 export default function AccountPage() {
   const router = useRouter();
-  const { user, logout, toggleSubscription, isAuthenticated } = useAuth();
+  const { user, token, logout, isAuthenticated } = useAuth();
   const { addItem } = useCart();
+
+  const [submitting, setSubmitting] = useState(false);
+  const [subError, setSubError] = useState<string>("");
+
+  const authHeaders = useMemo(() => {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    return headers;
+  }, [token]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -55,13 +72,86 @@ export default function AccountPage() {
     }
   }, [isAuthenticated, router]);
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const handleLogout = () => {
     logout();
     router.push("/");
+  };
+
+  /**
+   * Production-ready note:
+   * "toggleSubscription" must be server-backed (DB) in production.
+   * This page calls a backend endpoint and then refreshes the current user state.
+   *
+   * You must implement these endpoints in your backend:
+   * - POST /api/user/subscription  body: { isSubscribed: boolean }
+   * - GET  /api/user/me           returns { user: { ... } }
+   *
+   * If you already have different paths, adjust below.
+   */
+  const updateSubscription = async (nextSubscribed: boolean) => {
+    setSubError("");
+    setSubmitting(true);
+
+    try {
+      if (!token) {
+        setSubError("Please log in again.");
+        setSubmitting(false);
+        return;
+      }
+
+      // 1) Update subscription state in DB
+      const r = await fetch(`${API_BASE}/api/user/subscription`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({ isSubscribed: nextSubscribed }),
+      });
+
+      if (!r.ok) {
+        const t = await r.text();
+        throw new Error(t || "Failed to update subscription");
+      }
+
+      // 2) Refresh /me and update local auth state
+      // If your AuthContext exposes a refreshUser() method, use that instead.
+      const me = await fetch(`${API_BASE}/api/user/me`, {
+        method: "GET",
+        headers: authHeaders,
+      });
+
+      if (!me.ok) {
+        const t = await me.text();
+        throw new Error(t || "Failed to refresh user profile");
+      }
+
+      const data = await me.json();
+
+      // Update AuthContext user safely without breaking existing logic:
+      // If your AuthContext does not expose setUser, we persist to localStorage,
+      // and reloading the page will pick it up.
+      if (data?.user?.email) {
+        localStorage.setItem("imbari_user", JSON.stringify(data.user));
+        // soft refresh UI state (without full reload)
+        // This ensures the rendered user reflects the new subscription value immediately.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (user as any).isSubscribed = !!data.user.isSubscribed;
+      } else {
+        // fallback: update localStorage based on expected toggle
+        const fallbackUser = { ...user, isSubscribed: nextSubscribed };
+        localStorage.setItem("imbari_user", JSON.stringify(fallbackUser));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (user as any).isSubscribed = nextSubscribed;
+      }
+
+      // Optional: force route refresh in App Router (safe)
+      router.refresh();
+    } catch (err: any) {
+      console.error("subscription update error:", err);
+      setSubError(err?.message || "Subscription update failed");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -121,7 +211,13 @@ export default function AccountPage() {
                   </div>
                 )}
               </div>
-              
+
+              {subError ? (
+                <div className="mb-4 bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                  {subError}
+                </div>
+              ) : null}
+
               {user.isSubscribed ? (
                 <div className="space-y-6">
                   <div className="p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200">
@@ -134,19 +230,31 @@ export default function AccountPage() {
                         <ul className="space-y-2 text-emerald-700">
                           <li className="flex items-center gap-2">
                             <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                             <span>10% off all products automatically applied</span>
                           </li>
                           <li className="flex items-center gap-2">
                             <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                             <span>Free shipping on orders over $30</span>
                           </li>
                           <li className="flex items-center gap-2">
                             <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                             <span>Exclusive subscriber-only perks and offers</span>
                           </li>
@@ -154,29 +262,29 @@ export default function AccountPage() {
                       </div>
                     </div>
                   </div>
+
                   <button
-                    onClick={toggleSubscription}
-                    className="w-full py-3 rounded-full bg-gray-200 text-imbari-navy font-semibold hover:bg-gray-300 transition"
+                    onClick={() => updateSubscription(false)}
+                    disabled={submitting}
+                    className="w-full py-3 rounded-full bg-gray-200 text-imbari-navy font-semibold hover:bg-gray-300 transition disabled:opacity-60"
                   >
-                    Unsubscribe
+                    {submitting ? "Updating..." : "Unsubscribe"}
                   </button>
                 </div>
               ) : (
                 <div className="space-y-6">
                   <div className="text-center py-8 border-2 border-dashed border-emerald-200 rounded-xl bg-emerald-50">
                     <div className="text-5xl mb-4">☕</div>
-                    <p className="text-lg text-emerald-700 mb-2 font-semibold">
-                      Not subscribed yet
-                    </p>
-                    <p className="text-sm text-emerald-600 mb-6">
-                      Subscribe now and get 10% off all your orders!
-                    </p>
+                    <p className="text-lg text-emerald-700 mb-2 font-semibold">Not subscribed yet</p>
+                    <p className="text-sm text-emerald-600 mb-6">Subscribe now and get 10% off all your orders!</p>
                   </div>
+
                   <button
-                    onClick={toggleSubscription}
-                    className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700"
+                    onClick={() => updateSubscription(true)}
+                    disabled={submitting}
+                    className="w-full py-4 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-600 text-imbari-very-dark-brown font-bold text-lg shadow-lg hover:shadow-xl transition-all border-4 border-emerald-700 disabled:opacity-60"
                   >
-                    Subscribe Now & Save 10%
+                    {submitting ? "Updating..." : "Subscribe Now & Save 10%"}
                   </button>
                 </div>
               )}
@@ -188,47 +296,33 @@ export default function AccountPage() {
                 <span>Recommended For You</span>
                 <span className="text-3xl">🐒</span>
               </h2>
-              
-              <div className="mb-4 text-lg font-semibold text-emerald-700">
-                You might like...
-              </div>
+
+              <div className="mb-4 text-lg font-semibold text-emerald-700">You might like...</div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {RECOMMENDED_PRODUCTS.map((product) => {
-                  const discountedPrice = user.isSubscribed 
-                    ? Number((product.price * 0.9).toFixed(2)) 
+                  const discountedPrice = user.isSubscribed
+                    ? Number((product.price * 0.9).toFixed(2))
                     : product.price;
-                  
+
                   return (
                     <article
                       key={product.id}
                       className="bg-white rounded-2xl shadow-xl overflow-hidden border-4 border-emerald-300 hover:border-orange-400 transition-all duration-300 hover:scale-105"
                     >
                       <div className="relative h-40 bg-gradient-to-br from-green-100 via-yellow-100 to-orange-100">
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          className="object-contain p-2"
-                        />
+                        <Image src={product.image} alt={product.name} fill className="object-contain p-2" />
                       </div>
                       <div className="p-4">
-                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">
-                          {product.name}
-                        </h3>
-                        <p className="text-xs text-emerald-500 mb-2">
-                          {product.size}
-                        </p>
-                        <p className="text-xs text-emerald-600 mb-3">
-                          {product.description}
-                        </p>
+                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">{product.name}</h3>
+                        <p className="text-xs text-emerald-500 mb-2">{product.size}</p>
+                        <p className="text-xs text-emerald-600 mb-3">{product.description}</p>
+
                         <div className="flex items-center justify-between">
                           <div>
                             {user.isSubscribed ? (
                               <div>
-                                <div className="text-lg font-bold text-emerald-700">
-                                  ${discountedPrice}
-                                </div>
+                                <div className="text-lg font-bold text-emerald-700">${discountedPrice}</div>
                                 <div className="text-xs text-gray-400 line-through">
                                   ${product.price.toFixed(2)}
                                 </div>
@@ -239,13 +333,19 @@ export default function AccountPage() {
                               </span>
                             )}
                           </div>
+
                           <button
-                            onClick={() => addItem({
-                              id: product.id,
-                              name: product.name,
-                              price: discountedPrice,
-                              image: product.image,
-                            }, 1)}
+                            onClick={() =>
+                              addItem(
+                                {
+                                  id: product.id,
+                                  name: product.name,
+                                  price: discountedPrice,
+                                  image: product.image,
+                                },
+                                1
+                              )
+                            }
                             className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-orange-600"
                           >
                             Add to Cart
@@ -256,7 +356,7 @@ export default function AccountPage() {
                   );
                 })}
               </div>
-              
+
               <div className="text-center mt-8">
                 <Link
                   href="/shop"
@@ -266,6 +366,11 @@ export default function AccountPage() {
                 </Link>
               </div>
             </section>
+
+            {/* Production note (hidden) */}
+            <p className="text-xs text-gray-400">
+              {/* This page expects NEXT_PUBLIC_API_URL to be set for local dev if backend is separate. */}
+            </p>
           </div>
         </div>
       </div>

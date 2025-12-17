@@ -146,6 +146,7 @@ export default function ImpactChatBot() {
         lastMessageTime: Date.now(),
         unreadCount: 0,
         status: "active",
+        ownerUid: (window as any).firebase?.auth?.currentUser?.uid || null,
       });
       console.log('✅ Session created successfully at chats/' + newSessionId);
 
@@ -192,7 +193,7 @@ export default function ImpactChatBot() {
       await set(newMessageRef, {
         text: messageText,
         from: "customer",
-        timestamp: serverTimestamp(),
+        timestamp: Date.now(),
         customerName: name,
         customerEmail: email,
         customerPhone: phone,

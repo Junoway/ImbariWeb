@@ -1,13 +1,7 @@
 // components/AuthContext.tsx
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 export type User = {
   id: string;
@@ -17,186 +11,108 @@ export type User = {
   isSubscribed: boolean;
 };
 
-// Backdoor test account - DO NOT commit to production!
-const TEST_ACCOUNT = {
-  email: "imbaricoffee@gmail.com",
-  password: "Coffee2025!",
-  firstName: "Arthur",
-  lastName: "Kenrald",
-  isSubscribed: true,
-};
-
 type AuthContextType = {
   user: User | null;
+  token: string | null;
+
   login: (email: string, password: string) => Promise<boolean>;
   signup: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
-  verifyEmail: (code: string) => Promise<boolean>;
+  verifyEmail: (email: string, code: string) => Promise<boolean>;
+
   logout: () => void;
-  toggleSubscription: () => void;
+
   isAuthenticated: boolean;
+
+  authHeader: () => Record<string, string>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [pendingVerification, setPendingVerification] = useState<{
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    verificationCode?: string;
-  } | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  // Load user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("imbari_user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    
-    // Load pending verification if exists
-    const pending = localStorage.getItem("imbari_pending_verification");
-    if (pending) {
-      setPendingVerification(JSON.parse(pending));
-    }
+    const storedToken = localStorage.getItem("imbari_token");
+    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedToken) setToken(storedToken);
   }, []);
 
-  const signup = async (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ): Promise<boolean> => {
+  function persist(nextUser: User | null, nextToken: string | null) {
+    setUser(nextUser);
+    setToken(nextToken);
+
+    if (nextUser) localStorage.setItem("imbari_user", JSON.stringify(nextUser));
+    else localStorage.removeItem("imbari_user");
+
+    if (nextToken) localStorage.setItem("imbari_token", nextToken);
+    else localStorage.removeItem("imbari_token");
+  }
+
+  const signup = async (firstName: string, lastName: string, email: string, password: string) => {
     try {
-      // Generate verification code
-      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      // Store pending verification data with code
-      const pendingData = { 
-        email, 
-        firstName, 
-        lastName, 
-        password,
-        verificationCode 
-      };
-      setPendingVerification(pendingData);
-      localStorage.setItem("imbari_pending_verification", JSON.stringify(pendingData));
-      
-      // Send verification email via EmailJS
-      try {
-        const { sendVerificationEmail } = await import("@/lib/emailService");
-        const emailSent = await sendVerificationEmail(email, firstName, verificationCode);
-        if (!emailSent) {
-          console.error("Failed to send verification email");
-          // Still allow signup to proceed for demo purposes
-        }
-      } catch (error) {
-        console.error("Error sending verification email:", error);
-        // Still allow signup to proceed for demo purposes
-      }
-      
-      console.log(`Verification code for ${email}: ${verificationCode}`);
-      
+      const r = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, password }),
+      });
+      return r.ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const verifyEmail = async (email: string, code: string) => {
+    try {
+      const r = await fetch("/api/auth/verify-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+      return r.ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const login = async (email: string, password: string) => {
+    try {
+      const r = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!r.ok) return false;
+      const data = await r.json();
+
+      if (!data?.token || !data?.user?.email) return false;
+
+      persist(data.user, data.token);
       return true;
-    } catch (error) {
-      console.error("Signup error:", error);
-      return false;
-    }
-  };
-
-  const verifyEmail = async (code: string): Promise<boolean> => {
-    try {
-      if (code.length === 6 && pendingVerification) {
-        // Check if code matches the sent verification code
-        if (pendingVerification.verificationCode && code !== pendingVerification.verificationCode) {
-          console.error("Invalid verification code");
-          return false;
-        }
-        
-        const newUser: User = {
-          id: Date.now().toString(),
-          firstName: pendingVerification.firstName,
-          lastName: pendingVerification.lastName,
-          email: pendingVerification.email,
-          isSubscribed: false,
-        };
-        
-        setUser(newUser);
-        localStorage.setItem("imbari_user", JSON.stringify(newUser));
-        localStorage.setItem(
-          `imbari_auth_${pendingVerification.email}`,
-          pendingVerification.password
-        );
-        localStorage.removeItem("imbari_pending_verification");
-        setPendingVerification(null);
-        
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Verification error:", error);
-      return false;
-    }
-  };
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-    try {
-      // In a real app, authenticate with backend
-      // For demo, check localStorage
-      const storedPassword = localStorage.getItem(`imbari_auth_${email}`);
-      
-      if (storedPassword === password) {
-        // Find user data (in real app, get from backend)
-        const users = JSON.parse(localStorage.getItem("imbari_users") || "[]");
-        let userData = users.find((u: User) => u.email === email);
-        
-        if (!userData) {
-          // Create mock user if not found
-          userData = {
-            id: Date.now().toString(),
-            firstName: "Arthur",
-            lastName: "Kenrald",
-            email: email,
-            isSubscribed: false,
-          };
-        }
-        
-        setUser(userData);
-        localStorage.setItem("imbari_user", JSON.stringify(userData));
-        return true;
-      }
-      
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch {
       return false;
     }
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("imbari_user");
+    persist(null, null);
   };
 
-  const toggleSubscription = () => {
-    if (user) {
-      const updatedUser = { ...user, isSubscribed: !user.isSubscribed };
-      setUser(updatedUser);
-      localStorage.setItem("imbari_user", JSON.stringify(updatedUser));
-    }
-  };
+  const authHeader = () => (token ? { Authorization: `Bearer ${token}` } : {});
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,
         login,
         signup,
         verifyEmail,
         logout,
-        toggleSubscription,
         isAuthenticated: !!user,
+        authHeader,
       }}
     >
       {children}
@@ -205,10 +121,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
 }
 

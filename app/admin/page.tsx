@@ -70,8 +70,20 @@ export default function AdminDashboard() {
       setLoading(false);
       return;
     }
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        // Check for admin custom claim
+        const tokenResult = await currentUser.getIdTokenResult();
+        if (tokenResult.claims.admin) {
+          setUser(currentUser);
+        } else {
+          // Not admin, sign out and redirect
+          await signOut(auth);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -132,7 +144,7 @@ export default function AdminDashboard() {
           messageList.forEach((msg) => {
             if (msg.from === "customer" && !msg.read) {
               const msgRef = ref(db, `chats/${selectedSession}/messages/${msg.id}`);
-              set(msgRef, { ...msg, read: true });
+              update(msgRef, { read: true });
             }
           });
           
@@ -231,7 +243,7 @@ export default function AdminDashboard() {
     await set(newMessageRef, {
       text: chatReply.trim(),
       from: "admin",
-      timestamp: serverTimestamp(),
+      timestamp: Date.now(),
       read: false,
     });
 
@@ -510,23 +522,28 @@ export default function AdminDashboard() {
 
                 <form onSubmit={sendChatReply} className="bg-black/20 border-t border-white/10 p-3 md:p-4">
                   <div className="flex gap-2 md:gap-3">
-                    <input
-                      type="text"
-                      value={chatReply}
-                      onChange={(e) => setChatReply(e.target.value)}
-                      placeholder="Type your response..."
-                      className="flex-1 rounded-lg bg-white/10 border border-white/20 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-imbari-very-dark-brown outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg transition text-sm md:text-base whitespace-nowrap"
+                    <div
+                      key={msg.id}
+                      className={`flex ${msg.from === "admin" ? "justify-end" : "justify-start"}`}
                     >
-                      Send
-                    </button>
-                  </div>
-                </form>
-              </>
-            ) : (
+                      <div
+                        className={`max-w-[85%] sm:max-w-[75%] lg:max-w-[70%] rounded-2xl px-3 md:px-4 py-2 md:py-3 ${
+                          msg.from === "admin"
+                            ? "bg-emerald-500 text-black"
+                            : "bg-white/10 text-white"
+                        }`}
+                      >
+                        <p className="text-sm leading-relaxed break-words">{msg.text}</p>
+                        {(() => {
+                          const ts = typeof msg.timestamp === "number" ? msg.timestamp : Date.now();
+                          return (
+                            <p className={`text-xs mt-1 ${msg.from === "admin" ? "text-black/60" : "text-white"}`}>
+                              {new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          );
+                        })()}
+                      </div>
+                    </div>
               <div className="flex-1 hidden lg:flex items-center justify-center text-imbari-very-dark-brown text-sm md:text-base px-4">
                 Select a conversation to start chatting
               </div>
