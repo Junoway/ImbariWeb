@@ -1,7 +1,7 @@
 // components/AuthContext.tsx
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 
 export type User = {
   id: string;
@@ -23,31 +23,90 @@ type AuthContextType = {
 
   isAuthenticated: boolean;
 
+  /**
+   * Returns headers safe for fetch/axios. Always satisfies Record<string,string>.
+   * Only includes Authorization when a token is present.
+   */
   authHeader: () => Record<string, string>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Optional: allow either localStorage or sessionStorage without breaking existing users.
+// If you only want localStorage, keep as-is.
+function getStoredAuth(): { user: User | null; token: string | null } {
+  if (typeof window === "undefined") return { user: null, token: null };
+
+  // Prefer your canonical keys; keep compatibility with earlier keys if you used them.
+  const rawUser =
+    localStorage.getItem("imbari_user") ||
+    sessionStorage.getItem("imbari_user") ||
+    localStorage.getItem("user") ||
+    sessionStorage.getItem("user");
+
+  const rawToken =
+    localStorage.getItem("imbari_token") ||
+    sessionStorage.getItem("imbari_token") ||
+    localStorage.getItem("token") ||
+    sessionStorage.getItem("token") ||
+    localStorage.getItem("jwt") ||
+    sessionStorage.getItem("jwt");
+
+  let parsedUser: User | null = null;
+  if (rawUser) {
+    try {
+      parsedUser = JSON.parse(rawUser) as User;
+    } catch {
+      parsedUser = null;
+    }
+  }
+
+  return {
+    user: parsedUser,
+    token: rawToken || null,
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  // Load persisted auth state once on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem("imbari_user");
-    const storedToken = localStorage.getItem("imbari_token");
-    if (storedUser) setUser(JSON.parse(storedUser));
-    if (storedToken) setToken(storedToken);
+    const stored = getStoredAuth();
+    if (stored.user) setUser(stored.user);
+    if (stored.token) setToken(stored.token);
   }, []);
 
   function persist(nextUser: User | null, nextToken: string | null) {
     setUser(nextUser);
     setToken(nextToken);
 
-    if (nextUser) localStorage.setItem("imbari_user", JSON.stringify(nextUser));
-    else localStorage.removeItem("imbari_user");
+    if (typeof window === "undefined") return;
 
-    if (nextToken) localStorage.setItem("imbari_token", nextToken);
-    else localStorage.removeItem("imbari_token");
+    if (nextUser) {
+      localStorage.setItem("imbari_user", JSON.stringify(nextUser));
+      // optional: keep other legacy keys clean
+      // sessionStorage.removeItem("imbari_user");
+    } else {
+      localStorage.removeItem("imbari_user");
+      sessionStorage.removeItem("imbari_user");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+    }
+
+    if (nextToken) {
+      localStorage.setItem("imbari_token", nextToken);
+      // optional: keep other legacy keys clean
+      // sessionStorage.removeItem("imbari_token");
+    } else {
+      localStorage.removeItem("imbari_token");
+      sessionStorage.removeItem("imbari_token");
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("jwt");
+      sessionStorage.removeItem("jwt");
+    }
   }
 
   const signup = async (firstName: string, lastName: string, email: string, password: string) => {
@@ -85,11 +144,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (!r.ok) return false;
-      const data = await r.json();
 
+      const data = await r.json().catch(() => null);
       if (!data?.token || !data?.user?.email) return false;
 
-      persist(data.user, data.token);
+      persist(data.user as User, String(data.token));
       return true;
     } catch {
       return false;
@@ -100,7 +159,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     persist(null, null);
   };
 
-  const authHeader = () => (token ? { Authorization: `Bearer ${token}` } : {});
+  /**
+   * IMPORTANT:
+   * This must always return Record<string,string> (no union with undefined).
+   * This avoids the exact build error you hit.
+   */
+  const authHeader = useMemo(() => {
+    return () => {
+      const headers: Record<string, string> = {};
+      if (token) headers.Authorization = `Bearer ${token}`;
+      return headers;
+    };
+  }, [token]);
 
   return (
     <AuthContext.Provider
