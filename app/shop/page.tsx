@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCart } from "@/components/CartContext";
 import { useAuth } from "@/components/AuthContext";
 import Script from "next/script";
@@ -24,17 +24,81 @@ export default function ShopPage() {
   const router = useRouter();
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  
+
   // 10% discount for subscribers
   const isSubscriber = user?.isSubscribed || false;
   const DISCOUNT_RATE = 0.10;
-  
+
   const getDiscountedPrice = (price: number) => {
     if (isSubscriber) {
       return Number((price * (1 - DISCOUNT_RATE)).toFixed(2));
     }
     return price;
   };
+
+  // Prevent double-run in React Strict Mode / re-renders
+  const buyAgainProcessedRef = useRef(false);
+
+  function findProductByName(name: string) {
+    const n = String(name || "").trim().toLowerCase();
+    if (!n) return null;
+
+    // Prefer exact name match first
+    let p = PRODUCTS.find((x) => x.name.trim().toLowerCase() === n);
+    if (p) return p;
+
+    // Fallback: loose match (handles minor formatting differences)
+    p = PRODUCTS.find((x) => x.name.trim().toLowerCase().includes(n) || n.includes(x.name.trim().toLowerCase()));
+    return p || null;
+  }
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // One-time guard (important in dev / StrictMode)
+    if (buyAgainProcessedRef.current) return;
+
+    const raw = localStorage.getItem("imbari_buy_again_items");
+    if (!raw) return;
+
+    buyAgainProcessedRef.current = true;
+
+    // Remove immediately so it truly becomes one-time even if something throws later
+    localStorage.removeItem("imbari_buy_again_items");
+
+    try {
+      const parsed = JSON.parse(raw);
+      const list: Array<{ name: string; quantity: number }> = Array.isArray(parsed) ? parsed : [];
+
+      for (const it of list) {
+        const name = String(it?.name || "").trim();
+        const qty = Math.max(1, Number(it?.quantity || 1));
+
+        const product = findProductByName(name);
+
+        // If the product no longer exists in your catalog, skip it safely
+        if (!product) {
+          console.warn("[BuyAgain] Product not found in catalog:", name);
+          continue;
+        }
+
+        // Use current catalog price + subscriber discount rules (do NOT trust stale stored price)
+        const finalPrice = user ? getDiscountedPrice(product.price) : product.price;
+
+        addItem(
+          {
+            id: product.id,
+            name: product.name,
+            price: finalPrice,
+            image: product.image,
+          },
+          qty
+        );
+      }
+    } catch (e) {
+      console.warn("[BuyAgain] Failed to parse buy-again payload:", e);
+    }
+  }, [addItem, user, isSubscriber]);
 
   const filteredProducts =
     activeFilter === "All"
