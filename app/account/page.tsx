@@ -1,4 +1,3 @@
-// app/account/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -7,7 +6,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 import { useAuth } from "@/components/AuthContext";
-import { useCart } from "@/components/CartContext";
+
+type SubscriptionItem = {
+  productId: number;
+  name: string;
+  size?: string;
+  price: number;
+  image?: string;
+  quantity: number;
+};
 
 const RECOMMENDED_PRODUCTS = [
   {
@@ -44,21 +51,31 @@ const RECOMMENDED_PRODUCTS = [
   },
 ];
 
-// IMPORTANT:
-// Your frontend and backend are separate repos, so locally you need a base URL.
-// In production you likely use https://api.imbaricoffee.com
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://api.imbaricoffee.com";
 
+function formatMoney(n: number) {
+  try {
+    return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(n);
+  } catch {
+    return `$${n.toFixed(2)}`;
+  }
+}
+
 export default function AccountPage() {
   const router = useRouter();
   const { user, token, logout, isAuthenticated } = useAuth();
-  const { addItem } = useCart();
 
   const [submitting, setSubmitting] = useState(false);
   const [subError, setSubError] = useState<string>("");
+  const [toast, setToast] = useState<string>("");
+
+  // Subscription items state
+  const [subItems, setSubItems] = useState<SubscriptionItem[]>([]);
+  const [subItemsLoading, setSubItemsLoading] = useState(true);
+  const [subItemsError, setSubItemsError] = useState<string>("");
 
   const authHeaders = useMemo(() => {
     const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -67,41 +84,65 @@ export default function AccountPage() {
   }, [token]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
+    if (!isAuthenticated) router.push("/login");
   }, [isAuthenticated, router]);
 
+  useEffect(() => {
+    if (!token) return;
+    let canceled = false;
+
+    (async () => {
+      try {
+        setSubItemsLoading(true);
+        setSubItemsError("");
+
+        const r = await fetch(`${API_BASE}/api/subscriptions`, {
+          method: "GET",
+          headers: authHeaders,
+        });
+
+        const data = await r.json().catch(() => ({}));
+
+        if (!r.ok) {
+          throw new Error(data?.error || "Failed to load subscription items");
+        }
+
+        const list = Array.isArray(data?.items) ? (data.items as SubscriptionItem[]) : [];
+        if (!canceled) setSubItems(list);
+      } catch (e) {
+        if (!canceled) {
+          setSubItems([]);
+          setSubItemsError(e instanceof Error ? e.message : "Failed to load subscription items");
+        }
+      } finally {
+        if (!canceled) setSubItemsLoading(false);
+      }
+    })();
+
+    return () => {
+      canceled = true;
+    };
+  }, [token, authHeaders]);
+
   if (!user) return null;
+
+  const isSubscriber = !!user.isSubscribed;
+  const DISCOUNT_RATE = 0.10;
+
+  const discounted = (price: number) => Number((price * (1 - DISCOUNT_RATE)).toFixed(2));
 
   const handleLogout = () => {
     logout();
     router.push("/");
   };
 
-  /**
-   * Production-ready note:
-   * "toggleSubscription" must be server-backed (DB) in production.
-   * This page calls a backend endpoint and then refreshes the current user state.
-   *
-   * You must implement these endpoints in your backend:
-   * - POST /api/user/subscription  body: { isSubscribed: boolean }
-   * - GET  /api/user/me           returns { user: { ... } }
-   *
-   * If you already have different paths, adjust below.
-   */
   const updateSubscription = async (nextSubscribed: boolean) => {
     setSubError("");
     setSubmitting(true);
 
     try {
-      if (!token) {
-        setSubError("Please log in again.");
-        setSubmitting(false);
-        return;
-      }
+      if (!token) throw new Error("Please log in again.");
 
-      // 1) Update subscription state in DB
       const r = await fetch(`${API_BASE}/api/user/subscription`, {
         method: "POST",
         headers: authHeaders,
@@ -113,57 +154,134 @@ export default function AccountPage() {
         throw new Error(t || "Failed to update subscription");
       }
 
-      // 2) Refresh /me and update local auth state
-      // If your AuthContext exposes a refreshUser() method, use that instead.
-      const me = await fetch(`${API_BASE}/api/user/me`, {
-        method: "GET",
-        headers: authHeaders,
-      });
+      // Refresh user profile
+      const me = await fetch(`${API_BASE}/api/user/me`, { method: "GET", headers: authHeaders });
+      const data = await me.json().catch(() => ({}));
 
-      if (!me.ok) {
-        const t = await me.text();
-        throw new Error(t || "Failed to refresh user profile");
-      }
+      const updatedUser = data?.user?.email ? data.user : { ...user, isSubscribed: nextSubscribed };
+      localStorage.setItem("imbari_user", JSON.stringify(updatedUser));
 
-      const data = await me.json();
-
-      // Update AuthContext user safely without breaking existing logic:
-      // If your AuthContext does not expose setUser, we persist to localStorage,
-      // and reloading the page will pick it up.
-      if (data?.user?.email) {
-        localStorage.setItem("imbari_user", JSON.stringify(data.user));
-        // soft refresh UI state (without full reload)
-        // This ensures the rendered user reflects the new subscription value immediately.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (user as any).isSubscribed = !!data.user.isSubscribed;
-      } else {
-        // fallback: update localStorage based on expected toggle
-        const fallbackUser = { ...user, isSubscribed: nextSubscribed };
-        localStorage.setItem("imbari_user", JSON.stringify(fallbackUser));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (user as any).isSubscribed = nextSubscribed;
-      }
-
-      // Optional: force route refresh in App Router (safe)
       router.refresh();
+      setToast(nextSubscribed ? "Subscription activated." : "Subscription canceled.");
+      setTimeout(() => setToast(""), 2500);
     } catch (err: any) {
-      console.error("subscription update error:", err);
       setSubError(err?.message || "Subscription update failed");
     } finally {
       setSubmitting(false);
     }
   };
 
+  const addToSubscriptions = async (p: (typeof RECOMMENDED_PRODUCTS)[number]) => {
+    setSubItemsError("");
+    setToast("");
+
+    if (!isSubscriber) {
+      setToast("Subscribe first to start monthly deliveries.");
+      setTimeout(() => setToast(""), 3000);
+      return;
+    }
+
+    try {
+      if (!token) throw new Error("Please log in again.");
+
+      const r = await fetch(`${API_BASE}/api/subscriptions`, {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({
+          productId: p.id,
+          quantity: 1,
+          // Optionally pass display fields to backend to store snapshots:
+          name: p.name,
+          size: p.size,
+          price: p.price,
+          image: p.image,
+        }),
+      });
+
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to add subscription item");
+
+      // optimistic refresh
+      const next = Array.isArray(data?.items) ? (data.items as SubscriptionItem[]) : null;
+      if (next) setSubItems(next);
+      else {
+        // fallback: fetch again
+        const rr = await fetch(`${API_BASE}/api/subscriptions`, { method: "GET", headers: authHeaders });
+        const dd = await rr.json().catch(() => ({}));
+        setSubItems(Array.isArray(dd?.items) ? dd.items : []);
+      }
+
+      setToast("Added to your monthly subscriptions.");
+      setTimeout(() => setToast(""), 2500);
+    } catch (e) {
+      setSubItemsError(e instanceof Error ? e.message : "Failed to add subscription item");
+    }
+  };
+
+  const removeSubItem = async (productId: number) => {
+    try {
+      if (!token) throw new Error("Please log in again.");
+
+      const r = await fetch(`${API_BASE}/api/subscriptions/${encodeURIComponent(String(productId))}`, {
+        method: "DELETE",
+        headers: authHeaders,
+      });
+
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to remove item");
+
+      setSubItems(Array.isArray(data?.items) ? data.items : subItems.filter((x) => x.productId !== productId));
+      setToast("Removed from subscriptions.");
+      setTimeout(() => setToast(""), 2000);
+    } catch (e) {
+      setSubItemsError(e instanceof Error ? e.message : "Failed to remove subscription item");
+    }
+  };
+
+  const updateSubQty = async (productId: number, quantity: number) => {
+    const q = Math.max(1, Math.min(99, Number(quantity || 1)));
+    try {
+      if (!token) throw new Error("Please log in again.");
+
+      const r = await fetch(`${API_BASE}/api/subscriptions/${encodeURIComponent(String(productId))}`, {
+        method: "PATCH",
+        headers: authHeaders,
+        body: JSON.stringify({ quantity: q }),
+      });
+
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to update quantity");
+
+      setSubItems(Array.isArray(data?.items) ? data.items : subItems.map((x) => (x.productId === productId ? { ...x, quantity: q } : x)));
+    } catch (e) {
+      setSubItemsError(e instanceof Error ? e.message : "Failed to update quantity");
+    }
+  };
+
+  const monthlyEstimate = useMemo(() => {
+    const sum = subItems.reduce((acc, it) => {
+      const unit = isSubscriber ? discounted(it.price) : it.price;
+      return acc + unit * Math.max(1, it.quantity || 1);
+    }, 0);
+    return Number(sum.toFixed(2));
+  }, [subItems, isSubscriber]);
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-emerald-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Greeting */}
+        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-emerald-800 mb-1">
             Hi, {user.firstName} {user.lastName}
           </h1>
           <p className="text-emerald-600">{user.email}</p>
         </div>
+
+        {toast ? (
+          <div className="mb-6 bg-emerald-50 border-2 border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl font-semibold">
+            {toast}
+          </div>
+        ) : null}
 
         <div className="grid lg:grid-cols-[280px,1fr] gap-8">
           {/* Sidebar */}
@@ -196,17 +314,14 @@ export default function AccountPage() {
             </nav>
           </aside>
 
-          {/* Main Content */}
+          {/* Main */}
           <div className="space-y-8">
-            {/* Subscription Status Section */}
+            {/* Subscription Status */}
             <section className="bg-white rounded-2xl shadow-xl p-8 border-4 border-emerald-300">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-emerald-800">Subscription Status</h2>
-                {user.isSubscribed && (
+                {isSubscriber && (
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold shadow-lg">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
                     ACTIVE
                   </div>
                 )}
@@ -218,48 +333,12 @@ export default function AccountPage() {
                 </div>
               ) : null}
 
-              {user.isSubscribed ? (
-                <div className="space-y-6">
+              {isSubscriber ? (
+                <div className="space-y-4">
                   <div className="p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200">
-                    <div className="flex items-start gap-4">
-                      <div className="text-5xl">🎉</div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-emerald-800 mb-2">
-                          You're subscribed and saving 10%!
-                        </h3>
-                        <ul className="space-y-2 text-emerald-700">
-                          <li className="flex items-center gap-2">
-                            <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span>10% off all products automatically applied</span>
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span>Free shipping on orders over $30</span>
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span>Exclusive subscriber-only perks and offers</span>
-                          </li>
-                        </ul>
-                      </div>
+                    <div className="font-bold text-emerald-800 mb-1">You’re subscribed.</div>
+                    <div className="text-sm text-emerald-700">
+                      Your monthly items below will be charged automatically. 10% discount applies.
                     </div>
                   </div>
 
@@ -272,11 +351,13 @@ export default function AccountPage() {
                   </button>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <div className="text-center py-8 border-2 border-dashed border-emerald-200 rounded-xl bg-emerald-50">
                     <div className="text-5xl mb-4">☕</div>
                     <p className="text-lg text-emerald-700 mb-2 font-semibold">Not subscribed yet</p>
-                    <p className="text-sm text-emerald-600 mb-6">Subscribe now and get 10% off all your orders!</p>
+                    <p className="text-sm text-emerald-600">
+                      Subscribe to activate monthly deliveries and unlock 10% off.
+                    </p>
                   </div>
 
                   <button
@@ -290,67 +371,168 @@ export default function AccountPage() {
               )}
             </section>
 
-            {/* Recommended Products */}
-            <section>
-              <h2 className="text-2xl font-bold text-emerald-800 mb-6 flex items-center gap-2">
-                <span>Recommended For You</span>
-                <span className="text-3xl">🐒</span>
-              </h2>
+            {/* My Subscriptions */}
+            <section className="bg-white rounded-2xl shadow-xl p-8 border-4 border-emerald-300">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-emerald-800">My Monthly Subscriptions</h2>
+                  <p className="text-sm text-emerald-700">
+                    These items repeat every month. Edit quantities any time.
+                  </p>
+                </div>
 
-              <div className="mb-4 text-lg font-semibold text-emerald-700">You might like...</div>
+                <div className="text-right">
+                  <div className="text-xs text-emerald-600 font-semibold">Estimated monthly total</div>
+                  <div className="text-xl font-extrabold text-emerald-900">{formatMoney(monthlyEstimate)}</div>
+                </div>
+              </div>
+
+              {subItemsError ? (
+                <div className="mb-4 bg-red-50 border-2 border-red-200 text-red-800 px-4 py-3 rounded-xl">
+                  {subItemsError}
+                </div>
+              ) : null}
+
+              {subItemsLoading ? (
+                <div className="py-10 text-center text-emerald-800 font-semibold">
+                  Loading your subscriptions…
+                </div>
+              ) : subItems.length === 0 ? (
+                <div className="py-10 text-center border-2 border-dashed border-emerald-200 rounded-2xl bg-emerald-50">
+                  <div className="text-4xl mb-3">📦</div>
+                  <div className="font-extrabold text-emerald-800">No subscription items yet</div>
+                  <div className="text-sm text-emerald-700 mt-1">
+                    Add items below to start your monthly box.
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {subItems.map((it) => {
+                    const unit = isSubscriber ? discounted(it.price) : it.price;
+                    const qty = Math.max(1, it.quantity || 1);
+                    return (
+                      <div
+                        key={it.productId}
+                        className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl border-2 border-emerald-200 bg-white"
+                      >
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-emerald-100 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
+                          {it.image ? (
+                            <Image src={it.image} alt={it.name} fill className="object-contain p-2" sizes="80px" />
+                          ) : null}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="font-extrabold text-emerald-900 truncate">{it.name}</div>
+                          {it.size ? <div className="text-sm text-emerald-600">{it.size}</div> : null}
+                          <div className="text-sm text-emerald-800 mt-1">
+                            Unit: <span className="font-bold">{formatMoney(unit)}</span>
+                            {isSubscriber ? <span className="ml-2 text-xs text-emerald-600">(10% off)</span> : null}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <label className="text-sm font-semibold text-emerald-800" htmlFor={`qty-${it.productId}`}>
+                            Qty
+                          </label>
+                          <input
+                            id={`qty-${it.productId}`}
+                            name={`qty-${it.productId}`}
+                            type="number"
+                            min={1}
+                            max={99}
+                            value={qty}
+                            onChange={(e) => updateSubQty(it.productId, Number(e.target.value))}
+                            className="w-20 px-3 py-2 rounded-xl border-2 border-emerald-200 outline-none focus:border-emerald-400"
+                          />
+                        </div>
+
+                        <div className="text-right">
+                          <div className="text-xs text-emerald-700 font-semibold">Monthly</div>
+                          <div className="text-lg font-extrabold text-emerald-900">
+                            {formatMoney(Number((unit * qty).toFixed(2)))}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeSubItem(it.productId)}
+                            className="mt-2 text-sm font-bold text-red-600 hover:text-red-700"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-between">
+                <Link
+                  href="/shop"
+                  className="px-6 py-3 rounded-full bg-white border-2 border-emerald-200 text-emerald-800 font-bold hover:bg-emerald-50 transition text-center"
+                >
+                  Buy once instead → Shop
+                </Link>
+
+                <Link
+                  href="/order-history"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-extrabold border-2 border-orange-600 hover:shadow-lg transition text-center"
+                >
+                  View Order History
+                </Link>
+              </div>
+            </section>
+
+            {/* Recommended for Subscription */}
+            <section>
+              <h2 className="text-2xl font-bold text-emerald-800 mb-6">
+                Recommended for Subscription
+              </h2>
+              <p className="text-emerald-700 mb-4">
+                Add these to your monthly box. Discount applies when subscribed.
+              </p>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {RECOMMENDED_PRODUCTS.map((product) => {
-                  const discountedPrice = user.isSubscribed
-                    ? Number((product.price * 0.9).toFixed(2))
-                    : product.price;
-
+                {RECOMMENDED_PRODUCTS.map((p) => {
+                  const priceShown = isSubscriber ? discounted(p.price) : p.price;
                   return (
                     <article
-                      key={product.id}
-                      className="bg-white rounded-2xl shadow-xl overflow-hidden border-4 border-emerald-300 hover:border-orange-400 transition-all duration-300 hover:scale-105"
+                      key={p.id}
+                      className="bg-white rounded-2xl shadow-xl overflow-hidden border-4 border-emerald-300 hover:border-orange-400 transition-all duration-300"
                     >
                       <div className="relative h-40 bg-gradient-to-br from-green-100 via-yellow-100 to-orange-100">
-                        <Image src={product.image} alt={product.name} fill className="object-contain p-2" />
+                        <Image src={p.image} alt={p.name} fill className="object-contain p-2" />
                       </div>
                       <div className="p-4">
-                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">{product.name}</h3>
-                        <p className="text-xs text-emerald-500 mb-2">{product.size}</p>
-                        <p className="text-xs text-emerald-600 mb-3">{product.description}</p>
+                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">{p.name}</h3>
+                        <p className="text-xs text-emerald-500 mb-2">{p.size}</p>
+                        <p className="text-xs text-emerald-600 mb-3">{p.description}</p>
 
                         <div className="flex items-center justify-between">
                           <div>
-                            {user.isSubscribed ? (
+                            {isSubscriber ? (
                               <div>
-                                <div className="text-lg font-bold text-emerald-700">${discountedPrice}</div>
-                                <div className="text-xs text-gray-400 line-through">
-                                  ${product.price.toFixed(2)}
-                                </div>
+                                <div className="text-lg font-bold text-emerald-700">{formatMoney(priceShown)}</div>
+                                <div className="text-xs text-gray-400 line-through">{formatMoney(p.price)}</div>
                               </div>
                             ) : (
-                              <span className="text-lg font-bold text-emerald-700">
-                                ${product.price.toFixed(2)}
-                              </span>
+                              <span className="text-lg font-bold text-emerald-700">{formatMoney(p.price)}</span>
                             )}
                           </div>
 
                           <button
-                            onClick={() =>
-                              addItem(
-                                {
-                                  id: product.id,
-                                  name: product.name,
-                                  price: discountedPrice,
-                                  image: product.image,
-                                },
-                                1
-                              )
-                            }
-                            className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-400 text-imbari-very-dark-brown font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-orange-600"
+                            type="button"
+                            onClick={() => addToSubscriptions(p)}
+                            className="px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-emerald-700"
                           >
-                            Add to Cart
+                            Add to Subscriptions
                           </button>
                         </div>
+
+                        {!isSubscriber && (
+                          <div className="mt-3 text-[11px] text-emerald-700">
+                            Subscribe first to activate monthly deliveries.
+                          </div>
+                        )}
                       </div>
                     </article>
                   );
@@ -366,11 +548,6 @@ export default function AccountPage() {
                 </Link>
               </div>
             </section>
-
-            {/* Production note (hidden) */}
-            <p className="text-xs text-gray-400">
-              {/* This page expects NEXT_PUBLIC_API_URL to be set for local dev if backend is separate. */}
-            </p>
           </div>
         </div>
       </div>
