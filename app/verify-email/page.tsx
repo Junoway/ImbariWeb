@@ -14,6 +14,16 @@ export default function VerifyEmailPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Auto-fill email from localStorage if available
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const pendingEmail = localStorage.getItem("pending_verify_email");
+      if (pendingEmail) {
+        setEmail(pendingEmail);
+      }
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");

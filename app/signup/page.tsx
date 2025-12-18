@@ -53,6 +53,9 @@ export default function SignupPage() {
     setLoading(false);
 
     if (success) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("pending_verify_email", formData.email);
+      }
       router.push("/verify-email");
     } else {
       setError("Signup failed. Please try again.");

@@ -29,8 +29,14 @@ export default function LoginPage() {
 
     setLoading(false);
 
-    if (success) router.push("/account");
-    else setError("Invalid email or password");
+    if (success) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("pending_verify_email", formData.email);
+      }
+      router.push("/account");
+    } else {
+      setError("Invalid email or password");
+    }
   };
 
   return (
