@@ -1,3 +1,40 @@
+    // Add-to-Subscriptions helper for recommended products
+    const addToSubscriptions = async (p: { id: number | string; name: string; price: number; image: string; }) => {
+      setSubError("");
+      setSubmitting(true);
+
+      try {
+        if (!token) throw new Error("Please log in again.");
+
+        const r = await fetch(`${API_BASE}/api/subscriptions`, {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({
+            productId: String(p.id),
+            name: p.name,
+            unitPrice: p.price, // store current price snapshot
+            image: p.image,
+            quantity: 1,
+            cadence: "monthly",
+          }),
+        });
+
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data?.error || "Failed to add to subscriptions");
+
+        router.refresh();
+      } catch (e: any) {
+        setSubError(e?.message || "Failed to add subscription item");
+      } finally {
+        setSubmitting(false);
+      }
+    };
+  useEffect(() => {
+    if (isAuthenticated && token) {
+      fetchSubscriptionItems();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, token]);
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -8,12 +45,13 @@ import { withBasePath } from "@/lib/utils";
 import { useAuth } from "@/components/AuthContext";
 
 type SubscriptionItem = {
-  productId: number;
+  product_id: string;
   name: string;
-  size?: string;
-  price: number;
-  image?: string;
+  image?: string | null;
+  unit_price?: number | string | null;
   quantity: number;
+  cadence?: string;
+  active?: boolean;
 };
 
 const RECOMMENDED_PRODUCTS = [
@@ -74,7 +112,7 @@ export default function AccountPage() {
 
   // Subscription items state
   const [subItems, setSubItems] = useState<SubscriptionItem[]>([]);
-  const [subItemsLoading, setSubItemsLoading] = useState(true);
+  const [subItemsLoading, setSubItemsLoading] = useState(false);
   const [subItemsError, setSubItemsError] = useState<string>("");
 
   const authHeaders = useMemo(() => {
@@ -87,42 +125,78 @@ export default function AccountPage() {
     if (!isAuthenticated) router.push("/login");
   }, [isAuthenticated, router]);
 
-  useEffect(() => {
-    if (!token) return;
-    let canceled = false;
+  async function fetchSubscriptionItems() {
+    setSubItemsError("");
+    setSubItemsLoading(true);
+    try {
+      if (!token) throw new Error("Missing token");
+      const r = await fetch(`${API_BASE}/api/subscriptions`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to load subscriptions");
+      setSubItems(Array.isArray(data?.items) ? data.items : []);
+    } catch (e: any) {
+      setSubItems([]);
+      setSubItemsError(e?.message || "Failed to load subscriptions");
+    } finally {
+      setSubItemsLoading(false);
+    }
+  }
 
-    (async () => {
-      try {
-        setSubItemsLoading(true);
-        setSubItemsError("");
-
-        const r = await fetch(`${API_BASE}/api/subscriptions`, {
-          method: "GET",
-          headers: authHeaders,
-        });
-
-        const data = await r.json().catch(() => ({}));
-
-        if (!r.ok) {
-          throw new Error(data?.error || "Failed to load subscription items");
-        }
-
-        const list = Array.isArray(data?.items) ? (data.items as SubscriptionItem[]) : [];
-        if (!canceled) setSubItems(list);
-      } catch (e) {
-        if (!canceled) {
-          setSubItems([]);
-          setSubItemsError(e instanceof Error ? e.message : "Failed to load subscription items");
-        }
-      } finally {
-        if (!canceled) setSubItemsLoading(false);
+  async function addToSubscriptions(p: any) {
+    setSubItemsError("");
+    try {
+      if (!token) throw new Error("Please log in again.");
+      if (!user?.isSubscribed) {
+        throw new Error("Please subscribe first to enable monthly auto-orders.");
       }
-    })();
 
-    return () => {
-      canceled = true;
-    };
-  }, [token, authHeaders]);
+      const r = await fetch(`${API_BASE}/api/subscriptions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          productId: String(p.id),
+          name: p.name,
+          image: p.image,
+          unitPrice: p.price,
+          quantity: 1,
+          cadence: "monthly",
+        }),
+      });
+
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to add subscription item");
+
+      await fetchSubscriptionItems();
+    } catch (e: any) {
+      setSubItemsError(e?.message || "Failed to add subscription item");
+    }
+  }
+
+  async function removeSubscriptionItem(productId: string) {
+    setSubItemsError("");
+    try {
+      if (!token) throw new Error("Please log in again.");
+      const r = await fetch(`${API_BASE}/api/subscriptions?productId=${encodeURIComponent(productId)}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "Failed to remove item");
+      await fetchSubscriptionItems();
+    } catch (e: any) {
+      setSubItemsError(e?.message || "Failed to remove item");
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated && token) {
+      fetchSubscriptionItems();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, token]);
 
   if (!user) return null;
 
@@ -371,6 +445,68 @@ export default function AccountPage() {
               )}
             </section>
 
+            {/* Your Monthly Subscriptions */}
+            <section className="bg-white rounded-2xl shadow-xl p-8 border-4 border-emerald-300">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-emerald-800">Your Monthly Subscriptions</h2>
+                <span className="text-sm text-emerald-700 font-semibold">Auto-order every month</span>
+              </div>
+
+              {subItemsError ? (
+                <div className="mb-4 bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                  {subItemsError}
+                </div>
+              ) : null}
+
+              {!user.isSubscribed ? (
+                <div className="text-center py-8 border-2 border-dashed border-emerald-200 rounded-xl bg-emerald-50">
+                  <div className="text-4xl mb-3">📦</div>
+                  <div className="font-bold text-emerald-800">Subscribe to activate monthly auto-orders</div>
+                  <div className="text-sm text-emerald-700 mt-1">
+                    After subscribing, add products below to your monthly box.
+                  </div>
+                </div>
+              ) : subItemsLoading ? (
+                <div className="py-8 text-center text-emerald-700 font-semibold">Loading your subscription box…</div>
+              ) : subItems.length ? (
+                <div className="space-y-3">
+                  {subItems.map((it) => (
+                    <div key={it.product_id} className="flex items-center gap-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50">
+                      <div className="w-14 h-14 rounded-xl overflow-hidden border border-emerald-100 bg-white relative">
+                        {it.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={it.image} alt={it.name} className="w-full h-full object-contain" />
+                        ) : null}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-emerald-900 truncate">{it.name}</div>
+                        <div className="text-sm text-emerald-700">
+                          Qty: <span className="font-semibold">x{it.quantity}</span> •{" "}
+                          <span className="font-semibold">{(it.cadence || "monthly").toUpperCase()}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => removeSubscriptionItem(it.product_id)}
+                        className="px-4 py-2 rounded-full bg-white border-2 border-red-200 text-red-700 font-bold text-xs hover:bg-red-50 transition"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 border-2 border-dashed border-emerald-200 rounded-xl bg-emerald-50">
+                  <div className="text-4xl mb-3">📦</div>
+                  <div className="font-bold text-emerald-800">No subscription items yet</div>
+                  <div className="text-sm text-emerald-700 mt-1">
+                    Add products below to build your monthly box.
+                  </div>
+                </div>
+              )}
+            </section>
+
             {/* My Subscriptions */}
             <section className="bg-white rounded-2xl shadow-xl p-8 border-4 border-emerald-300">
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
@@ -492,37 +628,42 @@ export default function AccountPage() {
               </p>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {RECOMMENDED_PRODUCTS.map((p) => {
-                  const priceShown = isSubscriber ? discounted(p.price) : p.price;
+                {RECOMMENDED_PRODUCTS.map((product) => {
+                  const priceShown = isSubscriber ? discounted(product.price) : product.price;
                   return (
                     <article
-                      key={p.id}
+                      key={product.id}
                       className="bg-white rounded-2xl shadow-xl overflow-hidden border-4 border-emerald-300 hover:border-orange-400 transition-all duration-300"
                     >
                       <div className="relative h-40 bg-gradient-to-br from-green-100 via-yellow-100 to-orange-100">
-                        <Image src={p.image} alt={p.name} fill className="object-contain p-2" />
+                        <Image src={product.image} alt={product.name} fill className="object-contain p-2" />
                       </div>
                       <div className="p-4">
-                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">{p.name}</h3>
-                        <p className="text-xs text-emerald-500 mb-2">{p.size}</p>
-                        <p className="text-xs text-emerald-600 mb-3">{p.description}</p>
+                        <h3 className="font-bold text-emerald-800 mb-1 text-sm">{product.name}</h3>
+                        <p className="text-xs text-emerald-500 mb-2">{product.size}</p>
+                        <p className="text-xs text-emerald-600 mb-3">{product.description}</p>
 
                         <div className="flex items-center justify-between">
                           <div>
                             {isSubscriber ? (
                               <div>
                                 <div className="text-lg font-bold text-emerald-700">{formatMoney(priceShown)}</div>
-                                <div className="text-xs text-gray-400 line-through">{formatMoney(p.price)}</div>
+                                <div className="text-xs text-gray-400 line-through">{formatMoney(product.price)}</div>
                               </div>
                             ) : (
-                              <span className="text-lg font-bold text-emerald-700">{formatMoney(p.price)}</span>
+                              <span className="text-lg font-bold text-emerald-700">{formatMoney(product.price)}</span>
                             )}
                           </div>
 
                           <button
-                            type="button"
-                            onClick={() => addToSubscriptions(p)}
-                            className="px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-imbari-very-dark-brown font-bold text-xs shadow-lg hover:shadow-xl transition border-2 border-emerald-700"
+                            onClick={() => addToSubscriptions({
+                              id: product.id,
+                              name: product.name,
+                              price: isSubscriber ? discounted(product.price) : product.price,
+                              image: product.image,
+                            })}
+                            disabled={submitting}
+                            className="px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold text-xs shadow-lg hover:shadow-xl transition disabled:opacity-60"
                           >
                             Add to Subscriptions
                           </button>
