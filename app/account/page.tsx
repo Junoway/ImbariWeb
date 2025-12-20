@@ -1,56 +1,35 @@
-    // Add-to-Subscriptions helper for recommended products
-    const addToSubscriptions = async (p: { id: number | string; name: string; price: number; image: string; }) => {
-      setSubError("");
-      setSubmitting(true);
-
-      try {
-        if (!token) throw new Error("Please log in again.");
-
-        const r = await fetch(`${API_BASE}/api/subscriptions`, {
-          method: "POST",
-          headers: authHeaders,
-          body: JSON.stringify({
-            productId: String(p.id),
-            name: p.name,
-            unitPrice: p.price, // store current price snapshot
-            image: p.image,
-            quantity: 1,
-            cadence: "monthly",
-          }),
-        });
-
-        const data = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(data?.error || "Failed to add to subscriptions");
-
-        router.refresh();
-      } catch (e: any) {
-        setSubError(e?.message || "Failed to add subscription item");
-      } finally {
-        setSubmitting(false);
-      }
-    };
-  useEffect(() => {
-    if (isAuthenticated && token) {
-      fetchSubscriptionItems();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, token]);
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 import { useAuth } from "@/components/AuthContext";
 
-type SubscriptionItem = {
-  product_id: string;
-  name: string;
+type ApiSubscriptionItem = {
+  // backend may return either style; we normalize
+  product_id?: string;
+  productId?: string | number;
+  name?: string;
   image?: string | null;
   unit_price?: number | string | null;
+  unitPrice?: number | string | null;
+  price?: number | string | null;
+  quantity?: number;
+  cadence?: string;
+  active?: boolean;
+  size?: string;
+};
+
+type SubscriptionItem = {
+  productId: string;
+  name: string;
+  image?: string | null;
+  price: number; // normalized number
   quantity: number;
   cadence?: string;
+  size?: string;
   active?: boolean;
 };
 
@@ -87,19 +66,59 @@ const RECOMMENDED_PRODUCTS = [
     image: withBasePath("/images/robusta.jpg"),
     description: "Crafted for espresso machines with thick crema",
   },
-];
+] as const;
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://api.imbaricoffee.com";
 
+function toNumber(v: unknown, fallback = 0) {
+  const n =
+    typeof v === "number"
+      ? v
+      : typeof v === "string"
+      ? Number(v)
+      : NaN;
+
+  return Number.isFinite(n) ? n : fallback;
+}
+
 function formatMoney(n: number) {
+  const safe = Number.isFinite(n) ? n : 0;
   try {
-    return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(n);
+    return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(safe);
   } catch {
-    return `$${n.toFixed(2)}`;
+    return `$${safe.toFixed(2)}`;
   }
+}
+
+function normalizeSubItem(raw: ApiSubscriptionItem): SubscriptionItem | null {
+  const pid = raw.productId ?? raw.product_id;
+  if (pid === undefined || pid === null) return null;
+
+  const productId = String(pid);
+  const name = String(raw.name ?? "").trim() || "Subscription Item";
+
+  const price =
+    toNumber(raw.price, NaN) ??
+    toNumber(raw.unitPrice, NaN) ??
+    toNumber(raw.unit_price, NaN);
+
+  const normalizedPrice = Number.isFinite(price) ? price : 0;
+
+  const quantity = Math.max(1, Math.min(99, toNumber(raw.quantity, 1)));
+
+  return {
+    productId,
+    name,
+    image: raw.image ?? null,
+    price: normalizedPrice,
+    quantity,
+    cadence: raw.cadence,
+    size: raw.size,
+    active: raw.active,
+  };
 }
 
 export default function AccountPage() {
@@ -122,72 +141,40 @@ export default function AccountPage() {
   }, [token]);
 
   useEffect(() => {
-    if (!isAuthenticated) router.push("/login");
+    // Keep your behavior, but avoid doing anything before AuthContext is ready
+    if (isAuthenticated === false) router.push("/login");
   }, [isAuthenticated, router]);
+
+  const isSubscriber = !!user?.isSubscribed;
+  const DISCOUNT_RATE = 0.10;
+
+  const discounted = (price: number) => {
+    const p = Number.isFinite(price) ? price : 0;
+    return Number((p * (1 - DISCOUNT_RATE)).toFixed(2));
+  };
 
   async function fetchSubscriptionItems() {
     setSubItemsError("");
     setSubItemsLoading(true);
     try {
       if (!token) throw new Error("Missing token");
+
       const r = await fetch(`${API_BASE}/api/subscriptions`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await r.json().catch(() => ({}));
+
+      const data = await r.json().catch(() => ({} as any));
       if (!r.ok) throw new Error(data?.error || "Failed to load subscriptions");
-      setSubItems(Array.isArray(data?.items) ? data.items : []);
+
+      const rawItems: ApiSubscriptionItem[] = Array.isArray(data?.items) ? data.items : [];
+      const normalized = rawItems.map(normalizeSubItem).filter(Boolean) as SubscriptionItem[];
+      setSubItems(normalized);
     } catch (e: any) {
       setSubItems([]);
       setSubItemsError(e?.message || "Failed to load subscriptions");
     } finally {
       setSubItemsLoading(false);
-    }
-  }
-
-  async function addToSubscriptions(p: any) {
-    setSubItemsError("");
-    try {
-      if (!token) throw new Error("Please log in again.");
-      if (!user?.isSubscribed) {
-        throw new Error("Please subscribe first to enable monthly auto-orders.");
-      }
-
-      const r = await fetch(`${API_BASE}/api/subscriptions`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          productId: String(p.id),
-          name: p.name,
-          image: p.image,
-          unitPrice: p.price,
-          quantity: 1,
-          cadence: "monthly",
-        }),
-      });
-
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data?.error || "Failed to add subscription item");
-
-      await fetchSubscriptionItems();
-    } catch (e: any) {
-      setSubItemsError(e?.message || "Failed to add subscription item");
-    }
-  }
-
-  async function removeSubscriptionItem(productId: string) {
-    setSubItemsError("");
-    try {
-      if (!token) throw new Error("Please log in again.");
-      const r = await fetch(`${API_BASE}/api/subscriptions?productId=${encodeURIComponent(productId)}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data?.error || "Failed to remove item");
-      await fetchSubscriptionItems();
-    } catch (e: any) {
-      setSubItemsError(e?.message || "Failed to remove item");
     }
   }
 
@@ -197,13 +184,6 @@ export default function AccountPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, token]);
-
-  if (!user) return null;
-
-  const isSubscriber = !!user.isSubscribed;
-  const DISCOUNT_RATE = 0.10;
-
-  const discounted = (price: number) => Number((price * (1 - DISCOUNT_RATE)).toFixed(2));
 
   const handleLogout = () => {
     logout();
@@ -228,12 +208,16 @@ export default function AccountPage() {
         throw new Error(t || "Failed to update subscription");
       }
 
-      // Refresh user profile
+      // Refresh user profile (keep your original pattern)
       const me = await fetch(`${API_BASE}/api/user/me`, { method: "GET", headers: authHeaders });
-      const data = await me.json().catch(() => ({}));
+      const data = await me.json().catch(() => ({} as any));
 
-      const updatedUser = data?.user?.email ? data.user : { ...user, isSubscribed: nextSubscribed };
-      localStorage.setItem("imbari_user", JSON.stringify(updatedUser));
+      const updatedUser = data?.user?.email ? data.user : { ...(user || {}), isSubscribed: nextSubscribed };
+      try {
+        localStorage.setItem("imbari_user", JSON.stringify(updatedUser));
+      } catch {
+        // ignore
+      }
 
       router.refresh();
       setToast(nextSubscribed ? "Subscription activated." : "Subscription canceled.");
@@ -245,6 +229,7 @@ export default function AccountPage() {
     }
   };
 
+  // SINGLE, CANONICAL addToSubscriptions
   const addToSubscriptions = async (p: (typeof RECOMMENDED_PRODUCTS)[number]) => {
     setSubItemsError("");
     setToast("");
@@ -262,83 +247,98 @@ export default function AccountPage() {
         method: "POST",
         headers: authHeaders,
         body: JSON.stringify({
-          productId: p.id,
+          productId: String(p.id),
           quantity: 1,
-          // Optionally pass display fields to backend to store snapshots:
+          // snapshots for display (backend may ignore extra fields)
           name: p.name,
           size: p.size,
           price: p.price,
           image: p.image,
+          cadence: "monthly",
         }),
       });
 
-      const data = await r.json().catch(() => ({}));
+      const data = await r.json().catch(() => ({} as any));
       if (!r.ok) throw new Error(data?.error || "Failed to add subscription item");
 
-      // optimistic refresh
-      const next = Array.isArray(data?.items) ? (data.items as SubscriptionItem[]) : null;
-      if (next) setSubItems(next);
-      else {
-        // fallback: fetch again
-        const rr = await fetch(`${API_BASE}/api/subscriptions`, { method: "GET", headers: authHeaders });
-        const dd = await rr.json().catch(() => ({}));
-        setSubItems(Array.isArray(dd?.items) ? dd.items : []);
+      // Prefer backend response if it returns items; else refetch
+      const rawItems: ApiSubscriptionItem[] = Array.isArray(data?.items) ? data.items : [];
+      if (rawItems.length) {
+        const normalized = rawItems.map(normalizeSubItem).filter(Boolean) as SubscriptionItem[];
+        setSubItems(normalized);
+      } else {
+        await fetchSubscriptionItems();
       }
 
       setToast("Added to your monthly subscriptions.");
       setTimeout(() => setToast(""), 2500);
-    } catch (e) {
-      setSubItemsError(e instanceof Error ? e.message : "Failed to add subscription item");
+    } catch (e: any) {
+      setSubItemsError(e?.message || "Failed to add subscription item");
     }
   };
 
-  const removeSubItem = async (productId: number) => {
+  async function removeSubscriptionItem(productId: string) {
+    setSubItemsError("");
     try {
       if (!token) throw new Error("Please log in again.");
 
-      const r = await fetch(`${API_BASE}/api/subscriptions/${encodeURIComponent(String(productId))}`, {
+      // Keep the endpoint style you already used earlier (?productId=)
+      const r = await fetch(`${API_BASE}/api/subscriptions?productId=${encodeURIComponent(productId)}`, {
         method: "DELETE",
-        headers: authHeaders,
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      const data = await r.json().catch(() => ({}));
+      const data = await r.json().catch(() => ({} as any));
       if (!r.ok) throw new Error(data?.error || "Failed to remove item");
 
-      setSubItems(Array.isArray(data?.items) ? data.items : subItems.filter((x) => x.productId !== productId));
+      await fetchSubscriptionItems();
       setToast("Removed from subscriptions.");
       setTimeout(() => setToast(""), 2000);
-    } catch (e) {
-      setSubItemsError(e instanceof Error ? e.message : "Failed to remove subscription item");
+    } catch (e: any) {
+      setSubItemsError(e?.message || "Failed to remove item");
     }
-  };
+  }
 
-  const updateSubQty = async (productId: number, quantity: number) => {
+  const updateSubQty = async (productId: string, quantity: number) => {
     const q = Math.max(1, Math.min(99, Number(quantity || 1)));
     try {
       if (!token) throw new Error("Please log in again.");
 
-      const r = await fetch(`${API_BASE}/api/subscriptions/${encodeURIComponent(String(productId))}`, {
+      // If your backend supports PATCH with query param, keep consistent.
+      // If you use /api/subscriptions/[id], change this endpoint to match backend later.
+      const r = await fetch(`${API_BASE}/api/subscriptions`, {
         method: "PATCH",
         headers: authHeaders,
-        body: JSON.stringify({ quantity: q }),
+        body: JSON.stringify({ productId, quantity: q }),
       });
 
-      const data = await r.json().catch(() => ({}));
+      const data = await r.json().catch(() => ({} as any));
       if (!r.ok) throw new Error(data?.error || "Failed to update quantity");
 
-      setSubItems(Array.isArray(data?.items) ? data.items : subItems.map((x) => (x.productId === productId ? { ...x, quantity: q } : x)));
-    } catch (e) {
-      setSubItemsError(e instanceof Error ? e.message : "Failed to update quantity");
+      // optimistic: update local state even if backend does not return items
+      const rawItems: ApiSubscriptionItem[] = Array.isArray(data?.items) ? data.items : [];
+      if (rawItems.length) {
+        const normalized = rawItems.map(normalizeSubItem).filter(Boolean) as SubscriptionItem[];
+        setSubItems(normalized);
+      } else {
+        setSubItems((prev) => prev.map((x) => (x.productId === productId ? { ...x, quantity: q } : x)));
+      }
+    } catch (e: any) {
+      setSubItemsError(e?.message || "Failed to update quantity");
     }
   };
 
   const monthlyEstimate = useMemo(() => {
     const sum = subItems.reduce((acc, it) => {
       const unit = isSubscriber ? discounted(it.price) : it.price;
-      return acc + unit * Math.max(1, it.quantity || 1);
+      const qty = Math.max(1, it.quantity || 1);
+      return acc + (Number.isFinite(unit) ? unit : 0) * qty;
     }, 0);
     return Number(sum.toFixed(2));
   }, [subItems, isSubscriber]);
+
+  // Avoid rendering crashes during auth hydration
+  if (!user) return null;
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-emerald-50 py-8 px-4">
@@ -458,7 +458,7 @@ export default function AccountPage() {
                 </div>
               ) : null}
 
-              {!user.isSubscribed ? (
+              {!isSubscriber ? (
                 <div className="text-center py-8 border-2 border-dashed border-emerald-200 rounded-xl bg-emerald-50">
                   <div className="text-4xl mb-3">📦</div>
                   <div className="font-bold text-emerald-800">Subscribe to activate monthly auto-orders</div>
@@ -471,7 +471,10 @@ export default function AccountPage() {
               ) : subItems.length ? (
                 <div className="space-y-3">
                   {subItems.map((it) => (
-                    <div key={it.product_id} className="flex items-center gap-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50">
+                    <div
+                      key={it.productId}
+                      className="flex items-center gap-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50"
+                    >
                       <div className="w-14 h-14 rounded-xl overflow-hidden border border-emerald-100 bg-white relative">
                         {it.image ? (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -488,7 +491,7 @@ export default function AccountPage() {
                       </div>
 
                       <button
-                        onClick={() => removeSubscriptionItem(it.product_id)}
+                        onClick={() => removeSubscriptionItem(it.productId)}
                         className="px-4 py-2 rounded-full bg-white border-2 border-red-200 text-red-700 font-bold text-xs hover:bg-red-50 transition"
                       >
                         Remove
@@ -546,6 +549,7 @@ export default function AccountPage() {
                   {subItems.map((it) => {
                     const unit = isSubscriber ? discounted(it.price) : it.price;
                     const qty = Math.max(1, it.quantity || 1);
+
                     return (
                       <div
                         key={it.productId}
@@ -553,7 +557,13 @@ export default function AccountPage() {
                       >
                         <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-emerald-100 bg-gradient-to-br from-green-50 via-yellow-50 to-orange-50">
                           {it.image ? (
-                            <Image src={it.image} alt={it.name} fill className="object-contain p-2" sizes="80px" />
+                            <Image
+                              src={it.image}
+                              alt={it.name}
+                              fill
+                              className="object-contain p-2"
+                              sizes="80px"
+                            />
                           ) : null}
                         </div>
 
@@ -589,7 +599,7 @@ export default function AccountPage() {
                           </div>
                           <button
                             type="button"
-                            onClick={() => removeSubItem(it.productId)}
+                            onClick={() => removeSubscriptionItem(it.productId)}
                             className="mt-2 text-sm font-bold text-red-600 hover:text-red-700"
                           >
                             Remove
@@ -630,6 +640,7 @@ export default function AccountPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {RECOMMENDED_PRODUCTS.map((product) => {
                   const priceShown = isSubscriber ? discounted(product.price) : product.price;
+
                   return (
                     <article
                       key={product.id}
@@ -656,12 +667,7 @@ export default function AccountPage() {
                           </div>
 
                           <button
-                            onClick={() => addToSubscriptions({
-                              id: product.id,
-                              name: product.name,
-                              price: isSubscriber ? discounted(product.price) : product.price,
-                              image: product.image,
-                            })}
+                            onClick={() => addToSubscriptions(product)}
                             disabled={submitting}
                             className="px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold text-xs shadow-lg hover:shadow-xl transition disabled:opacity-60"
                           >
@@ -695,6 +701,5 @@ export default function AccountPage() {
     </main>
   );
 }
-
 
 
